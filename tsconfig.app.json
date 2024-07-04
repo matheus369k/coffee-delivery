@@ -23,5 +23,5 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true
     },
-    "include": ["./src/*", ".eslintrc", "jest.config.mtss"]
+    "include": ["src", ".eslintrc", "jest.config.mts", ".prettierrc"]
 }

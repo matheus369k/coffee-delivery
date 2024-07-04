@@ -19,9 +19,8 @@
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
-        "ecmaFeatures": {"jsx": true},
-        "sourceType": "script",
-        "project": ["tsconfig.app.json"]
+        "sourceType": "module",
+        "project": "tsconfig.app.json"
     },
     "plugins": [
         "@typescript-eslint",
