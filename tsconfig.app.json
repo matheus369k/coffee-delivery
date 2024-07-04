@@ -5,7 +5,11 @@
         "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
         "target": "ES2020",
         "useDefineForClassFields": true,
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
         "module": "ESNext",
         "skipLibCheck": true,
         "pretty": true,
@@ -21,7 +25,29 @@
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        /*alias*/
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@pages/*": [
+                "src/pages/*"
+            ],
+            "@components/*": [
+                "src/components/*"
+            ],
+            "@assets/*": [
+                "src/assets/*"
+            ]
+        },
     },
-    "include": ["src", ".eslintrc", "jest.config.mts", ".prettierrc"]
+    "include": [
+        "src",
+        ".eslintrc",
+        "jest.config.mts",
+        ".prettierrc",
+        "vite.config.ts"
+    ]
 }
