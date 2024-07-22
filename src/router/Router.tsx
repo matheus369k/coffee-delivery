@@ -7,11 +7,11 @@ import { Home } from '@pages/Home';
 
 export const router = createBrowserRouter([
     {
-        path: '/coffee-delivery/',
+        path: '/coffee-delivery',
         element: <LayoutDefault />,
         children: [
             {
-                path: '/coffee-delivery/',
+                path: '/coffee-delivery',
                 element: <Home />,
             },
             {
