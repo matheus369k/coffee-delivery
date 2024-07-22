@@ -31,11 +31,13 @@ export const GlobalStyle = createGlobalStyle`
     body, button, input, textarea {
         font-size: 1rem;
         font-weight: 400;
-        font-family: "Roboto", sans-serif;
+        font-family: ${(props) => props.theme['text-font']}, sans-serif;
+        
+        -webkit-font-smock: antialiased;
     }
 
     h1, h2, h3 {
         color: ${(props) => props.theme['base-title']};
-        font-family: "Baloo 2", sans-serif;
+        font-family: ${(props) => props.theme['title-font']}, sans-serif;
     }
 `;

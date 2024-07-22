@@ -11,6 +11,7 @@ export default defineConfig({
             '@pages': path.resolve(__dirname, './src/pages'),
             '@components': path.resolve(__dirname, './src/components'),
             '@assets': path.resolve(__dirname, './src/assets'),
+            '@styles': path.resolve(__dirname, './src/styles'),
         },
     },
     plugins: [react(), tsconfigPaths()],

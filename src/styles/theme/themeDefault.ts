@@ -20,4 +20,7 @@ export const themeDefault = {
     'base-card': '#f3f2f2',
     background: '#fafafa',
     white: '#ffffff',
+
+    'title-font': 'Baloo 2',
+    'text-font': 'Roboto',
 };
