@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const StyledHomeIntro = styled.div`
+export const StyledIntroSection = styled.div`
     padding: 5.875rem 0;
     min-height: calc(100vh - 6.5rem);
 
@@ -89,77 +89,82 @@ export const StyledHomeIntro = styled.div`
     }
 `;
 
-export const StyledHomeShopList = styled.div`
+export const StyledShop = styled.div`
     padding: 2rem 0;
 
     display: flex;
     flex-direction: column;
 
     gap: 3.5rem;
+`;
 
-    div {
+export const StyledShopFilter = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+        font-size: 2rem;
+        line-height: 1.3rem;
+
+        color: ${(props) => props.theme['base-title']};
+    }
+
+    ul {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        gap: 0.5rem;
 
-        h2 {
-            font-size: 2rem;
-            line-height: 1.3rem;
+        li {
+            border: 1px solid ${(props) => props.theme.yellow};
+            border-radius: 100px;
 
-            color: ${(props) => props.theme['base-title']};
-        }
+            button {
+                padding: 0.375rem 0.75rem;
 
-        & > nav > ul {
-            display: flex;
-            gap: 0.5rem;
+                background: transparent;
+                color: ${(props) => props.theme['yellow-dark']};
 
-            li {
-                border: 1px solid ${(props) => props.theme.yellow};
-                border-radius: 100px;
-
-                button {
-                    padding: 0.375rem 0.75rem;
-
-                    background: transparent;
-                    color: ${(props) => props.theme['yellow-dark']};
-
-                    text-transform: uppercase;
-                    font-size: 0.625rem;
-                    line-height: 1.3;
-                    font-family: ${(props) => props.theme['text-font']}, sans-serif;
-                }
+                text-transform: uppercase;
+                font-size: 0.625rem;
+                line-height: 1.3;
+                font-family: ${(props) => props.theme['text-font']}, sans-serif;
             }
         }
     }
+`;
 
-    & > ul {
+export const StyledShopList = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 3rem 2rem;
+
+    li {
+        width: 16rem;
+        height: 19.375rem;
+
+        padding: 0 1.5rem 1.25rem;
+
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
 
-        gap: 3rem 2rem;
+        background: ${(props) => props.theme['base-card']};
 
-        li {
-            width: 16rem;
-            height: 19.375rem;
+        img {
+            width: 7.5rem;
+            height: 7.5rem;
 
-            padding: 0 1.5rem 1.25rem;
+            margin-bottom: 0.75rem;
 
+            margin-top: -1.5rem;
+        }
+
+        div:first-of-type {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            gap: 0.25rem;
 
-            background: ${(props) => props.theme['base-card']};
-
-            img {
-                width: 7.5rem;
-                height: 7.5rem;
-
-                margin-bottom: 0.75rem;
-
-                margin-top: -1.5rem;
-            }
-
-            & > span {
+            span {
                 margin-bottom: 1rem;
                 padding: 0.25rem 0.5rem;
                 border-radius: 100px;
@@ -169,59 +174,69 @@ export const StyledHomeShopList = styled.div`
 
                 line-height: 1.3;
                 text-transform: uppercase;
+                font-weight: bold;
 
                 font-size: 0.625rem;
                 font-family: ${(props) => props.theme['text-font']}, sans-serif;
             }
+        }
 
-            h3 {
-                margin-bottom: 0.5rem;
+        h3 {
+            margin-bottom: 0.5rem;
+
+            line-height: 1.3;
+
+            font-size: 1.25rem;
+            font-weight: bold;
+            font-family: ${(props) => props.theme['title-font']}, sans-serif;
+        }
+
+        p {
+            margin-bottom: 2rem;
+
+            text-align: center;
+            line-height: 1.3rem;
+
+            font-size: 0.875rem;
+            font-family: ${(props) => props.theme['text-font']}, sans-serif;
+
+            color: ${(props) => props.theme['base-label']};
+        }
+
+        div:last-of-type {
+            display: flex;
+            gap: 1.5rem;
+
+            span {
+                font-family: ${(props) => props.theme['title-font']}, sans-serif;
+                font-size: 1.5rem;
+                font-weight: bold;
 
                 line-height: 1.3;
 
-                font-size: 1.25rem;
-                font-family: ${(props) => props.theme['title-font']}, sans-serif;
-            }
+                color: ${(props) => props.theme['base-text']};
 
-            p {
-                margin-bottom: 2rem;
+                &::before {
+                    content: 'R$';
 
-                text-align: center;
-                line-height: 1.3rem;
-
-                font-size: 0.875rem;
-                font-family: ${(props) => props.theme['text-font']}, sans-serif;
-
-                color: ${(props) => props.theme['base-label']};
-            }
-
-            div {
-                display: flex;
-                gap: 1.5rem;
-
-                span {
-                    font-family: ${(props) => props.theme['title-font']}, sans-serif;
-                    font-size: 1.5rem;
-                    font-weight: bold;
+                    font-family: ${(props) => props.theme['text-font']}, sans-serif;
+                    font-size: 0.875rem;
+                    font-weight: 400;
 
                     line-height: 1.3;
-
-                    color: ${(props) => props.theme['base-text']};
-
-                    &::before {
-                        content: 'R$';
-
-                        font-family: ${(props) => props.theme['text-font']}, sans-serif;
-                        font-size: 0.875rem;
-                        font-weight: 400;
-
-                        line-height: 1.3;
-                    }
                 }
+            }
 
-                form {
+            form {
+                display: flex;
+                gap: 0.5rem;
+
+                div {
                     display: flex;
-                    gap: 0.5rem;
+                    justify-content: space-between;
+                    align-content: center;
+
+                    position: relative;
 
                     input {
                         width: 4.5rem;
@@ -245,20 +260,41 @@ export const StyledHomeShopList = styled.div`
                     }
 
                     button {
-                        height: 2.375rem;
-                        width: 2.375rem;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
 
-                        border-radius: 6px;
+                        background: transparent;
+                        box-shadow: 0;
+                        border: 0;
+                        line-height: 0;
 
-                        background: ${(props) => props.theme['purple-dark']};
+                        z-index: 1;
 
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-
-                        svg {
-                            fill: ${(props) => props.theme['base-card']};
+                        &:first-of-type {
+                            left: 2.5px;
                         }
+
+                        &:last-of-type {
+                            right: 2.5px;
+                        }
+                    }
+                }
+
+                & > button {
+                    height: 2.375rem;
+                    width: 2.375rem;
+
+                    border-radius: 6px;
+
+                    background: ${(props) => props.theme['purple-dark']};
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                        fill: ${(props) => props.theme['base-card']};
                     }
                 }
             }

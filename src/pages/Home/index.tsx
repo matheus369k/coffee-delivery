@@ -1,46 +1,33 @@
-import { Coffee, Package, ShoppingCart, Timer } from '@phosphor-icons/react';
-import introImage from '@assets/into-Imagem.svg';
-import coffeeImage from '@assets/coffee.png';
-import { StyledHomeIntro, StyledHomeShopList } from './styles';
+import { StyledShop, StyledShopFilter, StyledShopList } from './styles';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { IntroSection } from './intro-section';
+import { CoffeeCard } from './coffee-card';
+
+interface coffeeDatasType {
+    id: number;
+    name: string;
+    tags: string[];
+    image: string;
+    description: string;
+    price: string;
+}
 
 export function Home() {
+    const [coffeeDatas, setCoffeeDatas] = useState<coffeeDatasType[] | undefined>();
+
+    useEffect(() => {
+        axios.get('/coffee-delivery/src/data/db.json').then((response) => {
+            setCoffeeDatas(response.data);
+        });
+    }, []);
+
     return (
         <main>
-            <StyledHomeIntro>
-                <div>
-                    <h1>Encontre o café perfeito para qualquer hora do dia</h1>
-                    <span>Com o Coffee Delivery você recebe seu café onde estiver, a qualquer hora</span>
-                    <ul>
-                        <li>
-                            <i id="cart">
-                                <ShoppingCart size={16} weight="fill" />
-                            </i>
-                            <p>Compra simples e segura</p>
-                        </li>
-                        <li>
-                            <i id="box">
-                                <Package size={16} weight="fill" />
-                            </i>
-                            <p>Embalagem mantém o café intacto</p>
-                        </li>
-                        <li>
-                            <i id="timer">
-                                <Timer size={16} weight="fill" />
-                            </i>
-                            <p>Entrega rápida e rastreada</p>
-                        </li>
-                        <li>
-                            <i id="coffee">
-                                <Coffee size={16} weight="fill" />
-                            </i>
-                            <p>O café chega fresquinho até você</p>
-                        </li>
-                    </ul>
-                </div>
-                <img src={introImage} />
-            </StyledHomeIntro>
-            <StyledHomeShopList>
-                <div>
+            <IntroSection />
+
+            <StyledShop>
+                <StyledShopFilter>
                     <h2>Nossos cafés</h2>
                     <nav>
                         <ul>
@@ -61,29 +48,17 @@ export function Home() {
                             </li>
                         </ul>
                     </nav>
-                </div>
-                <ul>
-                    {Array.from({ length: 14 }).map((_, index) => {
-                        return (
-                            <li key={index}>
-                                <img src={coffeeImage} alt="" />
-                                <span>Tradicional</span>
-                                <h3>Expresso Tradicional</h3>
-                                <p>O tradicional café feito com água quente e grãos moídos</p>
-                                <div>
-                                    <span>9,90</span>
-                                    <form action="">
-                                        <input type="number" value={1} />
-                                        <button type="button">
-                                            <ShoppingCart size={22} weight="fill" />
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </StyledHomeShopList>
+                </StyledShopFilter>
+                {coffeeDatas ? (
+                    <StyledShopList>
+                        {coffeeDatas.map((coffeeData) => {
+                            return <CoffeeCard key={coffeeData.id} coffeeData={coffeeData} />;
+                        })}
+                    </StyledShopList>
+                ) : (
+                    <p>loading...</p>
+                )}
+            </StyledShop>
         </main>
     );
 }
