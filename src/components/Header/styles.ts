@@ -47,8 +47,8 @@ export const StyledHeader = styled.header`
 
             position: relative;
 
-            &::before {
-                content: attr(data-countProducts);
+            &:not([data-count-products='0'])::before {
+                content: attr(data-count-products);
 
                 height: 1.25rem;
                 width: 1.25rem;
