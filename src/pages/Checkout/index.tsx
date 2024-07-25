@@ -1,61 +1,41 @@
-import { Bank, CreditCard, CurrencyDollar, MapPin, Money, Trash } from '@phosphor-icons/react';
+import { Trash } from '@phosphor-icons/react';
 import coffeeImage from '@assets/coffee.png';
-import { StylesDatasUser, StylesListCoffee, StylesForm, StyledAddressUser, StylesPayFormat } from './styles';
+import { StylesListCoffee, StylesForm } from './styles';
+import { FormUser } from './form-user';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const FormUserZodSchema = z.object({
+    cep: z.coerce.number().min(8),
+    street: z.string().min(4),
+    number: z.coerce.number().min(1),
+    complement: z.string().min(4),
+    neighborhood: z.string().min(4),
+    city: z.string().min(4),
+    uf: z.string().min(2),
+});
+
+type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
+    const hookForm = useForm<FormUseType>({
+        resolver: zodResolver(FormUserZodSchema),
+    });
+
+    const { handleSubmit } = hookForm;
+
+    function handleFormUser(data: FormUseType) {
+        console.log(data);
+    }
+
     return (
         <main>
-            <StylesForm>
-                <StylesDatasUser>
-                    <h3>Complete seu pedido</h3>
-                    <StyledAddressUser>
-                        <div>
-                            <MapPin size={22} />
-                            <p>
-                                <span>Endereço de Entrega</span>
-                                <span>Informe o endereço onde deseja receber seu pedido</span>
-                            </p>
-                        </div>
-                        <form>
-                            <input type="text" id="cep" placeholder="CEP" />
-                            <input type="text" id="street" placeholder="Rua" />
-                            <input type="number" id="number" placeholder="Número" />
-                            <input type="text" id="complement" placeholder="Complemento" />
-                            <input type="text" id="neighborhood" placeholder="Bairro" />
-                            <input type="text" id="city" placeholder="Cidade" />
-                            <input type="text" id="uf" placeholder="UF" />
-                        </form>
-                    </StyledAddressUser>
-                    <StylesPayFormat>
-                        <div>
-                            <CurrencyDollar size={22} />
-                            <p>
-                                <span>Pagamento</span>
-                                <span>O pagamento é feito na entrega. Escolha a forma que deseja pagar</span>
-                            </p>
-                        </div>
-                        <ul>
-                            <li>
-                                <button type="button">
-                                    <CreditCard size={16} />
-                                    <span>Cartão de crédito</span>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button">
-                                    <Bank size={16} />
-                                    <span>cartão de débito</span>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button">
-                                    <Money size={16} />
-                                    <span>dinheiro</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </StylesPayFormat>
-                </StylesDatasUser>
+            <StylesForm onSubmit={handleSubmit(handleFormUser)}>
+                <FormProvider {...hookForm}>
+                    <FormUser />
+                </FormProvider>
+
                 <StylesListCoffee>
                     <h3>Cafés selecionados</h3>
                     <ul>
