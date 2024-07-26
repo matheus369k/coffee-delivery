@@ -210,7 +210,7 @@ export const StylesListCoffee = styled.div`
 
         li {
             display: grid;
-            grid-template-columns: 4rem 1fr 3.43rem;
+            grid-template-columns: 4rem 1fr 4rem;
 
             gap: 1.125rem;
 
@@ -251,8 +251,57 @@ export const StylesListCoffee = styled.div`
                             margin: 0;
                         }
                     }
+                    div {
+                        display: flex;
+                        justify-content: space-between;
+                        align-content: center;
 
-                    button {
+                        position: relative;
+
+                        input {
+                            width: 4.5rem;
+
+                            text-align: center;
+                            line-height: 1.3;
+
+                            font-size: 1rem;
+                            font-family: ${(props) => props.theme['text-font']}, sans-serif;
+
+                            background: ${(props) => props.theme['base-button']};
+                            color: ${(props) => props.theme['base-title']};
+
+                            border-radius: 6px;
+
+                            &::-webkit-outer-spin-button,
+                            &::-webkit-inner-spin-button {
+                                -webkit-appearance: none;
+                                margin: 0;
+                            }
+                        }
+
+                        button {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+
+                            background: transparent;
+                            box-shadow: 0;
+                            border: 0;
+                            line-height: 0;
+
+                            z-index: 1;
+
+                            &:first-of-type {
+                                left: 2.5px;
+                            }
+
+                            &:last-of-type {
+                                right: 2.5px;
+                            }
+                        }
+                    }
+
+                    & > button {
                         display: flex;
                         align-items: center;
 
@@ -284,6 +333,8 @@ export const StylesListCoffee = styled.div`
                 line-height: 1.3;
                 font-size: 1rem;
                 font-weight: bold;
+
+                text-align: right;
 
                 &::before {
                     content: 'R$ ';
