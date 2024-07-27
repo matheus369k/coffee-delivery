@@ -8,6 +8,8 @@ export const StyledHeader = styled.header`
     padding: 2rem 0;
     margin-bottom: 2.5rem;
 
+    position: relative;
+
     img {
         height: 2.5rem;
         width: 5.25rem;
@@ -80,5 +82,21 @@ export const StyledHeader = styled.header`
                 }
             }
         }
+    }
+`;
+
+export const StyledBackToHome = styled.button`
+    position: absolute;
+    bottom: -2rem;
+    left: 0;
+
+    background: transparent;
+    box-shadow: 0;
+    outline: 0;
+
+    cursor: pointer;
+
+    &.hidden {
+        display: none;
     }
 `;
