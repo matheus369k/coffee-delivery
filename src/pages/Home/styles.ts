@@ -1,11 +1,10 @@
 import { styled } from 'styled-components';
 
 export const StyledIntroSection = styled.div`
-    padding: 5.875rem 0;
+    padding: 3.375rem 0;
     min-height: calc(100vh - 6.5rem);
 
     display: flex;
-    align-items: center;
 
     gap: 3.5rem;
 
