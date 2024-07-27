@@ -60,7 +60,7 @@ export function FormUser() {
                         <span>Informe o endereço onde deseja receber seu pedido</span>
                     </p>
                 </div>
-                <form>
+                <div>
                     <input {...register('cep')} type="number" id="cep" placeholder="CEP" />
                     <input {...register('street')} onChange={handleFormChange} name="street" value={addressUser.street} type="text" id="street" placeholder="Rua" />
                     <input {...register('number')} type="number" id="number" placeholder="Número" />
@@ -68,7 +68,7 @@ export function FormUser() {
                     <input {...register('neighborhood')} onChange={handleFormChange} name="neighborhood" value={addressUser.neighborhood} type="text" id="neighborhood" placeholder="Bairro" />
                     <input {...register('city')} onChange={handleFormChange} name="city" value={addressUser.city} type="text" id="city" placeholder="Cidade" />
                     <input {...register('uf')} onChange={handleFormChange} name="uf" value={addressUser.uf} type="text" id="uf" placeholder="UF" />
-                </form>
+                </div>
             </StyledAddressUser>
             <StylesPayFormat>
                 <div>

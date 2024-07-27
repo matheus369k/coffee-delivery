@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { StylesListCoffee, StylesForm } from './styles';
+import { StylesListCoffee, StylesForm, StyledEmptyCart } from './styles';
 import { FormUser } from './form-user';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,8 +7,8 @@ import { z } from 'zod';
 import { useContext, useEffect, useState } from 'react';
 import { CountProductsContext } from '../../contexts/context-count-products';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
 import { CardBuyCoffee } from './card-buy-coffee';
+import { Package } from '@phosphor-icons/react';
 
 interface BuyCoffeeDatasType {
     id: number;
@@ -51,7 +51,6 @@ export function Checkout() {
         resolver: zodResolver(FormUserZodSchema),
     });
 
-    const navigate = useNavigate();
     const { handleSubmit } = hookForm;
 
     const [buyCoffeeDatas, setBuyCoffeeDatas] = useState<BuyCoffeeDatasType[]>([]);
@@ -71,8 +70,6 @@ export function Checkout() {
 
             const createCoffeeBuyObject: BuyCoffeeDatasType[] = [];
 
-            console.log(countProducts);
-
             for (const count of countProducts) {
                 for (const coffee of coffeeDatas) {
                     if (coffee.id === count.id) {
@@ -91,14 +88,14 @@ export function Checkout() {
 
             setBuyCoffeeDatas(createCoffeeBuyObject);
 
-            buyPriceTotal();
+            buyPriceTotal(createCoffeeBuyObject);
         });
     }, [countProducts]);
 
-    function buyPriceTotal() {
+    function buyPriceTotal(buyCoffeeProp: BuyCoffeeDatasType[]) {
         let calcTotalPrice: number = 0;
 
-        buyCoffeeDatas.forEach((buyCoffeeData) => {
+        buyCoffeeProp.forEach((buyCoffeeData) => {
             calcTotalPrice += parseFloat(buyCoffeeData.totalPrice);
         });
 
@@ -116,9 +113,12 @@ export function Checkout() {
     }
 
     if (!countProducts || countProducts.length === 0) {
-        navigate('/coffee-delivery');
-
-        return;
+        return (
+            <StyledEmptyCart>
+                <Package size={220} weight="light" />
+                <p>Adicione produtos ao carrinho!</p>
+            </StyledEmptyCart>
+        );
     }
 
     return (

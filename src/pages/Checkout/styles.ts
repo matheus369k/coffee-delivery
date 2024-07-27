@@ -31,7 +31,7 @@ export const StyledAddressUser = styled.div`
     padding: 2.5rem;
     border-radius: 6px;
 
-    div {
+    div:first-of-type {
         display: flex;
         gap: 0.5rem;
 
@@ -61,7 +61,7 @@ export const StyledAddressUser = styled.div`
         }
     }
 
-    form {
+    div:last-of-type {
         display: grid;
         grid-template-columns: 1fr 2fr 3.75rem;
         grid-template-areas:
@@ -386,5 +386,29 @@ export const StylesListCoffee = styled.div`
             background: ${(props) => props.theme.yellow};
             color: ${(props) => props.theme.white};
         }
+    }
+`;
+
+export const StyledEmptyCart = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+    padding: 2rem;
+
+    min-height: 60vh;
+
+    color: ${(props) => props.theme['base-subtitle']};
+
+    svg {
+        opacity: 0.4;
+    }
+
+    p {
+        font-family: ${(props) => props.theme['text-font']};
+
+        text-transform: capitalize;
     }
 `;
