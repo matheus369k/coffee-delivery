@@ -22,7 +22,7 @@ export function Header() {
                     <MapPin size={22} weight="fill" />
                     <span>São Paulo, SP</span>
                 </p>
-                <button onClick={handleRedirectToCheckoutPage} data-count-products={countProducts ? countProducts.length : 0} type="button">
+                <button disabled={!countProducts || countProducts.length === 0} onClick={handleRedirectToCheckoutPage} data-count-products={countProducts ? countProducts.length : 0} type="button">
                     <ShoppingCart size={22} weight="fill" />
                 </button>
             </div>

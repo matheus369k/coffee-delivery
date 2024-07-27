@@ -8,11 +8,13 @@ interface CountProductsType {
 interface CountProductsContextType {
     countProducts?: CountProductsType[];
     setCountProductsContext?: ({ id, count }: CountProductsType) => void;
+    updateCountProductsContext?: (countProducts: CountProductsType[]) => void;
 }
 
 export const CountProductsContext = createContext<CountProductsContextType>({
     countProducts: undefined,
     setCountProductsContext: undefined,
+    updateCountProductsContext: undefined,
 });
 
 export function ContextProviderCountProducts({ children }: { children: React.ReactNode }) {
@@ -47,5 +49,10 @@ export function ContextProviderCountProducts({ children }: { children: React.Rea
 
         setCountProducts(newCountProducts);
     }
-    return <CountProductsContext.Provider value={{ countProducts, setCountProductsContext }}>{children}</CountProductsContext.Provider>;
+
+    function updateCountProductsContext(countProducts: CountProductsType[]) {
+        setCountProducts(countProducts);
+    }
+
+    return <CountProductsContext.Provider value={{ countProducts, setCountProductsContext, updateCountProductsContext }}>{children}</CountProductsContext.Provider>;
 }

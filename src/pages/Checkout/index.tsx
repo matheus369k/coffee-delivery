@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Minus, Plus, Trash } from '@phosphor-icons/react';
 import { StylesListCoffee, StylesForm } from './styles';
 import { FormUser } from './form-user';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -8,12 +7,15 @@ import { z } from 'zod';
 import { useContext, useEffect, useState } from 'react';
 import { CountProductsContext } from '../../contexts/context-count-products';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
+import { CardBuyCoffee } from './card-buy-coffee';
 
 interface BuyCoffeeDatasType {
     id: number;
     name: string;
     image: string;
     totalPrice: string;
+    count: number;
 }
 
 interface CoffeeDatasType {
@@ -44,9 +46,13 @@ const FormUserZodSchema = z.object({
 type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
+    const { countProducts } = useContext(CountProductsContext);
     const hookForm = useForm<FormUseType>({
         resolver: zodResolver(FormUserZodSchema),
     });
+
+    const navigate = useNavigate();
+    const { handleSubmit } = hookForm;
 
     const [buyCoffeeDatas, setBuyCoffeeDatas] = useState<BuyCoffeeDatasType[]>([]);
     const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
@@ -54,10 +60,6 @@ export function Checkout() {
         Products: '0.00',
         taxa: '3.50',
     });
-    const [amountCoffee, setAmountCoffee] = useState<number>(1);
-
-    const { countProducts } = useContext(CountProductsContext);
-    const { handleSubmit } = hookForm;
 
     useEffect(() => {
         if (!countProducts) {
@@ -69,6 +71,8 @@ export function Checkout() {
 
             const createCoffeeBuyObject: BuyCoffeeDatasType[] = [];
 
+            console.log(countProducts);
+
             for (const count of countProducts) {
                 for (const coffee of coffeeDatas) {
                     if (coffee.id === count.id) {
@@ -79,6 +83,7 @@ export function Checkout() {
                             name: coffee.name,
                             image: coffee.image,
                             totalPrice: total,
+                            count: count.count,
                         });
                     }
                 }
@@ -110,16 +115,10 @@ export function Checkout() {
         console.log(data);
     }
 
-    function handleAmountCoffeeCount() {
-        setAmountCoffee((state) => {
-            return state + 1;
-        });
-    }
+    if (!countProducts || countProducts.length === 0) {
+        navigate('/coffee-delivery');
 
-    function handleLessCoffeeCount() {
-        setAmountCoffee((state) => {
-            return state - 1;
-        });
+        return;
     }
 
     return (
@@ -133,30 +132,7 @@ export function Checkout() {
                     <h3>Cafés selecionados</h3>
                     <ul>
                         {buyCoffeeDatas?.map((data) => {
-                            return (
-                                <li key={data.id}>
-                                    <img src={data.image} alt="" />
-                                    <div>
-                                        <h4>{data.name}</h4>
-                                        <form>
-                                            <div>
-                                                <button disabled={amountCoffee === 1} onClick={handleLessCoffeeCount} type="button">
-                                                    <Minus size={16} weight="bold" />
-                                                </button>
-                                                <input onChange={(event) => setAmountCoffee(Number(event.target.value))} type="number" value={amountCoffee} name="count" />
-                                                <button disabled={amountCoffee === 99} onClick={handleAmountCoffeeCount} type="button">
-                                                    <Plus size={16} weight="bold" />
-                                                </button>
-                                            </div>
-                                            <button type="button">
-                                                <Trash size={16} />
-                                                <span>Remover</span>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <span>{data.totalPrice}</span>
-                                </li>
-                            );
+                            return <CardBuyCoffee {...data} key={data.id} />;
                         })}
                     </ul>
                     <div>
