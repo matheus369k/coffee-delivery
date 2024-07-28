@@ -106,6 +106,22 @@ export const StyledAddressUser = styled.div`
                 grid-area: uf;
             }
         }
+
+        span {
+            grid-area: complement;
+
+            text-align: right;
+
+            padding: 1rem 0.75rem;
+
+            font-size: 0.75rem;
+            font-family: ${(props) => props.theme['text-font']};
+            font-weight: lighter;
+
+            color: ${(props) => props.theme['base-label']};
+
+            z-index: 2;
+        }
     }
 `;
 

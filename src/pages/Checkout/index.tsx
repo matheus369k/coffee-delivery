@@ -54,6 +54,7 @@ export function Checkout() {
     const { handleSubmit } = hookForm;
 
     const [buyCoffeeDatas, setBuyCoffeeDatas] = useState<BuyCoffeeDatasType[]>([]);
+    const [payFormat, setPayFormat] = useState<string>('');
     const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
         priceEnd: '0.00',
         Products: '0.00',
@@ -108,8 +109,12 @@ export function Checkout() {
         });
     }
 
+    function setNewPayFormat(payForm: string) {
+        setPayFormat(payForm);
+    }
+
     function handleFormUser(data: FormUseType) {
-        console.log(data);
+        console.log(data, payFormat);
     }
 
     if (!countProducts || countProducts.length === 0) {
@@ -125,7 +130,7 @@ export function Checkout() {
         <main>
             <StylesForm onSubmit={handleSubmit(handleFormUser)}>
                 <FormProvider {...hookForm}>
-                    <FormUser />
+                    <FormUser setNewPayFormat={setNewPayFormat} />
                 </FormProvider>
 
                 <StylesListCoffee>

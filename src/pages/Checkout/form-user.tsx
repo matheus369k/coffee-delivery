@@ -12,7 +12,7 @@ interface AddressUser {
     uf: string;
 }
 
-export function FormUser() {
+export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: string) => void }) {
     const { register, watch } = useFormContext();
     const cep: number = watch('cep');
 
@@ -49,6 +49,10 @@ export function FormUser() {
         });
     }
 
+    function handleGetPayFormat(payForm: string) {
+        setNewPayFormat(payForm);
+    }
+
     return (
         <StylesDatasUser>
             <h3>Complete seu pedido</h3>
@@ -61,13 +65,14 @@ export function FormUser() {
                     </p>
                 </div>
                 <div>
-                    <input {...register('cep')} type="number" id="cep" placeholder="CEP" />
-                    <input {...register('street')} onChange={handleFormChange} name="street" value={addressUser.street} type="text" id="street" placeholder="Rua" />
-                    <input {...register('number')} type="number" id="number" placeholder="Número" />
+                    <input {...register('cep')} required autoSave="off" type="number" id="cep" placeholder="CEP" />
+                    <input {...register('street')} required onChange={handleFormChange} name="street" value={addressUser.street} type="text" id="street" placeholder="Rua" />
+                    <input {...register('number')} required type="number" id="number" placeholder="Número" />
                     <input {...register('complement')} onChange={handleFormChange} name="complement" value={addressUser.complement} type="text" id="complement" placeholder="Complemento" />
-                    <input {...register('neighborhood')} onChange={handleFormChange} name="neighborhood" value={addressUser.neighborhood} type="text" id="neighborhood" placeholder="Bairro" />
-                    <input {...register('city')} onChange={handleFormChange} name="city" value={addressUser.city} type="text" id="city" placeholder="Cidade" />
-                    <input {...register('uf')} onChange={handleFormChange} name="uf" value={addressUser.uf} type="text" id="uf" placeholder="UF" />
+                    <span>Opcional</span>
+                    <input {...register('neighborhood')} required onChange={handleFormChange} name="neighborhood" value={addressUser.neighborhood} type="text" id="neighborhood" placeholder="Bairro" />
+                    <input {...register('city')} required onChange={handleFormChange} name="city" value={addressUser.city} type="text" id="city" placeholder="Cidade" />
+                    <input {...register('uf')} required onChange={handleFormChange} name="uf" value={addressUser.uf} type="text" id="uf" placeholder="UF" />
                 </div>
             </StyledAddressUser>
             <StylesPayFormat>
@@ -79,19 +84,19 @@ export function FormUser() {
                     </p>
                 </div>
                 <ul>
-                    <li>
+                    <li onClick={() => handleGetPayFormat('Cartão de crédito')}>
                         <button type="button">
                             <CreditCard size={16} />
                             <span>Cartão de crédito</span>
                         </button>
                     </li>
-                    <li>
+                    <li onClick={() => handleGetPayFormat('cartão de débito')}>
                         <button type="button">
                             <Bank size={16} />
                             <span>cartão de débito</span>
                         </button>
                     </li>
-                    <li>
+                    <li onClick={() => handleGetPayFormat('dinheiro')}>
                         <button type="button">
                             <Money size={16} />
                             <span>dinheiro</span>
