@@ -1,6 +1,6 @@
 import { ArrowLeft, MapPin, ShoppingCart } from '@phosphor-icons/react';
 import logoCoffeeDelivery from '@assets/logo.svg';
-import { StyledBackToHome, StyledHeader } from './styles';
+import { StyledHeader } from './styles';
 import { useContext } from 'react';
 import { CountProductsContext } from '@/contexts/context-count-products';
 import { useNavigate } from 'react-router-dom';
@@ -16,17 +16,17 @@ export function Header() {
         navigate('/coffee-delivery');
     }
     const pathName = window.location.pathname;
-    const isNotHomePage = pathName.includes('/checkout') || pathName.includes('/confirm');
+    const isNotHomePage = !(pathName.includes('/checkout') || pathName.includes('/confirm'));
 
     return (
         <StyledHeader>
             <img src={logoCoffeeDelivery} loading="lazy" />
 
-            <StyledBackToHome onClick={handleBackToHomePage} className={isNotHomePage ? '' : 'hidden'} type="button" title="Voltar">
-                <ArrowLeft size={32} weight="light" />
-            </StyledBackToHome>
-
             <div>
+                <button onClick={handleBackToHomePage} hidden={isNotHomePage} type="button" title="Voltar">
+                    <ArrowLeft size={32} weight="light" />
+                </button>
+
                 <p>
                     <MapPin size={22} weight="fill" />
                     <span>São Paulo, SP</span>
