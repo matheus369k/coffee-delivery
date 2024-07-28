@@ -1,8 +1,14 @@
 import { CurrencyDollar, MapPin, Timer } from '@phosphor-icons/react';
 import illustration from '@assets/Illustration.png';
 import { StyledConfirmMain } from './styles';
+import { DatasUserContext } from '@/contexts/context-user-datas';
+import { useContext } from 'react';
 
 export function Confirm() {
+    const { dataUserContext } = useContext(DatasUserContext);
+
+    console.log(dataUserContext);
+
     return (
         <StyledConfirmMain>
             <h2>Uhu! Pedido confirmado</h2>

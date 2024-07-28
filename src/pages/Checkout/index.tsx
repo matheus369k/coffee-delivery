@@ -9,6 +9,8 @@ import { CountProductsContext } from '../../contexts/context-count-products';
 import axios from 'axios';
 import { CardBuyCoffee } from './card-buy-coffee';
 import { Package } from '@phosphor-icons/react';
+import { DatasUserContext } from '@/contexts/context-user-datas';
+import { useNavigate } from 'react-router';
 
 interface BuyCoffeeDatasType {
     id: number;
@@ -47,6 +49,8 @@ type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
     const { countProducts } = useContext(CountProductsContext);
+    const { setNewDataUserContext } = useContext(DatasUserContext);
+    const navigate = useNavigate();
     const hookForm = useForm<FormUseType>({
         resolver: zodResolver(FormUserZodSchema),
     });
@@ -113,8 +117,21 @@ export function Checkout() {
         setPayFormat(payForm);
     }
 
-    function handleFormUser(data: FormUseType) {
-        console.log(data, payFormat);
+    function handleFormUser(address: FormUseType) {
+        if (!setNewDataUserContext) {
+            return;
+        }
+
+        if (!payFormat) {
+            return;
+        }
+
+        setNewDataUserContext({
+            address,
+            payFormat,
+        });
+
+        navigate('/coffee-delivery/confirm');
     }
 
     if (!countProducts || countProducts.length === 0) {
