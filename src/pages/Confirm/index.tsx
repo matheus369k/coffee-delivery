@@ -7,7 +7,9 @@ import { useContext } from 'react';
 export function Confirm() {
     const { dataUserContext } = useContext(DatasUserContext);
 
-    console.log(dataUserContext);
+    if (!dataUserContext) {
+        return;
+    }
 
     return (
         <StyledConfirmMain>
@@ -23,8 +25,12 @@ export function Confirm() {
                         </i>
 
                         <p>
-                            Entrega em <span>Rua João Daniel Martinelli, 102</span> <br />
-                            Farrapos - Porto Alegre, RS
+                            Entrega em{' '}
+                            <span>
+                                Rua {dataUserContext.address.street}, {dataUserContext.address.number}
+                            </span>{' '}
+                            <br />
+                            {dataUserContext.address.neighborhood} - {dataUserContext.address.city}, {dataUserContext.address.uf}
                         </p>
                     </li>
 
@@ -46,7 +52,7 @@ export function Confirm() {
 
                         <p>
                             Pagamento na entrega <br />
-                            <span>Cartão de Crédito</span>
+                            <span>{dataUserContext.payFormat}</span>
                         </p>
                     </li>
                 </ul>
