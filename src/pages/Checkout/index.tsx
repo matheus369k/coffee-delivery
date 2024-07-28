@@ -48,7 +48,7 @@ const FormUserZodSchema = z.object({
 type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
-    const { countProducts } = useContext(CountProductsContext);
+    const { countProducts, removeCountsProductsContext } = useContext(CountProductsContext);
     const { setNewDataUserContext } = useContext(DatasUserContext);
     const navigate = useNavigate();
     const hookForm = useForm<FormUseType>({
@@ -118,7 +118,7 @@ export function Checkout() {
     }
 
     function handleFormUser(address: FormUseType) {
-        if (!setNewDataUserContext) {
+        if (!setNewDataUserContext || !removeCountsProductsContext) {
             return;
         }
 
@@ -130,6 +130,8 @@ export function Checkout() {
             address,
             payFormat,
         });
+
+        removeCountsProductsContext();
 
         navigate('/coffee-delivery/confirm');
     }
