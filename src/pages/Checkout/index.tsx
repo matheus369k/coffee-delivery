@@ -8,7 +8,6 @@ import { useContext, useEffect, useState } from 'react';
 import { CountProductsContext } from '../../contexts/context-count-products';
 import { CardBuyCoffee } from './card-buy-coffee';
 import { Package } from '@phosphor-icons/react';
-import { DatasUserContext } from '@/contexts/context-user-datas';
 import { useNavigate } from 'react-router';
 import { api } from '@/lib/api';
 
@@ -36,7 +35,7 @@ interface TotalPriceType {
 }
 
 const FormUserZodSchema = z.object({
-    cep: z.coerce.string().min(8),
+    cep: z.coerce.number().min(8),
     street: z.string().min(4),
     number: z.coerce.number().min(1),
     complement: z.string().min(4),
@@ -49,7 +48,6 @@ type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
     const { countProducts, removeCountsProductsContext } = useContext(CountProductsContext);
-    const { setNewDataUserContext } = useContext(DatasUserContext);
     const navigate = useNavigate();
     const hookForm = useForm<FormUseType>({
         resolver: zodResolver(FormUserZodSchema),
@@ -118,7 +116,9 @@ export function Checkout() {
     }
 
     async function handleFormUser(address: FormUseType) {
-        if (!setNewDataUserContext || !removeCountsProductsContext) {
+        console.log(address);
+
+        if (!removeCountsProductsContext) {
             return;
         }
 
@@ -142,7 +142,16 @@ export function Checkout() {
 
         await api
             .post(`/shopping/${userId}`, {
-                coffees_list: [...buyCoffeeDatas],
+                coffees_list: [
+                    ...buyCoffeeDatas.map((buyCoffeeData) => {
+                        return {
+                            name: buyCoffeeData.name,
+                            image: buyCoffeeData.image,
+                            total_price: buyCoffeeData.total_price,
+                            count: buyCoffeeData.count,
+                        };
+                    }),
+                ],
                 form_of_payment: payFormat,
             })
             .then((response) => {

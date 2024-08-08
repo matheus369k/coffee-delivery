@@ -51,7 +51,7 @@ export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffee
             <img src={image} alt="" />
             <div>
                 <h4>{name}</h4>
-                <form>
+                <div>
                     <div>
                         <button disabled={lessCoffee === 1} onClick={handleLessRemoveCoffeeCount} type="button">
                             <Minus size={16} weight="bold" />
@@ -65,7 +65,7 @@ export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffee
                         <Trash size={16} />
                         <span>Remover</span>
                     </button>
-                </form>
+                </div>
             </div>
             <span>{total_price}</span>
         </li>

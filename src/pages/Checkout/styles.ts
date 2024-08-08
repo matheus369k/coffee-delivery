@@ -84,6 +84,12 @@ export const StyledAddressUser = styled.div`
             line-height: 1.3;
             font-size: 0.875rem;
 
+            border-radius: 6px;
+
+            &[data-edite-address='false']:focus {
+                box-shadow: none;
+            }
+
             &#cep {
                 grid-area: cep;
             }
@@ -175,30 +181,41 @@ export const StylesPayFormat = styled.div`
             display: flex;
             gap: 0.75rem;
 
+            padding: 1rem;
+
             width: 100%;
 
-            button {
-                display: flex;
-                gap: 0.75rem;
+            background: ${(props) => props.theme['base-button']};
 
-                padding: 1rem;
+            border-radius: 6px;
+
+            position: relative;
+
+            input[name='formPayment'] {
+                all: unset;
+
+                position: absolute;
+                inset: 0;
 
                 width: 100%;
+                height: 100%;
 
-                background: ${(props) => props.theme['base-button']};
+                &:checked {
+                    box-shadow: 0 0 0 2px ${(props) => props.theme.yellow};
 
-                border-radius: 6px;
-
-                svg {
-                    color: ${(props) => props.theme.purple};
+                    border-radius: 6px;
                 }
+            }
 
-                span {
-                    line-height: 1.6;
-                    font-size: 0.75rem;
+            svg {
+                color: ${(props) => props.theme.purple};
+            }
 
-                    color: ${(props) => props.theme['base-text']};
-                }
+            span {
+                line-height: 1.6;
+                font-size: 0.75rem;
+
+                color: ${(props) => props.theme['base-text']};
             }
         }
     }
@@ -235,13 +252,13 @@ export const StylesListCoffee = styled.div`
                 height: 4rem;
             }
 
-            div {
+            & > div {
                 display: flex;
                 flex-direction: column;
 
                 gap: 0.5rem;
 
-                form {
+                & > div {
                     display: flex;
                     gap: 0.5rem;
 
@@ -267,7 +284,7 @@ export const StylesListCoffee = styled.div`
                             margin: 0;
                         }
                     }
-                    div {
+                    & > div {
                         display: flex;
                         justify-content: space-between;
                         align-content: center;
