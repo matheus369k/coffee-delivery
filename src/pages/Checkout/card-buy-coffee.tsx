@@ -3,14 +3,14 @@ import { Minus, Plus, Trash } from '@phosphor-icons/react';
 import { useContext, useState } from 'react';
 
 interface BuyCoffeeDatasType {
-    id: number;
+    id: string;
     name: string;
     image: string;
-    totalPrice: string;
+    total_price: string;
     count: number;
 }
 
-export function CardBuyCoffee({ id, name, image, totalPrice, count }: BuyCoffeeDatasType) {
+export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffeeDatasType) {
     const { countProducts, updateCountProductsContext } = useContext(CountProductsContext);
 
     const [lessCoffee, setLessCoffee] = useState<number>(1);
@@ -27,7 +27,7 @@ export function CardBuyCoffee({ id, name, image, totalPrice, count }: BuyCoffeeD
         });
     }
 
-    function handleRemoveCoffee(id: number) {
+    function handleRemoveCoffee(id: string) {
         if (!updateCountProductsContext || !countProducts) {
             return;
         }
@@ -67,7 +67,7 @@ export function CardBuyCoffee({ id, name, image, totalPrice, count }: BuyCoffeeD
                     </button>
                 </form>
             </div>
-            <span>{totalPrice}</span>
+            <span>{total_price}</span>
         </li>
     );
 }

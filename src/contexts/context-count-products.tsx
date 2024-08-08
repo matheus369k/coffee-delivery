@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 
 interface CountProductsType {
-    id: number;
+    id: string;
     count: number;
 }
 

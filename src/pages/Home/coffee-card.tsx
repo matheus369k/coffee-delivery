@@ -4,7 +4,7 @@ import { FormEvent, useContext, useState } from 'react';
 
 interface CoffeeCardProps {
     coffeeData: {
-        id: number;
+        id: string;
         name: string;
         tags: string[];
         image: string;
@@ -18,7 +18,7 @@ export function CoffeeCard({ coffeeData }: CoffeeCardProps) {
 
     const [amountCoffee, setAmountCoffee] = useState<number>(1);
 
-    function handleAddNewCoffeeToCart(event: FormEvent<HTMLFormElement>, id: number) {
+    function handleAddNewCoffeeToCart(event: FormEvent<HTMLFormElement>, id: string) {
         event.preventDefault();
 
         if (!amountCoffee || !setCountProductsContext) {

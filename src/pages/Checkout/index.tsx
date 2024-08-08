@@ -6,22 +6,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useContext, useEffect, useState } from 'react';
 import { CountProductsContext } from '../../contexts/context-count-products';
-import axios from 'axios';
 import { CardBuyCoffee } from './card-buy-coffee';
 import { Package } from '@phosphor-icons/react';
 import { DatasUserContext } from '@/contexts/context-user-datas';
 import { useNavigate } from 'react-router';
+import { api } from '@/lib/api';
 
 interface BuyCoffeeDatasType {
-    id: number;
+    id: string;
     name: string;
     image: string;
-    totalPrice: string;
+    total_price: string;
     count: number;
 }
 
 interface CoffeeDatasType {
-    id: number;
+    id: string;
     name: string;
     tags: string[];
     image: string;
@@ -36,7 +36,7 @@ interface TotalPriceType {
 }
 
 const FormUserZodSchema = z.object({
-    cep: z.coerce.number().min(8),
+    cep: z.coerce.string().min(8),
     street: z.string().min(4),
     number: z.coerce.number().min(1),
     complement: z.string().min(4),
@@ -70,8 +70,8 @@ export function Checkout() {
             return;
         }
 
-        axios.get('/coffee-delivery/src/data/db.json').then((response) => {
-            const coffeeDatas: CoffeeDatasType[] = response.data;
+        api.get('/coffees').then((response) => {
+            const coffeeDatas: CoffeeDatasType[] = response.data['coffees'];
 
             const createCoffeeBuyObject: BuyCoffeeDatasType[] = [];
 
@@ -84,7 +84,7 @@ export function Checkout() {
                             id: coffee.id,
                             name: coffee.name,
                             image: coffee.image,
-                            totalPrice: total,
+                            total_price: total,
                             count: count.count,
                         });
                     }
@@ -101,7 +101,7 @@ export function Checkout() {
         let calcTotalPrice: number = 0;
 
         buyCoffeeProp.forEach((buyCoffeeData) => {
-            calcTotalPrice += parseFloat(buyCoffeeData.totalPrice);
+            calcTotalPrice += parseFloat(buyCoffeeData.total_price);
         });
 
         setPriceTotal((state) => {
@@ -117,7 +117,7 @@ export function Checkout() {
         setPayFormat(payForm);
     }
 
-    function handleFormUser(address: FormUseType) {
+    async function handleFormUser(address: FormUseType) {
         if (!setNewDataUserContext || !removeCountsProductsContext) {
             return;
         }
@@ -126,10 +126,30 @@ export function Checkout() {
             return;
         }
 
-        setNewDataUserContext({
-            address,
-            payFormat,
-        });
+        let userId = window.localStorage.getItem('registerId');
+
+        if (!userId) {
+            await api.post('/user/register', { ...address }).then((response) => {
+                userId = response.data.addressUserId;
+
+                if (typeof userId !== 'string') {
+                    return;
+                }
+
+                window.localStorage.setItem('registerId', userId);
+            });
+        }
+
+        await api
+            .post(`/shopping/${userId}`, {
+                coffees_list: [...buyCoffeeDatas],
+                form_of_payment: payFormat,
+            })
+            .then((response) => {
+                const shoppingCoffeeListId: string = response.data.shoppingCoffeeListId;
+
+                window.localStorage.setItem('shoppingCoffeeListId', shoppingCoffeeListId);
+            });
 
         removeCountsProductsContext();
 

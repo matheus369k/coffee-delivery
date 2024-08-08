@@ -107,7 +107,7 @@ export const StyledAddressUser = styled.div`
             }
         }
 
-        span {
+        label {
             grid-area: complement;
 
             text-align: right;

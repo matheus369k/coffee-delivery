@@ -1,11 +1,11 @@
 import { StyledShop, StyledShopFilter, StyledShopList } from './styles';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { IntroSection } from './intro-section';
 import { CoffeeCard } from './coffee-card';
+import { api } from '@/lib/api';
 
 interface coffeeDatasType {
-    id: number;
+    id: string;
     name: string;
     tags: string[];
     image: string;
@@ -17,8 +17,8 @@ export function Home() {
     const [coffeeDatas, setCoffeeDatas] = useState<coffeeDatasType[] | undefined>();
 
     useEffect(() => {
-        axios.get('/coffee-delivery/src/data/db.json').then((response) => {
-            setCoffeeDatas(response.data);
+        api.get('/coffees').then((response) => {
+            setCoffeeDatas(response.data['coffees']);
         });
     }, []);
 

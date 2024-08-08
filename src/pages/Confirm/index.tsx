@@ -1,13 +1,35 @@
 import { CurrencyDollar, MapPin, Timer } from '@phosphor-icons/react';
 import illustration from '@assets/Illustration.png';
 import { StyledConfirmMain } from './styles';
-import { DatasUserContext } from '@/contexts/context-user-datas';
-import { useContext } from 'react';
+import { useEffect, useState } from 'react';
+import { api } from '@/lib/api';
+
+interface AddressType {
+    id: string;
+    cep: number;
+    street: string;
+    number: number;
+    complement: string;
+    neighborhood: string;
+    city: string;
+    uf: string;
+}
+
+interface DatasUserType {
+    AddressUser: AddressType;
+    form_of_payment: string;
+}
 
 export function Confirm() {
-    const { dataUserContext } = useContext(DatasUserContext);
+    const [dataUser, setDataUser] = useState<DatasUserType | null>(null);
 
-    if (!dataUserContext) {
+    useEffect(() => {
+        api.get(`/shopping/${window.localStorage.shoppingCoffeeListId}`).then((response) => {
+            setDataUser(response.data.shoppingCoffeeList);
+        });
+    }, []);
+
+    if (!dataUser) {
         return;
     }
 
@@ -27,10 +49,10 @@ export function Confirm() {
                         <p>
                             Entrega em{' '}
                             <span>
-                                Rua {dataUserContext.address.street}, {dataUserContext.address.number}
+                                Rua {dataUser.AddressUser.street}, {dataUser.AddressUser.number}
                             </span>{' '}
                             <br />
-                            {dataUserContext.address.neighborhood} - {dataUserContext.address.city}, {dataUserContext.address.uf}
+                            {dataUser.AddressUser.neighborhood} - {dataUser.AddressUser.city}, {dataUser.AddressUser.uf}
                         </p>
                     </li>
 
@@ -52,7 +74,7 @@ export function Confirm() {
 
                         <p>
                             Pagamento na entrega <br />
-                            <span>{dataUserContext.payFormat}</span>
+                            <span>{dataUser.form_of_payment}</span>
                         </p>
                     </li>
                 </ul>

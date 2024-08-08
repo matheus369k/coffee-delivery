@@ -69,7 +69,7 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
                     <input {...register('street')} required onChange={handleFormChange} name="street" value={addressUser.street} type="text" id="street" placeholder="Rua" />
                     <input {...register('number')} required type="number" id="number" placeholder="Número" />
                     <input {...register('complement')} onChange={handleFormChange} name="complement" value={addressUser.complement} type="text" id="complement" placeholder="Complemento" />
-                    <span>Opcional</span>
+                    <label htmlFor="complement">Opcional</label>
                     <input {...register('neighborhood')} required onChange={handleFormChange} name="neighborhood" value={addressUser.neighborhood} type="text" id="neighborhood" placeholder="Bairro" />
                     <input {...register('city')} required onChange={handleFormChange} name="city" value={addressUser.city} type="text" id="city" placeholder="Cidade" />
                     <input {...register('uf')} required onChange={handleFormChange} name="uf" value={addressUser.uf} type="text" id="uf" placeholder="UF" />
