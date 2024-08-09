@@ -59,11 +59,24 @@ export function CoffeeCard({ coffeeData }: CoffeeCardProps) {
                 <span>{coffeeData.price}</span>
                 <form onSubmit={(event) => handleAddNewCoffeeToCart(event, coffeeData.id)}>
                     <div>
-                        <button disabled={amountCoffee === 1} onClick={handleLessCoffeeCount} type="button">
+                        <button
+                            disabled={amountCoffee === 1}
+                            onClick={handleLessCoffeeCount}
+                            type="button"
+                        >
                             <Minus size={16} weight="bold" />
                         </button>
-                        <input onChange={(event) => setAmountCoffee(Number(event.target.value))} type="number" value={amountCoffee} name="count" />
-                        <button disabled={amountCoffee === 99} onClick={handleAmountCoffeeCount} type="button">
+                        <input
+                            onChange={(event) => setAmountCoffee(Number(event.target.value))}
+                            type="number"
+                            value={amountCoffee}
+                            name="count"
+                        />
+                        <button
+                            disabled={amountCoffee === 99}
+                            onClick={handleAmountCoffeeCount}
+                            type="button"
+                        >
                             <Plus size={16} weight="bold" />
                         </button>
                     </div>

@@ -23,7 +23,12 @@ export function Header() {
             <img src={logoCoffeeDelivery} loading="lazy" />
 
             <div>
-                <button onClick={handleBackToHomePage} hidden={isNotHomePage} type="button" title="Voltar">
+                <button
+                    onClick={handleBackToHomePage}
+                    hidden={isNotHomePage}
+                    type="button"
+                    title="Voltar"
+                >
                     <ArrowLeft size={32} weight="light" />
                 </button>
 
@@ -31,7 +36,12 @@ export function Header() {
                     <MapPin size={22} weight="fill" />
                     <span>São Paulo, SP</span>
                 </p>
-                <button disabled={!countProducts || countProducts.length === 0} onClick={handleRedirectToCheckoutPage} data-count-products={countProducts ? countProducts.length : 0} type="button">
+                <button
+                    disabled={!countProducts || countProducts.length === 0}
+                    onClick={handleRedirectToCheckoutPage}
+                    data-count-products={countProducts ? countProducts.length : 0}
+                    type="button"
+                >
                     <ShoppingCart size={22} weight="fill" />
                 </button>
             </div>

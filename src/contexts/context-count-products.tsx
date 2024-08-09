@@ -60,5 +60,16 @@ export function ContextProviderCountProducts({ children }: { children: React.Rea
         setCountProducts([]);
     }
 
-    return <CountProductsContext.Provider value={{ countProducts, setCountProductsContext, updateCountProductsContext, removeCountsProductsContext }}>{children}</CountProductsContext.Provider>;
+    return (
+        <CountProductsContext.Provider
+            value={{
+                countProducts,
+                setCountProductsContext,
+                updateCountProductsContext,
+                removeCountsProductsContext,
+            }}
+        >
+            {children}
+        </CountProductsContext.Provider>
+    );
 }

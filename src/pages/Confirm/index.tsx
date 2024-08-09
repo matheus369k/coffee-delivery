@@ -52,7 +52,8 @@ export function Confirm() {
                                 Rua {dataUser.AddressUser.street}, {dataUser.AddressUser.number}
                             </span>{' '}
                             <br />
-                            {dataUser.AddressUser.neighborhood} - {dataUser.AddressUser.city}, {dataUser.AddressUser.uf}
+                            {dataUser.AddressUser.neighborhood} - {dataUser.AddressUser.city},{' '}
+                            {dataUser.AddressUser.uf}
                         </p>
                     </li>
 

@@ -31,6 +31,8 @@ export const StyledAddressUser = styled.div`
     padding: 2.5rem;
     border-radius: 6px;
 
+    position: relative;
+
     div:first-of-type {
         display: flex;
         gap: 0.5rem;
@@ -61,6 +63,29 @@ export const StyledAddressUser = styled.div`
         }
     }
 
+    .pencil-edite-address {
+        position: absolute;
+        right: 2.5rem;
+        top: 2.5rem;
+
+        display: flex;
+        align-items: center;
+
+        gap: 0.125rem;
+        padding: 0.5rem;
+        border-radius: 6px;
+
+        font-size: 0.875rem;
+        line-height: 1.6;
+        text-transform: uppercase;
+        font-weight: bold;
+
+        background: ${(props) => props.theme.yellow};
+        color: ${(props) => props.theme.white};
+
+        cursor: pointer;
+    }
+
     div:last-of-type {
         display: grid;
         grid-template-columns: 1fr 2fr 3.75rem;
@@ -73,7 +98,8 @@ export const StyledAddressUser = styled.div`
         column-gap: 1rem;
         row-gap: 0.75rem;
 
-        input {
+        input,
+        & > p {
             border: 1px solid ${(props) => props.theme['base-button']};
 
             background: ${(props) => props.theme['base-input']};
@@ -86,29 +112,25 @@ export const StyledAddressUser = styled.div`
 
             border-radius: 6px;
 
-            &[data-edite-address='false']:focus {
-                box-shadow: none;
-            }
-
-            &#cep {
+            &.cep {
                 grid-area: cep;
             }
-            &#street {
+            &.street {
                 grid-area: street;
             }
-            &#number {
+            &.number {
                 grid-area: number;
             }
-            &#complement {
+            &.complement {
                 grid-area: complement;
             }
-            &#neighborhood {
+            &.neighborhood {
                 grid-area: neighborhood;
             }
-            &#city {
+            &.city {
                 grid-area: city;
             }
-            &#uf {
+            &.uf {
                 grid-area: uf;
             }
         }

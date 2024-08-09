@@ -51,7 +51,11 @@ export const StyledConfirmMain = styled.main`
 
                 border-radius: 0.375rem 2.25rem;
 
-                background: linear-gradient(60deg, ${(props) => props.theme.yellow}, ${(props) => props.theme.purple});
+                background: linear-gradient(
+                    60deg,
+                    ${(props) => props.theme.yellow},
+                    ${(props) => props.theme.purple}
+                );
 
                 -webkit-mask:
                     linear-gradient(#fff 0 0) content-box,

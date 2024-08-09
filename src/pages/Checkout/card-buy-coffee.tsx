@@ -53,11 +53,24 @@ export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffee
                 <h4>{name}</h4>
                 <div>
                     <div>
-                        <button disabled={lessCoffee === 1} onClick={handleLessRemoveCoffeeCount} type="button">
+                        <button
+                            disabled={lessCoffee === 1}
+                            onClick={handleLessRemoveCoffeeCount}
+                            type="button"
+                        >
                             <Minus size={16} weight="bold" />
                         </button>
-                        <input onChange={(event) => setLessCoffee(Number(event.target.value))} type="number" value={lessCoffee} name="count" />
-                        <button disabled={lessCoffee === 99 || lessCoffee === count} onClick={handleAmountRemoveCoffeeCount} type="button">
+                        <input
+                            onChange={(event) => setLessCoffee(Number(event.target.value))}
+                            type="number"
+                            value={lessCoffee}
+                            name="count"
+                        />
+                        <button
+                            disabled={lessCoffee === 99 || lessCoffee === count}
+                            onClick={handleAmountRemoveCoffeeCount}
+                            type="button"
+                        >
                             <Plus size={16} weight="bold" />
                         </button>
                     </div>

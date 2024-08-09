@@ -38,7 +38,7 @@ const FormUserZodSchema = z.object({
     cep: z.coerce.number().min(8),
     street: z.string().min(4),
     number: z.coerce.number().min(1),
-    complement: z.string().min(4),
+    complement: z.string().min(4) || z.null(),
     neighborhood: z.string().min(4),
     city: z.string().min(4),
     uf: z.string().min(2),
@@ -76,7 +76,9 @@ export function Checkout() {
             for (const count of countProducts) {
                 for (const coffee of coffeeDatas) {
                     if (coffee.id === count.id) {
-                        const total = (count.count * parseFloat(coffee.price.replace(',', '.'))).toFixed(2);
+                        const total = (
+                            count.count * parseFloat(coffee.price.replace(',', '.'))
+                        ).toFixed(2);
 
                         createCoffeeBuyObject.push({
                             id: coffee.id,
@@ -116,8 +118,6 @@ export function Checkout() {
     }
 
     async function handleFormUser(address: FormUseType) {
-        console.log(address);
-
         if (!removeCountsProductsContext) {
             return;
         }
@@ -138,6 +138,12 @@ export function Checkout() {
 
                 window.localStorage.setItem('registerId', userId);
             });
+        }
+
+        if (window.localStorage.editeAddress) {
+            await api.put(`/user/${userId}`, { ...address });
+
+            window.localStorage.removeItem('editeAddress');
         }
 
         await api

@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Bank, CreditCard, CurrencyDollar, MapPin, Money } from '@phosphor-icons/react';
+import { Bank, CreditCard, CurrencyDollar, MapPin, Money, Pencil } from '@phosphor-icons/react';
 import { StyledAddressUser, StylesDatasUser, StylesPayFormat } from './styles';
 import { useFormContext } from 'react-hook-form';
 import axios from 'axios';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 
 interface AddressUser {
     cep?: string;
     street: string;
-    complement: string;
+    complement: string | null;
     neighborhood: string;
     city: string;
     number?: number;
@@ -18,7 +18,7 @@ interface AddressUser {
 
 export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: string) => void }) {
     const [hasEditeAddress, setHasEditeAddress] = useState(true);
-    const { register, watch } = useFormContext();
+    const { register, watch, setValue } = useFormContext();
     const cep: string = watch('cep') || '';
 
     const [addressUser, setAddressUser] = useState<AddressUser>({
@@ -38,37 +38,46 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
 
         if (registerId && !cep) {
             api.get(`/user/${registerId}`).then((resp) => {
-                setAddressUser({ ...resp.data.addressUser });
+                setAddressUser((state) => {
+                    return {
+                        ...state,
+                        ...resp.data.addressUser,
+                    };
+                });
                 setHasEditeAddress(false);
+
+                const addressKeys: string[] = Object.keys(resp.data.addressUser);
+                const addressValues: string[] = Object.values(resp.data.addressUser);
+
+                addressKeys.forEach((_, index) => {
+                    setValue(addressKeys[index], addressValues[index]);
+                });
             });
 
             return;
         }
 
         axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((resp) => {
-            setAddressUser({
-                city: resp.data.localidade,
-                complement: resp.data.complemento,
-                neighborhood: resp.data.bairro,
-                street: resp.data.logradouro,
-                uf: resp.data.uf,
+            setAddressUser((state) => {
+                return {
+                    city: resp.data.localidade || state.city,
+                    complement: resp.data.complemento || state.complement,
+                    neighborhood: resp.data.bairro || state.neighborhood,
+                    street: resp.data.logradouro || state.street,
+                    uf: resp.data.uf || state.uf,
+                };
             });
         });
     }, [cep]);
 
-    function handleFormChange(event: ChangeEvent<HTMLInputElement>) {
-        const body = { [event.target.name]: event.target.value };
-
-        setAddressUser((state) => {
-            return {
-                ...state,
-                ...body,
-            };
-        });
-    }
-
     function handleGetPayFormat(payForm: string) {
         setNewPayFormat(payForm);
+    }
+
+    function handleHasEditeAddress() {
+        setHasEditeAddress(true);
+
+        window.localStorage.setItem('editeAddress', 'true');
     }
 
     return (
@@ -82,83 +91,108 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
                         <span>Informe o endereço onde deseja receber seu pedido</span>
                     </p>
                 </div>
+                {!hasEditeAddress && (
+                    <button
+                        onClick={handleHasEditeAddress}
+                        className="pencil-edite-address"
+                        type="button"
+                        title="editar endereço"
+                    >
+                        <Pencil size={22} />
+                        Editar
+                    </button>
+                )}
                 <div>
-                    <input
-                        {...register('cep', { value: cep || addressUser.cep, onChange: handleFormChange })}
-                        data-edite-address={hasEditeAddress}
-                        /* readOnly={!hasEditeAddress} */
-                        value={addressUser.cep}
-                        autoSave="off"
-                        type="number"
-                        id="cep"
-                        placeholder="CEP"
-                    />
-                    <input
-                        {...register('street', { value: addressUser.street, onChange: handleFormChange })}
-                        data-edite-address={hasEditeAddress}
-                        /* readOnly={!hasEditeAddress} */
-                        autoSave="off"
-                        name="street"
-                        value={addressUser.street}
-                        type="text"
-                        id="street"
-                        placeholder="Rua"
-                    />
-                    <input
-                        {...register('number', { value: addressUser.number || '', onChange: handleFormChange })}
-                        data-edite-address={hasEditeAddress}
-                        /* readOnly={!hasEditeAddress} */
-                        autoSave="off"
-                        {...(addressUser.number && { value: addressUser.number })}
-                        type="number"
-                        id="number"
-                        placeholder="Número"
-                    />
-                    <input
-                        {...register('complement', { value: addressUser.complement, onChange: handleFormChange })}
-                        data-edite-address={hasEditeAddress}
-                        autoSave="off"
-                        /* readOnly={!hasEditeAddress} */
-                        name="complement"
-                        value={addressUser.complement}
-                        type="text"
-                        id="complement"
-                        placeholder="Complemento"
-                    />
+                    {hasEditeAddress ? (
+                        <input
+                            {...register('cep')}
+                            autoSave="off"
+                            type="number"
+                            defaultValue={addressUser.cep}
+                            className="cep"
+                            placeholder="CEP"
+                        />
+                    ) : (
+                        <p className="cep">{addressUser.cep}</p>
+                    )}
+                    {hasEditeAddress ? (
+                        <input
+                            {...register('street')}
+                            autoSave="off"
+                            name="street"
+                            defaultValue={addressUser.street}
+                            type="text"
+                            className="street"
+                            placeholder="Rua"
+                        />
+                    ) : (
+                        <p className="street">{addressUser.street}</p>
+                    )}
+                    {hasEditeAddress ? (
+                        <input
+                            {...register('number')}
+                            defaultValue={addressUser.number}
+                            autoSave="off"
+                            type="number"
+                            className="number"
+                            placeholder="Número"
+                        />
+                    ) : (
+                        <p className="number">{addressUser.number}</p>
+                    )}
+                    {hasEditeAddress ? (
+                        <input
+                            {...register('complement')}
+                            defaultValue={addressUser.complement || ''}
+                            placeholder="Complemento"
+                            name="complement"
+                            className="complement"
+                            autoSave="off"
+                            type="text"
+                        />
+                    ) : (
+                        <p className="complement">{addressUser.complement}</p>
+                    )}
                     <label htmlFor="complement">Opcional</label>
-                    <input
-                        {...register('neighborhood', { value: addressUser.neighborhood, onChange: handleFormChange })}
-                        data-edite-address={hasEditeAddress}
-                        autoSave="off"
-                        /* readOnly={!hasEditeAddress} */
-                        name="neighborhood"
-                        value={addressUser.neighborhood}
-                        type="text"
-                        id="neighborhood"
-                        placeholder="Bairro"
-                    />
-                    <input
-                        {...register('city', { value: addressUser.city, onChange: handleFormChange })}
-                        data-edite-address={hasEditeAddress}
-                        /* readOnly={!hasEditeAddress} */
-                        autoSave="off"
-                        name="city"
-                        value={addressUser.city}
-                        type="text"
-                        id="city"
-                        placeholder="Cidade"
-                    />
-                    <input
-                        {...register('uf', { value: addressUser.uf, onChange: handleFormChange })}
-                        data-edite-address={hasEditeAddress}
-                        /* readOnly={!hasEditeAddress} */
-                        autoSave="off"
-                        name="uf"
-                        value={addressUser.uf}
-                        type="text"
-                        id="uf"
-                        placeholder="UF"
-                    />
+                    {hasEditeAddress ? (
+                        <input
+                            {...register('neighborhood')}
+                            defaultValue={addressUser.neighborhood}
+                            autoSave="off"
+                            name="neighborhood"
+                            type="text"
+                            className="neighborhood"
+                            placeholder="Bairro"
+                        />
+                    ) : (
+                        <p className="neighborhood">{addressUser.neighborhood}</p>
+                    )}
+                    {hasEditeAddress ? (
+                        <input
+                            {...register('city')}
+                            defaultValue={addressUser.city}
+                            autoSave="off"
+                            name="city"
+                            type="text"
+                            className="city"
+                            placeholder="Cidade"
+                        />
+                    ) : (
+                        <p className="city">{addressUser.city}</p>
+                    )}
+                    {hasEditeAddress ? (
+                        <input
+                            {...register('uf')}
+                            defaultValue={addressUser.uf}
+                            autoSave="off"
+                            name="uf"
+                            type="text"
+                            className="uf"
+                            placeholder="UF"
+                        />
+                    ) : (
+                        <p className="uf">{addressUser.uf}</p>
+                    )}
                 </div>
             </StyledAddressUser>
             <StylesPayFormat>
@@ -166,7 +200,9 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
                     <CurrencyDollar size={22} />
                     <p>
                         <span>Pagamento</span>
-                        <span>O pagamento é feito na entrega. Escolha a forma que deseja pagar</span>
+                        <span>
+                            O pagamento é feito na entrega. Escolha a forma que deseja pagar
+                        </span>
                     </p>
                 </div>
                 <ul>
