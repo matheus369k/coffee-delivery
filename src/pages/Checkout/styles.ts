@@ -396,6 +396,10 @@ export const StylesListCoffee = styled.div`
                 }
             }
         }
+
+        & > p {
+            text-align: center;
+        }
     }
 
     & > div {

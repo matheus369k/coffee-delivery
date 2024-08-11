@@ -57,6 +57,7 @@ export function Checkout() {
 
     const [buyCoffeeDatas, setBuyCoffeeDatas] = useState<BuyCoffeeDatasType[]>([]);
     const [payFormat, setPayFormat] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(false);
     const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
         priceEnd: '0.00',
         Products: '0.00',
@@ -126,6 +127,8 @@ export function Checkout() {
             return;
         }
 
+        setIsLoading(true);
+
         let userId = window.localStorage.getItem('registerId');
 
         if (!userId) {
@@ -168,6 +171,8 @@ export function Checkout() {
 
         removeCountsProductsContext();
 
+        setIsLoading(false);
+
         navigate('/coffee-delivery/confirm');
     }
 
@@ -190,9 +195,13 @@ export function Checkout() {
                 <StylesListCoffee>
                     <h3>Cafés selecionados</h3>
                     <ul>
-                        {buyCoffeeDatas?.map((data) => {
-                            return <CardBuyCoffee {...data} key={data.id} />;
-                        })}
+                        {buyCoffeeDatas ? (
+                            buyCoffeeDatas.map((data) => {
+                                return <CardBuyCoffee {...data} key={data.id} />;
+                            })
+                        ) : (
+                            <p>Carregando...</p>
+                        )}
                     </ul>
                     <div>
                         <p>
@@ -207,7 +216,9 @@ export function Checkout() {
                             <span>Total</span>
                             <span>R$ {priceTotal.priceEnd}</span>
                         </p>
-                        <button type="submit">confirmar pedido</button>
+                        <button type="submit">
+                            {isLoading ? 'Carregando...' : 'confirmar pedido'}
+                        </button>
                     </div>
                 </StylesListCoffee>
             </StylesForm>

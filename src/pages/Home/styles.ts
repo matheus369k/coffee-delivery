@@ -95,6 +95,10 @@ export const StyledShop = styled.div`
     flex-direction: column;
 
     gap: 3.5rem;
+
+    & > p {
+        text-align: center;
+    }
 `;
 
 export const StyledShopFilter = styled.div`

@@ -1,6 +1,7 @@
 import { CountProductsContext } from '@/contexts/context-count-products';
 import { Minus, Plus, ShoppingCart } from '@phosphor-icons/react';
 import { FormEvent, useContext, useState } from 'react';
+import { Button } from '../components/button';
 
 interface CoffeeCardProps {
     coffeeData: {
@@ -59,26 +60,26 @@ export function CoffeeCard({ coffeeData }: CoffeeCardProps) {
                 <span>{coffeeData.price}</span>
                 <form onSubmit={(event) => handleAddNewCoffeeToCart(event, coffeeData.id)}>
                     <div>
-                        <button
+                        <Button
                             disabled={amountCoffee === 1}
                             onClick={handleLessCoffeeCount}
-                            type="button"
+                            title="Less"
                         >
                             <Minus size={16} weight="bold" />
-                        </button>
+                        </Button>
                         <input
                             onChange={(event) => setAmountCoffee(Number(event.target.value))}
                             type="number"
                             value={amountCoffee}
                             name="count"
                         />
-                        <button
+                        <Button
                             disabled={amountCoffee === 99}
                             onClick={handleAmountCoffeeCount}
-                            type="button"
+                            title="Amount"
                         >
                             <Plus size={16} weight="bold" />
-                        </button>
+                        </Button>
                     </div>
                     <button type="submit">
                         <ShoppingCart size={22} weight="fill" />

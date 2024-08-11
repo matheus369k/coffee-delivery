@@ -1,6 +1,7 @@
 import { CountProductsContext } from '@/contexts/context-count-products';
 import { Minus, Plus, Trash } from '@phosphor-icons/react';
 import { useContext, useState } from 'react';
+import { Button } from '../components/button';
 
 interface BuyCoffeeDatasType {
     id: string;
@@ -53,31 +54,31 @@ export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffee
                 <h4>{name}</h4>
                 <div>
                     <div>
-                        <button
+                        <Button
                             disabled={lessCoffee === 1}
                             onClick={handleLessRemoveCoffeeCount}
-                            type="button"
+                            title="Less"
                         >
                             <Minus size={16} weight="bold" />
-                        </button>
+                        </Button>
                         <input
                             onChange={(event) => setLessCoffee(Number(event.target.value))}
                             type="number"
                             value={lessCoffee}
                             name="count"
                         />
-                        <button
+                        <Button
                             disabled={lessCoffee === 99 || lessCoffee === count}
                             onClick={handleAmountRemoveCoffeeCount}
-                            type="button"
+                            title="Amount"
                         >
                             <Plus size={16} weight="bold" />
-                        </button>
+                        </Button>
                     </div>
-                    <button onClick={() => handleRemoveCoffee(id)} type="button">
+                    <Button onClick={() => handleRemoveCoffee(id)} title="Remove">
                         <Trash size={16} />
                         <span>Remover</span>
-                    </button>
+                    </Button>
                 </div>
             </div>
             <span>{total_price}</span>

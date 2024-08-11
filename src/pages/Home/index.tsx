@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { IntroSection } from './intro-section';
 import { CoffeeCard } from './coffee-card';
 import { api } from '@/lib/api';
+import { ShopFilterRow } from './shop-filter-row';
 
 interface coffeeDatasType {
     id: string;
@@ -31,21 +32,11 @@ export function Home() {
                     <h2>Nossos cafés</h2>
                     <nav>
                         <ul>
-                            <li>
-                                <button type="button">Tradicional</button>
-                            </li>
-                            <li>
-                                <button type="button">especial</button>
-                            </li>
-                            <li>
-                                <button type="button">com leite</button>
-                            </li>
-                            <li>
-                                <button type="button">alcoólico</button>
-                            </li>
-                            <li>
-                                <button type="button">gelado</button>
-                            </li>
+                            <ShopFilterRow text="Tradicional" />
+                            <ShopFilterRow text="especial" />
+                            <ShopFilterRow text="com leite" />
+                            <ShopFilterRow text="alcoólico" />
+                            <ShopFilterRow text="gelado" />
                         </ul>
                     </nav>
                 </StyledShopFilter>
@@ -56,7 +47,7 @@ export function Home() {
                         })}
                     </StyledShopList>
                 ) : (
-                    <p>loading...</p>
+                    <p>Carregando...</p>
                 )}
             </StyledShop>
         </main>
