@@ -1,13 +1,20 @@
 import { ArrowLeft, MapPin, ShoppingCart } from '@phosphor-icons/react';
 import logoCoffeeDelivery from '@assets/logo.svg';
 import { StyledHeader } from './styles';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CountProductsContext } from '@/contexts/context-count-products';
 import { useNavigate } from 'react-router-dom';
+import { api } from '@/lib/api';
+
+interface UserLocationType {
+    city: string;
+    uf: string;
+}
 
 export function Header() {
     const navigate = useNavigate();
     const { countProducts } = useContext(CountProductsContext);
+    const [location, setLocation] = useState('Cidade, UF');
 
     function handleRedirectToCheckoutPage() {
         navigate('/coffee-delivery/checkout');
@@ -18,9 +25,23 @@ export function Header() {
     const pathName = window.location.pathname;
     const isNotHomePage = !(pathName.includes('/checkout') || pathName.includes('/confirm'));
 
+    useEffect(() => {
+        const userId = window.localStorage.getItem('registerId');
+
+        if (!userId) {
+            return;
+        }
+
+        api.get(`/location/${userId}`).then((response) => {
+            const locationUser: UserLocationType = response.data.userLocation;
+
+            setLocation(`${locationUser.city}, ${locationUser.uf}`);
+        });
+    }, []);
+
     return (
         <StyledHeader>
-            <img src={logoCoffeeDelivery} loading="lazy" />
+            <img onClick={handleBackToHomePage} src={logoCoffeeDelivery} loading="lazy" />
 
             <div>
                 <button
@@ -34,7 +55,7 @@ export function Header() {
 
                 <p>
                     <MapPin size={22} weight="fill" />
-                    <span>São Paulo, SP</span>
+                    <span>{location}</span>
                 </p>
                 <button
                     disabled={!countProducts || countProducts.length === 0}
