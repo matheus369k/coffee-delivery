@@ -5,12 +5,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "npm run lint",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint src --ext ts,tsx, --fix",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
+    "pretest": "npm run lint",
     "test": "jest"
   },
   "dependencies": {
