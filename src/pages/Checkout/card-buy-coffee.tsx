@@ -1,7 +1,7 @@
 import { CountProductsContext } from '@/contexts/context-count-products';
 import { Minus, Plus, Trash } from '@phosphor-icons/react';
 import { useContext, useState } from 'react';
-import { Button } from '../components/button';
+import { Button } from '../../components/button';
 
 interface BuyCoffeeDatasType {
     id: string;

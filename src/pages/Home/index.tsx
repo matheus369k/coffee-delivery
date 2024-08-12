@@ -1,9 +1,9 @@
-import { StyledShop, StyledShopFilter, StyledShopList } from './styles';
+import { StyledShop, StyledShopList } from './styles';
 import { useEffect, useState } from 'react';
 import { IntroSection } from './intro-section';
 import { CoffeeCard } from './coffee-card';
 import { api } from '@/lib/api';
-import { ShopFilterRow } from './shop-filter-row';
+import { ShoppingFilter } from './shopping-filter';
 
 interface coffeeDatasType {
     id: string;
@@ -28,18 +28,8 @@ export function Home() {
             <IntroSection />
 
             <StyledShop>
-                <StyledShopFilter>
-                    <h2>Nossos cafés</h2>
-                    <nav>
-                        <ul>
-                            <ShopFilterRow text="Tradicional" />
-                            <ShopFilterRow text="especial" />
-                            <ShopFilterRow text="com leite" />
-                            <ShopFilterRow text="alcoólico" />
-                            <ShopFilterRow text="gelado" />
-                        </ul>
-                    </nav>
-                </StyledShopFilter>
+                <ShoppingFilter />
+
                 {coffeeDatas ? (
                     <StyledShopList>
                         {coffeeDatas.map((coffeeData) => {

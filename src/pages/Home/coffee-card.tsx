@@ -1,7 +1,7 @@
 import { CountProductsContext } from '@/contexts/context-count-products';
 import { Minus, Plus, ShoppingCart } from '@phosphor-icons/react';
 import { FormEvent, useContext, useState } from 'react';
-import { Button } from '../components/button';
+import { Button } from '@components/button';
 
 interface CoffeeCardProps {
     coffeeData: {

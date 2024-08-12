@@ -1,7 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 import { StyledAddressUser } from './styles';
 import { MapPin, Pencil } from '@phosphor-icons/react';
-import { Button } from '../components/button';
+import { Button } from '../../components/button';
 import type { AddressUser } from './form-user';
 
 interface AddressUserProps {
