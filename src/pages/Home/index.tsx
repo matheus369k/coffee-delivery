@@ -16,19 +16,24 @@ interface coffeeDatasType {
 
 export function Home() {
     const [coffeeDatas, setCoffeeDatas] = useState<coffeeDatasType[] | undefined>();
+    const [query, setQuery] = useState('');
 
     useEffect(() => {
-        api.get('/coffees').then((response) => {
+        api.get(`/coffees/${query}`).then((response) => {
             setCoffeeDatas(response.data['coffees']);
         });
-    }, []);
+    }, [query]);
+
+    function handleSetQueryFilter(filter: string) {
+        setQuery(filter);
+    }
 
     return (
         <main>
             <IntroSection />
 
             <StyledShop>
-                <ShoppingFilter />
+                <ShoppingFilter handleSetQueryFilter={handleSetQueryFilter} query={query} />
 
                 {coffeeDatas ? (
                     <StyledShopList>

@@ -32,11 +32,18 @@ export const StyledShopFilter = styled.div`
                 font-size: 0.625rem;
                 line-height: 1.3;
                 font-family: ${(props) => props.theme['text-font']}, sans-serif;
+
+                cursor: pointer;
+                transition:
+                    color,
+                    background 0.2s;
             }
 
             button#active {
                 color: ${(props) => props.theme['yellow-light']};
                 background: ${(props) => props.theme['yellow-dark']};
+
+                cursor: default;
             }
         }
     }

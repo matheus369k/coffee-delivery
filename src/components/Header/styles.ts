@@ -11,6 +11,8 @@ export const StyledHeader = styled.header`
     img {
         height: 2.5rem;
         width: 5.25rem;
+
+        cursor: pointer;
     }
 
     button:first-of-type {
