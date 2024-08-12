@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { StylesListCoffee, StylesForm, StyledEmptyCart } from './styles';
-import { FormUser } from './form-user';
+import { FormUser } from './form/index';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
