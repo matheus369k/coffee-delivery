@@ -17,7 +17,7 @@ interface CoffeeCardProps {
 export function CoffeeCard({ coffeeData }: CoffeeCardProps) {
     const { setCountProductsContext } = useContext(CountProductsContext);
 
-    const [amountCoffee, setAmountCoffee] = useState<number>(1);
+    const [amountCoffee, setAmountCoffee] = useState(1);
 
     function handleAddNewCoffeeToCart(event: FormEvent<HTMLFormElement>, id: string) {
         event.preventDefault();
@@ -48,7 +48,7 @@ export function CoffeeCard({ coffeeData }: CoffeeCardProps) {
 
     return (
         <li>
-            <img src={coffeeData.image} alt="" />
+            <img src={coffeeData.image} alt="" loading="lazy" />
             <div>
                 {coffeeData.tags.map((tag) => {
                     return <span key={tag}>{tag}</span>;

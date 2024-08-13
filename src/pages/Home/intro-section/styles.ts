@@ -1,4 +1,16 @@
 import styled from 'styled-components';
+import { keyframes } from 'styled-components';
+
+const initial_loading = keyframes`
+    from {
+        transform: translateY(-20px);
+        opacity: 0.5;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+`;
 
 export const StyledIntroSection = styled.div`
     padding: 3.375rem 0;
@@ -7,6 +19,11 @@ export const StyledIntroSection = styled.div`
     display: flex;
 
     gap: 3.5rem;
+
+    opacity: 0;
+
+    position: relative;
+    animation: ${initial_loading} 1s forwards;
 
     h1 {
         margin-bottom: 1rem;

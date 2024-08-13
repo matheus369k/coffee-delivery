@@ -1,9 +1,26 @@
-import styled from 'styled-components';
+import { styled, keyframes } from 'styled-components';
+
+const scroll_hidden = keyframes`
+    from {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(0);
+    }
+    to {
+        opacity: 1;
+    }
+`;
 
 export const StyledShopFilter = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    animation-name: ${scroll_hidden};
+    animation-timeline: view();
+    animation-range: cover 0% cover 15%;
 
     h2 {
         font-size: 2rem;

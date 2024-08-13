@@ -138,6 +138,7 @@ export const StylesListCoffee = styled.div`
                         background: ${(props) => props.theme['base-button']};
 
                         border-radius: 6px;
+                        cursor: pointer;
 
                         svg {
                             color: ${(props) => props.theme.purple};

@@ -1,4 +1,16 @@
+import { keyframes } from 'styled-components';
 import { styled } from 'styled-components';
+
+const initial_loading = keyframes`
+    from {
+        transform: translateX(-20px);
+        opacity: 0.5;
+    }
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+`;
 
 export const StyledConfirmMain = styled.main`
     display: flex;
@@ -29,6 +41,10 @@ export const StyledConfirmMain = styled.main`
         align-items: center;
 
         gap: 6.375rem;
+
+        opacity: 0;
+
+        animation: ${initial_loading} 1s 0.2s forwards;
 
         ul {
             flex: 1;
@@ -113,6 +129,10 @@ export const StyledConfirmMain = styled.main`
         img {
             width: 30.75rem;
             height: auto;
+
+            opacity: 0;
+
+            animation: ${initial_loading} 1s forwards;
         }
     }
 `;

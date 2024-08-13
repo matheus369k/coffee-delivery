@@ -1,12 +1,30 @@
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
+
+const pulse = keyframes`
+    from {
+        transform: scale(1);
+        box-shadow: 0 0 0px rgba(200, 120, 20, .8);
+    }
+    to {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(200, 120, 20, .8);
+    }
+`;
 
 export const StyledHeader = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 2rem 0;
-    margin-bottom: 2.5rem;
+    margin: 2rem 0 3.25rem;
+    padding: 1rem;
+
+    background: ${(props) => props.theme.background};
+
+    position: sticky;
+    top: 0;
+
+    z-index: 10;
 
     img {
         height: 2.5rem;
@@ -82,6 +100,8 @@ export const StyledHeader = styled.header`
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
+                animation: ${pulse} 1s ease-in 5 alternate-reverse;
             }
 
             svg {

@@ -1,4 +1,15 @@
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
+
+const scroll_hidden = keyframes`
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+`;
 
 export const StyledShop = styled.div`
     padding: 2rem 0;
@@ -30,6 +41,10 @@ export const StyledShopList = styled.ul`
         align-items: center;
 
         background: ${(props) => props.theme['base-card']};
+
+        animation-name: ${scroll_hidden};
+        animation-timeline: view();
+        animation-range: cover 0% cover 20%;
 
         img {
             width: 7.5rem;
