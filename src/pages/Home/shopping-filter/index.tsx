@@ -19,27 +19,27 @@ export function ShoppingFilter({ handleSetQueryFilter, query }: ShoppingFilterPr
                     />
                     <ShopFilterRow
                         {...(query === 'Tradicional' && { active: true })}
-                        onClick={() => handleSetQueryFilter('Tradicional')}
+                        onClick={() => handleSetQueryFilter('tradicional')}
                         text="Tradicional"
                     />
                     <ShopFilterRow
                         {...(query === 'Especial' && { active: true })}
-                        onClick={() => handleSetQueryFilter('Especial')}
+                        onClick={() => handleSetQueryFilter('especial')}
                         text="Especial"
                     />
                     <ShopFilterRow
                         {...(query === 'Com Leite' && { active: true })}
-                        onClick={() => handleSetQueryFilter('Com Leite')}
+                        onClick={() => handleSetQueryFilter('com-leite')}
                         text="Com Leite"
                     />
                     <ShopFilterRow
                         {...(query === 'Alcoólico' && { active: true })}
-                        onClick={() => handleSetQueryFilter('Alcoólico')}
+                        onClick={() => handleSetQueryFilter('alcoolico')}
                         text="Alcoólico"
                     />
                     <ShopFilterRow
                         {...(query === 'Gelado' && { active: true })}
-                        onClick={() => handleSetQueryFilter('Gelado')}
+                        onClick={() => handleSetQueryFilter('gelado')}
                         text="Gelado"
                     />
                 </ul>
