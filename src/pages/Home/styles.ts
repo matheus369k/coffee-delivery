@@ -22,6 +22,31 @@ export const StyledShop = styled.div`
     & > p {
         text-align: center;
     }
+
+    .request-error {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+
+        button {
+            width: max-content;
+            padding: 0.5rem 2rem;
+            border-radius: 6px;
+
+            font-weight: bold;
+            font-size: 1rem;
+
+            background: ${(props) => props.theme['yellow-dark']};
+            color: ${(props) => props.theme.white};
+
+            cursor: pointer;
+
+            &:hover {
+                background: ${(props) => props.theme['yellow']};
+            }
+        }
+    }
 `;
 
 export const StyledShopList = styled.ul`
