@@ -19,6 +19,7 @@ export const StyledShopFilter = styled.div`
     justify-content: space-between;
 
     animation-name: ${scroll_hidden};
+    animation-fill-mode: forwards;
     animation-timeline: view();
     animation-range: cover 0% cover 15%;
 

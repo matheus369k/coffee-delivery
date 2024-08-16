@@ -12,12 +12,12 @@ const scroll_hidden = keyframes`
 `;
 
 export const StyledShop = styled.div`
-    padding: 2rem 0;
-
+    min-height: 25rem;
     display: flex;
     flex-direction: column;
 
     gap: 3.5rem;
+    padding: 2rem 0;
 
     & > p {
         text-align: center;
