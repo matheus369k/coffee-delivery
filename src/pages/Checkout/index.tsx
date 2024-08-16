@@ -39,7 +39,7 @@ const FormUserZodSchema = z.object({
     cep: z.string().min(8),
     street: z.string().min(4),
     number: z.coerce.number().min(1),
-    complement: z.string().min(4) || z.null(),
+    complement: z.string().default(''),
     neighborhood: z.string().min(4),
     city: z.string().min(4),
     uf: z.string().min(2),
@@ -188,7 +188,12 @@ export function Checkout() {
 
     return (
         <main>
-            <StylesForm onSubmit={handleSubmit(handleFormUser)}>
+            <StylesForm
+                onSubmit={handleSubmit(handleFormUser)}
+                aria-autocomplete="none"
+                autoComplete="off"
+                autoSave="off"
+            >
                 <FormProvider {...hookForm}>
                     <FormUser setNewPayFormat={setNewPayFormat} />
                 </FormProvider>

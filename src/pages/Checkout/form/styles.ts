@@ -92,7 +92,7 @@ export const StyledAddressUser = styled.div`
 
             padding: 0.75rem;
 
-            line-height: 1.3;
+            line-height: 1.4;
             font-size: 0.875rem;
 
             border-radius: 6px;
@@ -123,9 +123,10 @@ export const StyledAddressUser = styled.div`
         label {
             grid-area: complement;
 
-            text-align: right;
+            margin-left: auto;
 
             padding: 1rem 0.75rem;
+            width: max-content;
 
             font-size: 0.75rem;
             font-family: ${(props) => props.theme['text-font']};

@@ -36,7 +36,6 @@ export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }:
                 {hasEditeAddress ? (
                     <input
                         {...register('cep')}
-                        autoSave="off"
                         type="number"
                         defaultValue={address.cep}
                         className="cep"
@@ -48,7 +47,6 @@ export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }:
                 {hasEditeAddress ? (
                     <input
                         {...register('street')}
-                        autoSave="off"
                         name="street"
                         defaultValue={address.street}
                         type="text"
@@ -62,7 +60,6 @@ export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }:
                     <input
                         {...register('number')}
                         defaultValue={address.number}
-                        autoSave="off"
                         type="number"
                         className="number"
                         placeholder="Número"
@@ -73,11 +70,11 @@ export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }:
                 {hasEditeAddress ? (
                     <input
                         {...register('complement')}
-                        defaultValue={address.complement || ''}
+                        {...(address.complement && { defaultValue: address.complement })}
                         placeholder="Complemento"
                         name="complement"
+                        id="complement"
                         className="complement"
-                        autoSave="off"
                         type="text"
                     />
                 ) : (
@@ -88,7 +85,6 @@ export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }:
                     <input
                         {...register('neighborhood')}
                         defaultValue={address.neighborhood}
-                        autoSave="off"
                         name="neighborhood"
                         type="text"
                         className="neighborhood"
@@ -101,7 +97,6 @@ export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }:
                     <input
                         {...register('city')}
                         defaultValue={address.city}
-                        autoSave="off"
                         name="city"
                         type="text"
                         className="city"
@@ -114,7 +109,6 @@ export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }:
                     <input
                         {...register('uf')}
                         defaultValue={address.uf}
-                        autoSave="off"
                         name="uf"
                         type="text"
                         className="uf"

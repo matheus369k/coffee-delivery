@@ -10,7 +10,7 @@ import { AddressUser } from './address-user';
 export interface AddressType {
     cep?: string;
     street: string;
-    complement: string | null;
+    complement: string;
     neighborhood: string;
     city: string;
     number?: number;
@@ -40,19 +40,16 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
         if (addressId && !cep) {
             api.get(`/user/${addressId}`).then((resp) => {
                 setAddress((state) => {
-                    return {
+                    const addressResponse: AddressType = {
                         ...state,
                         ...resp.data.address,
                     };
+
+                    setInUseFormNewAddress(addressResponse);
+
+                    return addressResponse;
                 });
                 setHasEditeAddress(false);
-
-                const addressKeys: string[] = Object.keys(resp.data.address);
-                const addressValues: string[] = Object.values(resp.data.address);
-
-                addressKeys.forEach((_, index) => {
-                    setValue(addressKeys[index], addressValues[index]);
-                });
             });
 
             return;
@@ -60,7 +57,7 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
 
         axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((resp) => {
             setAddress((state) => {
-                return {
+                const addressResponse: AddressType = {
                     ...state,
                     city: resp.data.localidade || state.city,
                     complement: resp.data.complemento || state.complement,
@@ -68,9 +65,22 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
                     street: resp.data.logradouro || state.street,
                     uf: resp.data.uf || state.uf,
                 };
+
+                setInUseFormNewAddress(addressResponse);
+
+                return addressResponse;
             });
         });
     }, [cep]);
+
+    function setInUseFormNewAddress(addressResponse: AddressType) {
+        const addressKeys: string[] = Object.keys(addressResponse);
+        const addressValues: string[] = Object.values(addressResponse);
+
+        addressKeys.forEach((_, index) => {
+            setValue(addressKeys[index], addressValues[index]);
+        });
+    }
 
     function handleGetPayFormat(payForm: string) {
         setNewPayFormat(payForm);
