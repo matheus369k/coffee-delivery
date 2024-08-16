@@ -2,19 +2,15 @@ import { useFormContext } from 'react-hook-form';
 import { StyledAddressUser } from './styles';
 import { MapPin, Pencil } from '@phosphor-icons/react';
 import { Button } from '../../../components/button';
-import type { AddressUser } from './index';
+import type { AddressType } from './index';
 
 interface AddressUserProps {
     hasEditeAddress: boolean;
     handleHasEditeAddress: () => void;
-    addressUser: AddressUser;
+    address: AddressType;
 }
 
-export function AddressUser({
-    addressUser,
-    handleHasEditeAddress,
-    hasEditeAddress,
-}: AddressUserProps) {
+export function AddressUser({ address, handleHasEditeAddress, hasEditeAddress }: AddressUserProps) {
     const { register } = useFormContext();
 
     return (
@@ -42,42 +38,42 @@ export function AddressUser({
                         {...register('cep')}
                         autoSave="off"
                         type="number"
-                        defaultValue={addressUser.cep}
+                        defaultValue={address.cep}
                         className="cep"
                         placeholder="CEP"
                     />
                 ) : (
-                    <p className="cep">{addressUser.cep || '...'}</p>
+                    <p className="cep">{address.cep || '...'}</p>
                 )}
                 {hasEditeAddress ? (
                     <input
                         {...register('street')}
                         autoSave="off"
                         name="street"
-                        defaultValue={addressUser.street}
+                        defaultValue={address.street}
                         type="text"
                         className="street"
                         placeholder="Rua"
                     />
                 ) : (
-                    <p className="street">{addressUser.street || '...'}</p>
+                    <p className="street">{address.street || '...'}</p>
                 )}
                 {hasEditeAddress ? (
                     <input
                         {...register('number')}
-                        defaultValue={addressUser.number}
+                        defaultValue={address.number}
                         autoSave="off"
                         type="number"
                         className="number"
                         placeholder="Número"
                     />
                 ) : (
-                    <p className="number">{addressUser.number || '...'}</p>
+                    <p className="number">{address.number || '...'}</p>
                 )}
                 {hasEditeAddress ? (
                     <input
                         {...register('complement')}
-                        defaultValue={addressUser.complement || ''}
+                        defaultValue={address.complement || ''}
                         placeholder="Complemento"
                         name="complement"
                         className="complement"
@@ -85,13 +81,13 @@ export function AddressUser({
                         type="text"
                     />
                 ) : (
-                    <p className="complement">{addressUser.complement || '...'}</p>
+                    <p className="complement">{address.complement || '...'}</p>
                 )}
                 <label htmlFor="complement">Opcional</label>
                 {hasEditeAddress ? (
                     <input
                         {...register('neighborhood')}
-                        defaultValue={addressUser.neighborhood}
+                        defaultValue={address.neighborhood}
                         autoSave="off"
                         name="neighborhood"
                         type="text"
@@ -99,12 +95,12 @@ export function AddressUser({
                         placeholder="Bairro"
                     />
                 ) : (
-                    <p className="neighborhood">{addressUser.neighborhood || '...'}</p>
+                    <p className="neighborhood">{address.neighborhood || '...'}</p>
                 )}
                 {hasEditeAddress ? (
                     <input
                         {...register('city')}
-                        defaultValue={addressUser.city}
+                        defaultValue={address.city}
                         autoSave="off"
                         name="city"
                         type="text"
@@ -112,12 +108,12 @@ export function AddressUser({
                         placeholder="Cidade"
                     />
                 ) : (
-                    <p className="city">{addressUser.city || '...'}</p>
+                    <p className="city">{address.city || '...'}</p>
                 )}
                 {hasEditeAddress ? (
                     <input
                         {...register('uf')}
-                        defaultValue={addressUser.uf}
+                        defaultValue={address.uf}
                         autoSave="off"
                         name="uf"
                         type="text"
@@ -125,7 +121,7 @@ export function AddressUser({
                         placeholder="UF"
                     />
                 ) : (
-                    <p className="uf">{addressUser.uf || '...'}</p>
+                    <p className="uf">{address.uf || '...'}</p>
                 )}
             </div>
         </StyledAddressUser>

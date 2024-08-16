@@ -23,6 +23,7 @@ interface CoffeeDatasType {
     id: string;
     name: string;
     tags: string[];
+    slugs: string[];
     image: string;
     description: string;
     price: string;
@@ -35,7 +36,7 @@ interface TotalPriceType {
 }
 
 const FormUserZodSchema = z.object({
-    cep: z.coerce.number().min(8),
+    cep: z.string().min(8),
     street: z.string().min(4),
     number: z.coerce.number().min(1),
     complement: z.string().min(4) || z.null(),
@@ -129,28 +130,28 @@ export function Checkout() {
 
         setIsLoading(true);
 
-        let userId = window.localStorage.getItem('registerId');
+        let addressId = window.localStorage.getItem('addressId');
 
-        if (!userId) {
+        if (!addressId) {
             await api.post('/user/register', { ...address }).then((response) => {
-                userId = response.data.addressUserId;
+                addressId = response.data.addressId;
 
-                if (typeof userId !== 'string') {
+                if (typeof addressId !== 'string') {
                     return;
                 }
 
-                window.localStorage.setItem('registerId', userId);
+                window.localStorage.setItem('addressId', addressId);
             });
         }
 
-        if (window.localStorage.editeAddress) {
-            await api.put(`/user/${userId}`, { ...address });
+        if (window.sessionStorage.editeAddress) {
+            await api.put(`/user/${addressId}`, { ...address });
 
-            window.localStorage.removeItem('editeAddress');
+            window.sessionStorage.removeItem('editeAddress');
         }
 
         await api
-            .post(`/shopping/${userId}`, {
+            .post(`/shopping/${addressId}`, {
                 coffees_list: [
                     ...buyCoffeeDatas.map((buyCoffeeData) => {
                         return {
@@ -164,9 +165,9 @@ export function Checkout() {
                 form_of_payment: payFormat,
             })
             .then((response) => {
-                const shoppingCoffeeListId: string = response.data.shoppingCoffeeListId;
+                const shoppingId: string = response.data.shoppingId;
 
-                window.localStorage.setItem('shoppingCoffeeListId', shoppingCoffeeListId);
+                window.localStorage.setItem('shoppingId', shoppingId);
             });
 
         removeCountsProductsContext();

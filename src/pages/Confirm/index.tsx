@@ -16,7 +16,7 @@ interface AddressType {
 }
 
 interface DatasUserType {
-    AddressUser: AddressType;
+    addresses: AddressType;
     form_of_payment: string;
 }
 
@@ -24,8 +24,8 @@ export function Confirm() {
     const [dataUser, setDataUser] = useState<DatasUserType | null>(null);
 
     useEffect(() => {
-        api.get(`/shopping/${window.localStorage.shoppingCoffeeListId}`).then((response) => {
-            setDataUser(response.data.shoppingCoffeeList);
+        api.get(`/shopping/${window.localStorage.shoppingId}`).then((response) => {
+            setDataUser(response.data.shopping);
         });
     }, []);
 
@@ -49,11 +49,11 @@ export function Confirm() {
                         <p>
                             Entrega em{' '}
                             <span>
-                                Rua {dataUser.AddressUser.street}, {dataUser.AddressUser.number}
+                                Rua {dataUser.addresses.street}, {dataUser.addresses.number}
                             </span>{' '}
                             <br />
-                            {dataUser.AddressUser.neighborhood} - {dataUser.AddressUser.city},{' '}
-                            {dataUser.AddressUser.uf}
+                            {dataUser.addresses.neighborhood} - {dataUser.addresses.city},{' '}
+                            {dataUser.addresses.uf}
                         </p>
                     </li>
 

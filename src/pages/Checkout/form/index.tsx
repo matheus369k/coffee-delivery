@@ -7,7 +7,7 @@ import { api } from '@/lib/api';
 import { PayFormat } from './pay-format';
 import { AddressUser } from './address-user';
 
-export interface AddressUser {
+export interface AddressType {
     cep?: string;
     street: string;
     complement: string | null;
@@ -22,7 +22,7 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
     const { watch, setValue } = useFormContext();
     const cep: string = watch('cep') || '';
 
-    const [addressUser, setAddressUser] = useState<AddressUser>({
+    const [address, setAddress] = useState<AddressType>({
         city: '',
         complement: '',
         neighborhood: '',
@@ -31,24 +31,24 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
     });
 
     useEffect(() => {
-        const registerId = window.localStorage.getItem('registerId');
+        const addressId = window.localStorage.getItem('addressId');
 
-        if (!cep && !(cep.length >= 5) && !registerId) {
+        if (!cep && !(cep.length >= 5) && !addressId) {
             return;
         }
 
-        if (registerId && !cep) {
-            api.get(`/user/${registerId}`).then((resp) => {
-                setAddressUser((state) => {
+        if (addressId && !cep) {
+            api.get(`/user/${addressId}`).then((resp) => {
+                setAddress((state) => {
                     return {
                         ...state,
-                        ...resp.data.addressUser,
+                        ...resp.data.address,
                     };
                 });
                 setHasEditeAddress(false);
 
-                const addressKeys: string[] = Object.keys(resp.data.addressUser);
-                const addressValues: string[] = Object.values(resp.data.addressUser);
+                const addressKeys: string[] = Object.keys(resp.data.address);
+                const addressValues: string[] = Object.values(resp.data.address);
 
                 addressKeys.forEach((_, index) => {
                     setValue(addressKeys[index], addressValues[index]);
@@ -59,7 +59,7 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
         }
 
         axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((resp) => {
-            setAddressUser((state) => {
+            setAddress((state) => {
                 return {
                     ...state,
                     city: resp.data.localidade || state.city,
@@ -79,14 +79,14 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
     function handleHasEditeAddress() {
         setHasEditeAddress(true);
 
-        window.localStorage.setItem('editeAddress', 'true');
+        window.sessionStorage.setItem('editeAddress', 'true');
     }
 
     return (
         <StylesDatasUser>
             <h3>Complete seu pedido</h3>
             <AddressUser
-                addressUser={addressUser}
+                address={address}
                 handleHasEditeAddress={handleHasEditeAddress}
                 hasEditeAddress={hasEditeAddress}
             />

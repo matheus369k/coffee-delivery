@@ -22,22 +22,23 @@ export function Header() {
     function handleBackToHomePage() {
         navigate('/coffee-delivery');
     }
+
     const pathName = window.location.pathname;
     const isNotHomePage = !(pathName.includes('/checkout') || pathName.includes('/confirm'));
 
     useEffect(() => {
-        const userId = window.localStorage.getItem('registerId');
+        const addressId = window.localStorage.getItem('addressId');
 
-        if (!userId) {
+        if (!addressId) {
             return;
         }
 
-        api.get(`/location/${userId}`).then((response) => {
+        api.get(`/location/${addressId}`).then((response) => {
             const locationUser: UserLocationType = response.data.userLocation;
 
             setLocation(`${locationUser.city}, ${locationUser.uf}`);
         });
-    }, []);
+    }, [pathName]);
 
     return (
         <StyledHeader>

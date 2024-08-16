@@ -47,6 +47,7 @@ export function Home() {
 
     function handleSetQueryFilter(filter: string) {
         setResponseStatus('loading');
+
         setQuery(filter);
     }
 
