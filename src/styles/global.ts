@@ -53,4 +53,10 @@ export const GlobalStyle = createGlobalStyle`
         color: ${(props) => props.theme['base-title']};
         font-family: ${(props) => props.theme['title-font']}, sans-serif;
     }
+
+     @media (max-width: 769px) {
+        html {
+            font-size: 87.5%;
+        }
+     }
 `;

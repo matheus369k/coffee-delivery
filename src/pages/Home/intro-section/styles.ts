@@ -103,4 +103,29 @@ export const StyledIntroSection = styled.div`
         width: 29.75rem;
         height: 22.5rem;
     }
+
+    @media (max-width: 1124px) {
+        flex-direction: column-reverse;
+        align-items: center;
+
+        padding: 3.375rem;
+
+        h1,
+        span {
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 549px) {
+        padding: 0 1rem;
+
+        ul {
+            grid-template-columns: min-content;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
 `;

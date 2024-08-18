@@ -12,7 +12,7 @@ const scroll_hidden = keyframes`
 `;
 
 export const StyledShop = styled.div`
-    min-height: 25rem;
+    min-height: 20rem;
     display: flex;
     flex-direction: column;
 
@@ -51,6 +51,7 @@ export const StyledShop = styled.div`
 
 export const StyledShopList = styled.ul`
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 
     gap: 3rem 2rem;
@@ -217,6 +218,20 @@ export const StyledShopList = styled.ul`
                         fill: ${(props) => props.theme['base-card']};
                     }
                 }
+            }
+        }
+    }
+
+    @media (max-width: 549px) {
+        gap: 3rem 0.5rem;
+
+        li {
+            p {
+                margin-bottom: 1rem;
+            }
+
+            form {
+                gap: 0.25rem;
             }
         }
     }

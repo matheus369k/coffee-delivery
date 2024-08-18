@@ -65,4 +65,23 @@ export const StyledShopFilter = styled.div`
             }
         }
     }
+
+    @media (max-width: 1124px) {
+        padding: 0 3.375rem;
+    }
+
+    @media (max-width: 993px) {
+        flex-direction: column;
+
+        gap: 2rem;
+    }
+
+    @media (max-width: 549px) {
+        padding: 0 1rem;
+
+        ul {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
 `;
