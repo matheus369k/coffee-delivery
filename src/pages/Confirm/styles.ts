@@ -135,4 +135,25 @@ export const StyledConfirmMain = styled.main`
             animation: ${initial_loading} 1s forwards;
         }
     }
+
+    @media (max-width: 1124px) {
+        padding: 1rem;
+    }
+
+    @media (max-width: 969px) {
+        div {
+            display: block;
+            text-align: center;
+
+            ul {
+                margin-bottom: 2rem;
+            }
+        }
+    }
+
+    @media (max-width: 549px) {
+        div > img {
+            width: 20rem;
+        }
+    }
 `;
