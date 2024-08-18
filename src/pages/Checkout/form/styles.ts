@@ -137,6 +137,21 @@ export const StyledAddressUser = styled.div`
             z-index: 2;
         }
     }
+
+    @media (max-width: 569px) {
+        padding: 1rem;
+
+        div:last-of-type {
+            grid-template-columns: 1fr 2fr 3.75rem;
+            grid-template-areas:
+                'cep cep cep'
+                'street street street'
+                'number number number'
+                'complement complement complement'
+                'neighborhood neighborhood neighborhood'
+                'city city uf';
+        }
+    }
 `;
 
 export const StylesPayFormat = styled.div`
@@ -224,6 +239,20 @@ export const StylesPayFormat = styled.div`
                 font-size: 0.75rem;
 
                 color: ${(props) => props.theme['base-text']};
+            }
+        }
+    }
+
+    @media (max-width: 569px) {
+        padding: 1rem;
+
+        & > ul {
+            flex-direction: column;
+
+            gap: 1rem;
+
+            li {
+                justify-content: center;
             }
         }
     }

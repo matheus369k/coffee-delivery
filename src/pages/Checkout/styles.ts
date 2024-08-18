@@ -13,6 +13,17 @@ export const StylesForm = styled.form`
 
         margin-bottom: 1rem;
     }
+
+    @media (max-width: 1124px) {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+
+        padding: 0 3.375rem;
+    }
+
+    @media (max-width: 769px) {
+        padding: 0 1rem;
+    }
 `;
 
 export const StylesListCoffee = styled.div`
@@ -217,6 +228,13 @@ export const StylesListCoffee = styled.div`
 
             background: ${(props) => props.theme.yellow};
             color: ${(props) => props.theme.white};
+        }
+    }
+
+    @media (max-width: 569px) {
+        & > ul,
+        & > div {
+            padding: 1rem;
         }
     }
 `;
