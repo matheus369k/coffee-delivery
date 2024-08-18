@@ -1,32 +1,52 @@
-# React + TypeScript + Vite
+<h1 align='center' >
+  💻Coffee Delivery
+</h1>
+<div align='center'>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  [Ferramentas](#ferramentas)
+  |
+  [Projeto](#projetos)
+  |
+  [Designer](#designer)
+  |
+  [Licença](#licença)
 
-Currently, two official plugins are available:
+</div>
 
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<div align='center'>
+  <img src='https://img.shields.io/github/license/matheus369k/coffee-delivery.svg'/>
+  <img src='https://img.shields.io/github/watchers/matheus369k/coffee-delivery.svg' />
+</div>
 
-## Expanding the ESLint configuration
+<div align='center'>
+  <img src='public/coffee-delivery-projetc-view.gif'/>
+</div>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🧰Ferramentas
 
--   Configure the top-level `parserOptions` property like this:
+Para desenvolver o projeto, recorri às seguintes ferramentas:
 
-```js
-export default {
-    // other rules...
-    parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: ['./tsconfig.json', './tsconfig.node.json'],
-        tsconfigRootDir: __dirname,
-    },
-};
-```
+- react + vite
+- styled-components 
+- react-router-dom
+- typescript
+- axios
+- zod
+- jest
+- test-library
 
--   Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
--   Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
--   Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 💻Projeto
 
-# coffee-delivery
+O projeto é uma site para vendas de café, com diferentes formas de preparo. A compra e feita no site, e enviada direto para o cliente sem precisar sair de casa.
+
+Acesse o site Coffee Delivery clique 🔗[aqui](https://matheus369k.github.io/coffee-delivery/).
+
+O site foi promovido com desafio final do modulo 2, do curso de react na 🔗[RocketSeat](https://app.rocketseat.com.br/), tendo sido aprimorado por min.
+
+## 🎨Designer
+
+O designer foi entregue ao final do modulo. Para poder acessar o figma do projeto clique 🔗[aqui](https://www.figma.com/design/5yT9ZzZmRQRS4yivGGB3pl/Coffee-Delivery-%E2%80%A2-Desafio-React/duplicate) 
+
+## 📜Licença
+
+A linceça usado foi MIT, acesse 🔗[aqui](/LICENSE.txt)
