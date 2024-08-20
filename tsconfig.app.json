@@ -23,6 +23,7 @@
         "jsx": "react-jsx",
         /* Linting */
         "strict": true,
+        "esModuleInterop": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
@@ -49,8 +50,9 @@
     "include": [
         "src",
         ".eslintrc",
-        "jest.config.mts",
         ".prettierrc",
-        "vite.config.ts"
+        "vite.config.ts",
+        "jest.config.json",
+        "__tests__",
     ]
 }
