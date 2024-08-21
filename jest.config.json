@@ -1,6 +1,22 @@
 {
+    "preset": "ts-jest",
     "transform": {
-        "^.+\\.(ts|tsx)$": "babel-jest"
+        "^.+\\.(ts|tsx|js|jsx)$": "ts-jest",
+        "\\.(jpg|jpeg|png|gif|webp|svg)$": "jest-transform-stub"
     },
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+        "^@pages/(.*)$": "<rootDir>/src/pages/$1",
+        "^@components/(.*)$": "<rootDir>/src/components/$1",
+        "^@assets/(.*)$": "<rootDir>/src/assets/$1",
+        "^@styles/(.*)$": "<rootDir>/src/styles/$1",
+        "^@/(.*)$": "<rootDir>/src/$1",
+
+        "\\.(jpg|jpeg|png|gif|webp|svg)$": "jest-transform-stub"
+    },
+    "globals": {
+        "ts-jest": {
+            "tsconfig": "tsconfig.app.json"
+        }
+    }
 }

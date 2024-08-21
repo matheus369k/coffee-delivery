@@ -30,9 +30,6 @@
         /*alias*/
         "baseUrl": "./",
         "paths": {
-            "@/*": [
-                "src/*"
-            ],
             "@pages/*": [
                 "src/pages/*"
             ],
@@ -44,6 +41,9 @@
             ],
             "@styles/*": [
                 "src/styles/*"
+            ],
+            "@/*": [
+                "src/*"
             ]
         },
     },

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
-import { Confirm } from '../../src/pages/Confirm';
 import '@testing-library/jest-dom';
+import { Confirm } from '../../src/pages/Confirm';
 
 describe('Home', () => {
     test('Rendering Component', () => {
