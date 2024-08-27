@@ -1,10 +1,10 @@
 import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vite';
 import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    plugins: [react()],
     resolve: {
         alias: {
             '@pages': path.resolve(__dirname, './src/pages'),
@@ -14,6 +14,5 @@ export default defineConfig({
             '@': path.resolve(__dirname, './src'),
         },
     },
-    plugins: [react(), tsconfigPaths()],
     base: '/coffee-delivery',
 });

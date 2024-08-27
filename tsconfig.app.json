@@ -30,6 +30,9 @@
         /*alias*/
         "baseUrl": "./",
         "paths": {
+            "@/*": [
+                "src/*"
+            ],
             "@pages/*": [
                 "src/pages/*"
             ],
@@ -41,9 +44,6 @@
             ],
             "@styles/*": [
                 "src/styles/*"
-            ],
-            "@/*": [
-                "src/*"
             ]
         },
     },
@@ -53,6 +53,7 @@
         ".prettierrc",
         "vite.config.ts",
         "jest.config.json",
-        "__tests__",
+        "jest.setup.mts",
+        "_tests_",
     ]
 }

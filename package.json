@@ -9,12 +9,12 @@
         "postinstall": "npm prune",
         "build": "tsc -b && vite build",
         "lint:src": "eslint src --ext ts,tsx, --fix",
-        "lint:test": "eslint __tests__ --ext ts,tsx, --fix",
+        "lint:test": "eslint _tests_ --ext ts,tsx, --fix",
         "lint": "npm run lint:src && npm run lint:test",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist",
         "preview": "vite preview",
-        "test": "jest"
+        "test": "jest --detectOpenHandles"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
@@ -46,8 +46,6 @@
         "@typescript-eslint/eslint-plugin": "^7.15.0",
         "@typescript-eslint/parser": "^7.15.0",
         "@vitejs/plugin-react": "^4.3.1",
-        "babel-jest": "^29.7.0",
-        "babel-plugin-module-resolver": "^5.0.2",
         "eslint": "^8.57.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.1.3",
