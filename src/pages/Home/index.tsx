@@ -1,49 +1,14 @@
 import { StyledShop, StyledShopList } from './styles';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IntroSection } from './intro-section';
 import { CoffeeCard } from './coffee-card';
-import { api } from '@/lib/api';
 import { ShoppingFilter } from './shopping-filter';
-import { Button } from '@/components/button';
-
-interface coffeeDatasType {
-    id: string;
-    name: string;
-    slugs: string[];
-    tags: string[];
-    image: string;
-    description: string;
-    price: string;
-}
-
-type ResponseStatusType = 'loading' | 'complete' | 'error' | 'not-found';
+import { Button } from '@components/button';
+import { GetCoffees } from './hooks/get-coffees';
 
 export function Home() {
-    const [coffeeDatas, setCoffeeDatas] = useState<coffeeDatasType[]>([]);
-    const [responseStatus, setResponseStatus] = useState<ResponseStatusType>('loading');
     const [query, setQuery] = useState('');
-
-    useEffect(() => {
-        api.get(`/coffees/${query}`)
-            .then((response) => {
-                const data: coffeeDatasType[] | undefined = response.data['coffees'];
-
-                if (!data) {
-                    throw new Error('data not found');
-                }
-
-                setCoffeeDatas(data);
-
-                if (data.length === 0) {
-                    return setResponseStatus('not-found');
-                }
-
-                setResponseStatus('complete');
-            })
-            .catch(() => {
-                setResponseStatus('error');
-            });
-    }, [query]);
+    const { coffeeDatas, responseStatus, setResponseStatus } = GetCoffees({ query });
 
     function handleSetQueryFilter(filter: string) {
         setResponseStatus('loading');
