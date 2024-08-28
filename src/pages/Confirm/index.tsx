@@ -1,7 +1,7 @@
 import { CurrencyDollar, MapPin, Timer } from '@phosphor-icons/react';
 import illustration from '@assets/Illustration.png';
 import { StyledConfirmMain } from './styles';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 
 interface AddressType {
@@ -24,9 +24,11 @@ export function Confirm() {
     const [dataUser, setDataUser] = useState<DatasUserType | null>(null);
 
     useEffect(() => {
-        api.get(`/shopping/${window.localStorage.shoppingId}`).then((response) => {
-            setDataUser(response.data.shopping);
-        });
+        api.get(`/shopping/${window.localStorage.shoppingId}`).then(
+            (response: { data: { shopping: SetStateAction<DatasUserType | null> } }) => {
+                setDataUser(response.data.shopping);
+            },
+        );
     }, []);
 
     if (!dataUser) {
