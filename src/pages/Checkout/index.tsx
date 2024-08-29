@@ -1,17 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { StylesListCoffee, StylesForm, StyledEmptyCart } from './styles';
+import { StylesListCoffee, StylesForm } from './styles';
 import { FormUser } from './form/index';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { CountProductsContext } from '../../contexts/context-count-products';
 import { CardBuyCoffee } from './card-buy-coffee';
-import { Package } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router';
-import { api } from '@/lib/api';
+import { PricesTotal } from './total-prices';
+import { Loading } from './loading';
+import { GetCoffees } from './service/get-coffees';
+import { PostShopping } from './service/post-shopping';
+import { RegisterAddress } from './service/register-address';
+import { UpdateAddress } from './service/update-address';
 
-interface BuyCoffeeDatasType {
+export interface BuyCoffeeDatasType {
     id: string;
     name: string;
     image: string;
@@ -19,7 +23,7 @@ interface BuyCoffeeDatasType {
     count: number;
 }
 
-interface CoffeeDatasType {
+export interface CoffeeDatasType {
     id: string;
     name: string;
     tags: string[];
@@ -29,7 +33,7 @@ interface CoffeeDatasType {
     price: string;
 }
 
-interface TotalPriceType {
+export interface TotalPriceType {
     Products: string;
     taxa: string;
     priceEnd: string;
@@ -45,7 +49,7 @@ const FormUserZodSchema = z.object({
     uf: z.string().min(2),
 });
 
-type FormUseType = z.infer<typeof FormUserZodSchema>;
+export type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
     const { countProducts, removeCountsProductsContext } = useContext(CountProductsContext);
@@ -54,9 +58,10 @@ export function Checkout() {
         resolver: zodResolver(FormUserZodSchema),
     });
 
+    const { buyCoffeeDatas } = GetCoffees({ buyPriceTotal, countProducts });
+
     const { handleSubmit } = hookForm;
 
-    const [buyCoffeeDatas, setBuyCoffeeDatas] = useState<BuyCoffeeDatasType[]>([]);
     const [payFormat, setPayFormat] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
@@ -64,40 +69,6 @@ export function Checkout() {
         Products: '0.00',
         taxa: '3.50',
     });
-
-    useEffect(() => {
-        if (!countProducts) {
-            return;
-        }
-
-        api.get('/coffees').then((response) => {
-            const coffeeDatas: CoffeeDatasType[] = response.data['coffees'];
-
-            const createCoffeeBuyObject: BuyCoffeeDatasType[] = [];
-
-            for (const count of countProducts) {
-                for (const coffee of coffeeDatas) {
-                    if (coffee.id === count.id) {
-                        const total = (
-                            count.count * parseFloat(coffee.price.replace(',', '.'))
-                        ).toFixed(2);
-
-                        createCoffeeBuyObject.push({
-                            id: coffee.id,
-                            name: coffee.name,
-                            image: coffee.image,
-                            total_price: total,
-                            count: count.count,
-                        });
-                    }
-                }
-            }
-
-            setBuyCoffeeDatas(createCoffeeBuyObject);
-
-            buyPriceTotal(createCoffeeBuyObject);
-        });
-    }, [countProducts]);
 
     function buyPriceTotal(buyCoffeeProp: BuyCoffeeDatasType[]) {
         let calcTotalPrice: number = 0;
@@ -120,70 +91,46 @@ export function Checkout() {
     }
 
     async function handleFormUser(address: FormUseType) {
-        if (!removeCountsProductsContext) {
-            return;
-        }
-
-        if (!payFormat) {
-            return;
-        }
+        if (!removeCountsProductsContext) return;
+        if (!payFormat) return;
 
         setIsLoading(true);
 
         let addressId = window.localStorage.getItem('addressId');
 
         if (!addressId) {
-            await api.post('/user/register', { ...address }).then((response) => {
-                addressId = response.data.addressId;
-
-                if (typeof addressId !== 'string') {
-                    return;
-                }
-
-                window.localStorage.setItem('addressId', addressId);
+            const newAddressId = await RegisterAddress({
+                address,
             });
+
+            if (!newAddressId) {
+                return;
+            }
+
+            addressId = newAddressId;
         }
 
         if (window.sessionStorage.editeAddress) {
-            await api.put(`/user/${addressId}`, { ...address });
-
-            window.sessionStorage.removeItem('editeAddress');
+            await UpdateAddress({
+                address,
+                addressId,
+            });
         }
 
-        await api
-            .post(`/shopping/${addressId}`, {
-                coffees_list: [
-                    ...buyCoffeeDatas.map((buyCoffeeData) => {
-                        return {
-                            name: buyCoffeeData.name,
-                            image: buyCoffeeData.image,
-                            total_price: buyCoffeeData.total_price,
-                            count: buyCoffeeData.count,
-                        };
-                    }),
-                ],
-                form_of_payment: payFormat,
-            })
-            .then((response) => {
-                const shoppingId: string = response.data.shoppingId;
-
-                window.localStorage.setItem('shoppingId', shoppingId);
-            });
+        await PostShopping({
+            addressId,
+            buyCoffeeDatas,
+            payFormat,
+        });
 
         removeCountsProductsContext();
-
         setIsLoading(false);
 
         navigate('/coffee-delivery/confirm');
     }
 
     if (!countProducts || countProducts.length === 0) {
-        return (
-            <StyledEmptyCart>
-                <Package size={220} weight="light" />
-                <p>Adicione produtos ao carrinho!</p>
-            </StyledEmptyCart>
-        );
+        return <Loading />;
     }
 
     return (
@@ -209,23 +156,7 @@ export function Checkout() {
                             <p>Carregando...</p>
                         )}
                     </ul>
-                    <div>
-                        <p>
-                            <span>Total de itens</span>
-                            <span>R$ {priceTotal.Products}</span>
-                        </p>
-                        <p>
-                            <span>Entrega</span>
-                            <span>R$ {priceTotal.taxa}</span>
-                        </p>
-                        <p>
-                            <span>Total</span>
-                            <span>R$ {priceTotal.priceEnd}</span>
-                        </p>
-                        <button type="submit">
-                            {isLoading ? 'Carregando...' : 'confirmar pedido'}
-                        </button>
-                    </div>
+                    <PricesTotal isLoading={isLoading} priceTotal={priceTotal} />
                 </StylesListCoffee>
             </StylesForm>
         </main>

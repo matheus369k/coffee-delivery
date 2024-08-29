@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { StylesDatasUser } from './styles';
 import { useFormContext } from 'react-hook-form';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
 import { PayFormat } from './pay-format';
 import { AddressUser } from './address-user';
+import { GetAddressViaCep } from './auto-complete/get-viacep';
+import { GetUserAddress } from './auto-complete/get-user-address';
 
 export interface AddressType {
     cep?: string;
@@ -38,11 +38,11 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
         }
 
         if (addressId && !cep) {
-            api.get(`/user/${addressId}`).then((resp) => {
+            /* api.get(`/user/${addressId}`).then((response) => {
                 setAddress((state) => {
                     const addressResponse: AddressType = {
                         ...state,
-                        ...resp.data.address,
+                        ...response.data.address,
                     };
 
                     setInUseFormNewAddress(addressResponse);
@@ -50,27 +50,38 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
                     return addressResponse;
                 });
                 setHasEditeAddress(false);
-            });
+            }); */
 
+            GetUserAddress({
+                addressId,
+                setAddress,
+                handleDisabledEditeAddress,
+                setInUseFormNewAddress,
+            });
             return;
         }
 
-        axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((resp) => {
+        GetAddressViaCep({
+            cep,
+            setAddress,
+            setInUseFormNewAddress,
+        });
+        /* axios.get(`https://viacep.com.br/ws/${cep}/json/`).then((response) => {
             setAddress((state) => {
                 const addressResponse: AddressType = {
                     ...state,
-                    city: resp.data.localidade || state.city,
-                    complement: resp.data.complemento || state.complement,
-                    neighborhood: resp.data.bairro || state.neighborhood,
-                    street: resp.data.logradouro || state.street,
-                    uf: resp.data.uf || state.uf,
+                    city: response.data.localidade || state.city,
+                    complement: response.data.complemento || state.complement,
+                    neighborhood: response.data.bairro || state.neighborhood,
+                    street: response.data.logradouro || state.street,
+                    uf: response.data.uf || state.uf,
                 };
 
                 setInUseFormNewAddress(addressResponse);
 
                 return addressResponse;
             });
-        });
+        }); */
     }, [cep]);
 
     function setInUseFormNewAddress(addressResponse: AddressType) {
@@ -80,6 +91,10 @@ export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: str
         addressKeys.forEach((_, index) => {
             setValue(addressKeys[index], addressValues[index]);
         });
+    }
+
+    function handleDisabledEditeAddress() {
+        setHasEditeAddress(false);
     }
 
     function handleGetPayFormat(payForm: string) {
