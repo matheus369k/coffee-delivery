@@ -1,10 +1,10 @@
 import { StyledShop, StyledShopList } from './styles';
 import { useState } from 'react';
-import { IntroSection } from './intro-section';
-import { CoffeeCard } from './coffee-card';
-import { ShoppingFilter } from './shopping-filter';
+import { IntroSection } from './components/intro-section';
+import { CoffeeCard } from './components/coffee-card';
+import { ShoppingFilter } from './components/shopping-filter';
 import { Button } from '@components/button';
-import { GetCoffees } from './hooks/get-coffees';
+import { GetCoffees } from './service/get-coffees';
 
 export function Home() {
     const [query, setQuery] = useState('');

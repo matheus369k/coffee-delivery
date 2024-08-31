@@ -4,7 +4,7 @@ import { StyledConfirmMain } from './styles';
 import { SetStateAction, useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 
-interface AddressType {
+export interface AddressType {
     id: string;
     cep: number;
     street: string;
@@ -15,7 +15,7 @@ interface AddressType {
     uf: string;
 }
 
-interface DatasUserType {
+export interface DatasUserType {
     addresses: AddressType;
     form_of_payment: string;
 }

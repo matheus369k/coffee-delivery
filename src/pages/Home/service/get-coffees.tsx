@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../../lib/api';
 
-interface coffeeDatasType {
+export interface coffeeDatasType {
     id: string;
     name: string;
     slugs: string[];
@@ -11,9 +11,9 @@ interface coffeeDatasType {
     price: string;
 }
 
-type ResponseStatusType = 'loading' | 'complete' | 'error' | 'not-found';
+export type ResponseStatusType = 'loading' | 'complete' | 'error' | 'not-found';
 
-interface GetCoffeesPropsType {
+export interface GetCoffeesPropsType {
     query: string;
 }
 
