@@ -1,22 +1,14 @@
 import { fireEvent, screen } from '@testing-library/dom';
 import { Home } from '../../../src/pages/Home';
-import { GetCoffees } from '../../../src/pages/Home/hooks/get-coffees';
+import {
+    coffeeDatasType,
+    GetCoffees,
+    ResponseStatusType,
+} from '../../../src/pages/Home/service/get-coffees';
 import { render } from '@testing-library/react';
 import React from 'react';
 
-interface coffeeDatasType {
-    id: string;
-    name: string;
-    slugs: string[];
-    tags: string[];
-    image: string;
-    description: string;
-    price: string;
-}
-
-type ResponseStatusType = 'loading' | 'complete' | 'error' | 'not-found';
-
-jest.mock('../../../src/pages/Home/hooks/get-coffees');
+jest.mock('../../../src/pages/Home/service/get-coffees');
 
 const mockSetResponseStatus = jest.fn();
 const mockedGetCoffees = jest.mocked(GetCoffees as typeof GetCoffees);

@@ -1,22 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { GetCoffees } from '../../../src/pages/Home/hooks/get-coffees';
-/* 
-import axios from 'axios'; */
-
-interface coffeeDatasType {
-    id: string;
-    name: string;
-    slugs: string[];
-    tags: string[];
-    image: string;
-    description: string;
-    price: string;
-}
-
-interface GetCoffeesPropsType {
-    query: string;
-}
+import {
+    coffeeDatasType,
+    GetCoffees,
+    GetCoffeesPropsType,
+} from '../../../src/pages/Home/service/get-coffees';
 
 const mockRequestUrl = jest.fn();
 const mockSetStateStatus = jest.fn();
@@ -70,7 +58,7 @@ const { query }: GetCoffeesPropsType = {
     query: '',
 };
 
-describe('Hook get coffees', () => {
+describe('Get coffees', () => {
     beforeEach(() => {
         jest.spyOn(React, 'useState')
             .mockImplementationOnce(() => [[], mockSetStateCoffeesDatas])

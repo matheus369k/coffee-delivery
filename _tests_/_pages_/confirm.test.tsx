@@ -1,22 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { Confirm } from '../../src/pages/Confirm';
+import { Confirm, DatasUserType } from '../../src/pages/Confirm';
 import React from 'react';
-
-interface AddressType {
-    id: string;
-    cep: number;
-    street: string;
-    number: number;
-    complement: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-}
-
-interface DatasUserType {
-    addresses: AddressType;
-    form_of_payment: string;
-}
 
 const mockRequestUrl = jest.fn();
 const ReturnResponseShoppingDatas = jest.fn();
