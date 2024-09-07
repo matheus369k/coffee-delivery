@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { StylesListCoffee, StylesForm } from './styles';
-import { FormUser } from './form/index';
+import { FormUser } from './components/form/index';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useContext, useState } from 'react';
 import { CountProductsContext } from '../../contexts/context-count-products';
-import { CardBuyCoffee } from './card-buy-coffee';
+import { CardBuyCoffee } from './components/card-buy-coffee';
 import { useNavigate } from 'react-router';
-import { PricesTotal } from './total-prices';
-import { Loading } from './loading';
+import { PricesTotal } from './components/total-prices';
+import { Loading } from './components/loading';
 import { GetCoffees } from './service/get-coffees';
 import { PostShopping } from './service/post-shopping';
 import { RegisterAddress } from './service/register-address';
@@ -58,10 +58,6 @@ export function Checkout() {
         resolver: zodResolver(FormUserZodSchema),
     });
 
-    const { buyCoffeeDatas } = GetCoffees({ buyPriceTotal, countProducts });
-
-    const { handleSubmit } = hookForm;
-
     const [payFormat, setPayFormat] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
@@ -69,6 +65,10 @@ export function Checkout() {
         Products: '0.00',
         taxa: '3.50',
     });
+
+    const { buyCoffeeDatas } = GetCoffees({ buyPriceTotal, countProducts });
+
+    const { handleSubmit } = hookForm;
 
     function buyPriceTotal(buyCoffeeProp: BuyCoffeeDatasType[]) {
         let calcTotalPrice: number = 0;
@@ -99,9 +99,7 @@ export function Checkout() {
         let addressId = window.localStorage.getItem('addressId');
 
         if (!addressId) {
-            const newAddressId = await RegisterAddress({
-                address,
-            });
+            const newAddressId = await RegisterAddress({ address });
 
             if (!newAddressId) {
                 return;
@@ -111,22 +109,15 @@ export function Checkout() {
         }
 
         if (window.sessionStorage.editeAddress) {
-            await UpdateAddress({
-                address,
-                addressId,
-            });
+            await UpdateAddress({ address, addressId });
         }
 
-        await PostShopping({
-            addressId,
-            buyCoffeeDatas,
-            payFormat,
+        await PostShopping({ addressId, buyCoffeeDatas, payFormat }).then(() => {
+            setIsLoading(false);
+            removeCountsProductsContext();
+
+            navigate('/coffee-delivery/confirm');
         });
-
-        removeCountsProductsContext();
-        setIsLoading(false);
-
-        navigate('/coffee-delivery/confirm');
     }
 
     if (!countProducts || countProducts.length === 0) {
