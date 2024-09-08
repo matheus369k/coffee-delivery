@@ -28,23 +28,23 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         /*alias*/
-        "baseUrl": "./",
+        "baseUrl": ".",
         "paths": {
-            "@/*": [
-                "src/*"
-            ],
             "@pages/*": [
-                "src/pages/*"
+                "./src/pages/*"
             ],
             "@components/*": [
-                "src/components/*"
+                "./src/components/*"
             ],
             "@assets/*": [
-                "src/assets/*"
+                "./src/assets/*"
             ],
             "@styles/*": [
-                "src/styles/*"
-            ]
+                "./src/styles/*"
+            ],
+            "@/*": [
+                "./src/*"
+            ],
         },
     },
     "include": [
@@ -55,5 +55,6 @@
         "jest.config.json",
         "jest.setup.mts",
         "_tests_",
-    ]
+    ],
+    "exclude": ["node_modules", "dist"]
 }
