@@ -6,7 +6,7 @@ import { CountProductsContext } from '@/contexts/context-count-products';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/api';
 
-interface UserLocationType {
+export interface UserLocationType {
     city: string;
     uf: string;
 }
@@ -33,11 +33,13 @@ export function Header() {
             return;
         }
 
-        api.get(`/location/${addressId}`).then((response) => {
-            const locationUser: UserLocationType = response.data.userLocation;
+        api.get(`/location/${addressId}`).then(
+            (response: { data: { userLocation: UserLocationType } }) => {
+                const locationUser: UserLocationType = response.data.userLocation;
 
-            setLocation(`${locationUser.city}, ${locationUser.uf}`);
-        });
+                setLocation(`${locationUser.city}, ${locationUser.uf}`);
+            },
+        );
     }, [pathName]);
 
     return (
@@ -63,6 +65,7 @@ export function Header() {
                     onClick={handleRedirectToCheckoutPage}
                     data-count-products={countProducts ? countProducts.length : 0}
                     type="button"
+                    title="Cart"
                 >
                     <ShoppingCart size={22} weight="fill" />
                 </button>

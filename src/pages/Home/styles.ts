@@ -12,7 +12,6 @@ const scroll_hidden = keyframes`
 `;
 
 export const StyledShop = styled.div`
-    min-height: 20rem;
     display: flex;
     flex-direction: column;
 
