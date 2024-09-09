@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FormUseType } from '../../../../src/pages/Checkout';
-import { RegisterAddress } from '../../../../src/pages/Checkout/service/register-address';
+import { FormUseType } from '@pages/Checkout';
+import { RegisterAddress } from '@pages/Checkout/service/register-address';
 
 const ReturnResponseAddressId = jest.fn();
 const RequestBodyAddress = jest.fn();

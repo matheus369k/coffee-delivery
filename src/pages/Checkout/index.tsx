@@ -5,7 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useContext, useState } from 'react';
-import { CountProductsContext } from '../../contexts/context-count-products';
+import { CountProductsContext } from '@contexts/context-count-products';
 import { CardBuyCoffee } from './components/card-buy-coffee';
 import { useNavigate } from 'react-router';
 import { PricesTotal } from './components/total-prices';

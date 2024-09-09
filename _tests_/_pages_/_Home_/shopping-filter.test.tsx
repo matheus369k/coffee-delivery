@@ -1,14 +1,10 @@
 import { fireEvent, screen } from '@testing-library/dom';
-import { Home } from '../../../src/pages/Home';
-import {
-    coffeeDatasType,
-    GetCoffees,
-    ResponseStatusType,
-} from '../../../src/pages/Home/service/get-coffees';
+import { Home } from '@pages/Home';
+import { coffeeDatasType, GetCoffees, ResponseStatusType } from '@pages/Home/service/get-coffees';
 import { render } from '@testing-library/react';
 import React from 'react';
 
-jest.mock('../../../src/pages/Home/service/get-coffees');
+jest.mock('@pages/Home/service/get-coffees');
 
 const mockSetResponseStatus = jest.fn();
 const mockedGetCoffees = jest.mocked(GetCoffees as typeof GetCoffees);

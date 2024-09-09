@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Confirm, DatasUserType } from '../../src/pages/Confirm';
+import { Confirm, DatasUserType } from '@pages/Confirm';
 import React from 'react';
 
 const mockRequestUrl = jest.fn();

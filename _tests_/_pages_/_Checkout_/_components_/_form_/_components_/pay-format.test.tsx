@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { PayFormat } from '../../../../../../src/pages/Checkout/components/form/components/pay-format';
+import { PayFormat } from '@pages/Checkout/components/form/components/pay-format';
 
 const mockHandleGetPayFormat = jest.fn();
 

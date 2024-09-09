@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { BuyCoffeeDatasType, CoffeeDatasType } from '../../../../src/pages/Checkout'; /* 
-import axios from 'axios'; */
-import { GetCoffees } from '../../../../src/pages/Checkout/service/get-coffees';
+import { BuyCoffeeDatasType, CoffeeDatasType } from '@pages/Checkout';
+import { GetCoffees } from '@pages/Checkout/service/get-coffees';
 
 const mockBuyPriceTotal = jest.fn();
 const mockSetState = jest.fn();

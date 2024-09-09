@@ -3,7 +3,7 @@ import {
     PostShopping,
     PostShoppingPropsType,
     RequestBodyType,
-} from '../../../../src/pages/Checkout/service/post-shopping';
+} from '@pages/Checkout/service/post-shopping';
 
 const ReturnResponseShoppingId = jest.fn();
 const RequestBodyShopping = jest.fn();

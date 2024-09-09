@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import {
-    coffeeDatasType,
-    GetCoffees,
-    GetCoffeesPropsType,
-} from '../../../src/pages/Home/service/get-coffees';
+import { coffeeDatasType, GetCoffees, GetCoffeesPropsType } from '@pages/Home/service/get-coffees';
 
 const mockRequestUrl = jest.fn();
 const mockSetStateStatus = jest.fn();

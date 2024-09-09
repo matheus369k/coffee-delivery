@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { fireEvent, render, screen } from '@testing-library/react';
-import { Home } from '../../../src/pages/Home';
-import {
-    coffeeDatasType,
-    GetCoffees,
-    ResponseStatusType,
-} from '../../../src/pages/Home/service/get-coffees';
+import { Home } from '@pages/Home';
+import { coffeeDatasType, GetCoffees, ResponseStatusType } from '@pages/Home/service/get-coffees';
 
 const mockSetResponseStatus = jest.fn();
 
@@ -17,7 +13,7 @@ const returnsGetCoffees = (responseStatus: ResponseStatusType, coffeeDatas: coff
     };
 };
 
-jest.mock('../../../src/pages/Home/service/get-coffees');
+jest.mock('@pages/Home/service/get-coffees');
 const mockedGetCoffees = jest.mocked(GetCoffees as typeof GetCoffees);
 
 describe('Should page home in status', () => {

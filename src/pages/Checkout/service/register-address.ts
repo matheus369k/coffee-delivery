@@ -1,5 +1,5 @@
 import { FormUseType } from '..';
-import { api } from '../../../lib/api';
+import { api } from '@lib/api';
 
 export interface RegisterAddressPropsType {
     address: FormUseType;

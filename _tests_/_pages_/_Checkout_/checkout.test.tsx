@@ -1,17 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import {
-    BuyCoffeeDatasType,
-    Checkout,
-    FormUseType,
-    TotalPriceType,
-} from '../../../src/pages/Checkout';
+import { BuyCoffeeDatasType, Checkout, FormUseType, TotalPriceType } from '@pages/Checkout';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { GetCoffeesPropsType } from '../../../src/pages/Checkout/service/get-coffees';
-import { CountProductsType } from '../../../src/contexts/context-count-products';
-import { RegisterAddressPropsType } from '../../../src/pages/Checkout/service/register-address';
-import { UpdateAddressPropsType } from '../../../src/pages/Checkout/service/update-address';
-import { PostShoppingPropsType } from '../../../src/pages/Checkout/service/post-shopping';
+import { GetCoffeesPropsType } from '@pages/Checkout/service/get-coffees';
+import { CountProductsType } from '@contexts/context-count-products';
+import { RegisterAddressPropsType } from '@pages/Checkout/service/register-address';
+import { UpdateAddressPropsType } from '@pages/Checkout/service/update-address';
+import { PostShoppingPropsType } from '@pages/Checkout/service/post-shopping';
 
 const priceTotal: TotalPriceType = {
     priceEnd: '0.00',
@@ -75,7 +70,7 @@ jest.mock('react-router', () => ({
     useNavigate: () => mockNavigate,
 }));
 
-jest.mock('../../../src/pages/Checkout/service/get-coffees', () => ({
+jest.mock('@pages/Checkout/service/get-coffees', () => ({
     GetCoffees: ({ buyPriceTotal }: GetCoffeesPropsType) => {
         mockGetCoffees(buyPriceTotal);
 
@@ -85,15 +80,15 @@ jest.mock('../../../src/pages/Checkout/service/get-coffees', () => ({
     },
 }));
 
-jest.mock('../../../src/pages/Checkout/components/form/service/get-user-address', () => ({
+jest.mock('@pages/Checkout/components/form/service/get-user-address', () => ({
     GetUserAddress: jest.fn(),
 }));
 
-jest.mock('../../../src/pages/Checkout/components/form/service/get-viacep', () => ({
+jest.mock('@pages/Checkout/components/form/service/get-viacep', () => ({
     GetAddressViaCep: jest.fn(),
 }));
 
-jest.mock('../../../src/pages/Checkout/service/post-shopping', () => ({
+jest.mock('@pages/Checkout/service/post-shopping', () => ({
     PostShopping: (props: PostShoppingPropsType) => {
         mockPostShopping({ ...props });
 
@@ -105,13 +100,13 @@ jest.mock('../../../src/pages/Checkout/service/post-shopping', () => ({
     },
 }));
 
-jest.mock('../../../src/pages/Checkout/service/register-address', () => ({
+jest.mock('@pages/Checkout/service/register-address', () => ({
     RegisterAddress: ({ address }: RegisterAddressPropsType) => {
         return mockRegisterAddress(address);
     },
 }));
 
-jest.mock('../../../src/pages/Checkout/service/update-address', () => ({
+jest.mock('@pages/Checkout/service/update-address', () => ({
     UpdateAddress: (props: UpdateAddressPropsType) => {
         mockUpdateAddress({ ...props });
     },

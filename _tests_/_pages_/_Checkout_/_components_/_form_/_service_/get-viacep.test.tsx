@@ -2,8 +2,8 @@
 import {
     GetAddressViaCep,
     GetAddressViaCepPropsType,
-} from '../../../../../../src/pages/Checkout/components/form/service/get-viacep';
-import { AddressType } from '../../../../../../src/pages/Confirm';
+} from '@pages/Checkout/components/form/service/get-viacep';
+import { AddressType } from '@pages/Confirm';
 
 const address = {
     cep: '55460000',

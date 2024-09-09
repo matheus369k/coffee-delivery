@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { AddressType, FormUser } from '../../../../../src/pages/Checkout/components/form';
-import { GetUserAddressPropsType } from '../../../../../src/pages/Checkout/components/form/service/get-user-address';
-import { GetAddressViaCepPropsType } from '../../../../../src/pages/Checkout/components/form/service/get-viacep';
+import { AddressType, FormUser } from '@pages/Checkout/components/form';
+import { GetUserAddressPropsType } from '@pages/Checkout/components/form/service/get-user-address';
+import { GetAddressViaCepPropsType } from '@pages/Checkout/components/form/service/get-viacep';
 import React from 'react';
 
 const mockSetNewPayFormat = jest.fn();
@@ -32,11 +32,11 @@ jest.mock('react-hook-form', () => ({
     }),
 }));
 
-jest.mock('../../../../../src/pages/Checkout/components/form/service/get-viacep', () => ({
+jest.mock('@pages/Checkout/components/form/service/get-viacep', () => ({
     GetAddressViaCep: (props: GetAddressViaCepPropsType) => mockGetAddressViaCep(props),
 }));
 
-jest.mock('../../../../../src/pages/Checkout/components/form/service/get-user-address', () => ({
+jest.mock('@pages/Checkout/components/form/service/get-user-address', () => ({
     GetUserAddress: (props: GetUserAddressPropsType) => mockGetUserAddress(props),
 }));
 

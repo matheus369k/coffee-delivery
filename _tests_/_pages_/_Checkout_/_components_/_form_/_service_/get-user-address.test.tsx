@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FormUseType } from '../../../../../../src/pages/Checkout';
+import { FormUseType } from '@pages/Checkout';
 import {
     GetUserAddress,
     GetUserAddressPropsType,
-} from '../../../../../../src/pages/Checkout/components/form/service/get-user-address';
+} from '@pages/Checkout/components/form/service/get-user-address';
 
 const mockRequestUrl = jest.fn();
 const ReturnResponseAddress = jest.fn();

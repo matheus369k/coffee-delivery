@@ -1,5 +1,5 @@
 import { BuyCoffeeDatasType } from '..';
-import { api } from '../../../lib/api';
+import { api } from '@lib/api';
 
 export interface PostShoppingPropsType {
     buyCoffeeDatas: BuyCoffeeDatasType[];

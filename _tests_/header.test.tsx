@@ -1,7 +1,7 @@
-import { Header, UserLocationType } from '../src/components/Header';
+import { Header, UserLocationType } from '@components/Header';
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { CountProductsType } from '../src/contexts/context-count-products';
+import { CountProductsType } from '@contexts/context-count-products';
 
 const mockNavigate = jest.fn();
 const mockRequestUrl = jest.fn();

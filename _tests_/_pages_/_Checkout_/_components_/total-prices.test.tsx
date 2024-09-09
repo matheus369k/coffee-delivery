@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { PricesTotal } from '../../../../src/pages/Checkout/components/total-prices';
-import { TotalPriceType } from '../../../../src/pages/Checkout';
+import { PricesTotal } from '@pages/Checkout/components/total-prices';
+import { TotalPriceType } from '@pages/Checkout';
 
 const totalPriceType: TotalPriceType = {
     priceEnd: '13.40',

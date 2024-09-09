@@ -1,5 +1,5 @@
-import { AddressUser } from '../../../../../../src/pages/Checkout/components/form/components/address-user';
-import { AddressType } from '../../../../../../src/pages/Checkout/components/form';
+import { AddressUser } from '@pages/Checkout/components/form/components/address-user';
+import { AddressType } from '@pages/Checkout/components/form';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 const mockHandleHasEditeAddress = jest.fn();

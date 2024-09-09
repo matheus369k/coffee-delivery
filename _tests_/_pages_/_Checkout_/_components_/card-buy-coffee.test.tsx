@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { CardBuyCoffee } from '../../../../src/pages/Checkout/components/card-buy-coffee';
-import { BuyCoffeeDatasType } from '../../../../src/pages/Checkout';
+import { CardBuyCoffee } from '@pages/Checkout/components/card-buy-coffee';
+import { BuyCoffeeDatasType } from '@pages/Checkout';
 import React from 'react';
-import { CountProductsType } from '../../../../src/contexts/context-count-products';
+import { CountProductsType } from '@contexts/context-count-products';
 
 const mockSetState = jest.fn();
 const updateCountProductsContext = jest.fn((createNewCountProducts: CountProductsType) => {
