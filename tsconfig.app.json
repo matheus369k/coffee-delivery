@@ -27,8 +27,9 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
+        "allowJs": true,
         /*alias*/
-        "baseUrl": ".",
+        "baseUrl": "./",
         "paths": {
             "@pages/*": [
                 "./src/pages/*"
@@ -41,6 +42,18 @@
             ],
             "@styles/*": [
                 "./src/styles/*"
+            ],
+            "@lib/*": [
+                "./src/lib/*"
+            ],
+            "@layout/*": [
+                "./src/layout/*"
+            ],
+            "@contexts/*": [
+                "./src/contexts/*"
+            ],
+            "@router/*": [
+                "./src/router/*"
             ],
             "@/*": [
                 "./src/*"
@@ -56,5 +69,8 @@
         "jest.setup.mts",
         "_tests_",
     ],
-    "exclude": ["node_modules", "dist"]
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
 }

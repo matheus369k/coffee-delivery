@@ -4,11 +4,53 @@
         "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
         "skipLibCheck": true,
         "module": "ESNext",
-        "esModuleInterop": true,
         "moduleResolution": "bundler",
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "jsx": "react-jsx",
-        "noEmit": true,
-    }
+        "noEmit": true,/*alias*/
+        "baseUrl": "./",
+        "paths": {
+            "@pages/*": [
+                "./src/pages/*"
+            ],
+            "@components/*": [
+                "./src/components/*"
+            ],
+            "@assets/*": [
+                "./src/assets/*"
+            ],
+            "@styles/*": [
+                "./src/styles/*"
+            ],
+            "@lib/*": [
+                "./src/lib/*"
+            ],
+            "@layout/*": [
+                "./src/layout/*"
+            ],
+            "@contexts/*": [
+                "./src/contexts/*"
+            ],
+            "@router/*": [
+                "./src/router/*"
+            ],
+            "@/*": [
+                "./src/*"
+            ],
+        },
+    },
+    "include": [
+        "src",
+        ".eslintrc",
+        ".prettierrc",
+        "vite.config.ts",
+        "jest.config.json",
+        "jest.setup.mts",
+        "_tests_",
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
 }
