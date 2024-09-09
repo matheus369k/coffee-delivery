@@ -44,7 +44,12 @@ export function Header() {
 
     return (
         <StyledHeader>
-            <img onClick={handleBackToHomePage} src={logoCoffeeDelivery} loading="lazy" />
+            <img
+                onClick={handleBackToHomePage}
+                src={logoCoffeeDelivery}
+                loading="lazy"
+                alt="A imagem e uma logo que representa uma silhueta de um copo de café escrito ao lado 'Coffee delivery'."
+            />
 
             <div>
                 <button

@@ -37,7 +37,10 @@ export function IntroSection() {
                     </li>
                 </ul>
             </div>
-            <img src={introImage} />
+            <img
+                src={introImage}
+                alt="Ela mostra um copo de café fumegante em destaque, com alguns grãos de café ao redor."
+            />
         </StyledIntroSection>
     );
 }

@@ -81,7 +81,7 @@ export function CoffeeCard({ coffeeData }: CoffeeCardProps) {
                             <Plus size={16} weight="bold" />
                         </Button>
                     </div>
-                    <button type="submit">
+                    <button type="submit" title="add to cart">
                         <ShoppingCart size={22} weight="fill" />
                     </button>
                 </form>
