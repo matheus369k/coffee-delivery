@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormUseType } from '@pages/Checkout';
 import { RegisterAddress } from '@pages/Checkout/service/register-address';
+import { env } from '@/env';
 
 const ReturnResponseAddressId = jest.fn();
 const RequestBodyAddress = jest.fn();
@@ -58,9 +59,7 @@ describe('Register address', () => {
 
         await RegisterAddress({ address });
 
-        expect(mockRequestUrl()).toEqual(
-            'https://coffee-delivery-api-1.onrender.com/user/register',
-        );
+        expect(mockRequestUrl()).toEqual(`${env.VITE_API_URL}/user/register`);
     });
 
     test('Invite request body on the correct format', async () => {

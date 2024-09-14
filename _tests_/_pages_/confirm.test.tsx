@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Confirm, DatasUserType } from '@pages/Confirm';
+import { env } from '@/env';
 import React from 'react';
 
 const mockRequestUrl = jest.fn();
@@ -69,9 +70,7 @@ describe('Confirm page', () => {
 
         render(<Confirm />);
 
-        expect(mockRequestUrl.mock.lastCall).toEqual([
-            'https://coffee-delivery-api-1.onrender.com/shopping/1',
-        ]);
+        expect(mockRequestUrl.mock.lastCall).toEqual([`${env.VITE_API_URL}/shopping/1`]);
     });
 
     test('should component content', () => {

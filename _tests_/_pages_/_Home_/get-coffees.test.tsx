@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { coffeeDatasType, GetCoffees, GetCoffeesPropsType } from '@pages/Home/service/get-coffees';
+import { env } from '@/env';
 
 const mockRequestUrl = jest.fn();
 const mockSetStateStatus = jest.fn();
@@ -66,9 +67,7 @@ describe('Get coffees', () => {
 
         GetCoffees({ query });
 
-        expect(mockRequestUrl.mock.lastCall).toEqual([
-            'https://coffee-delivery-api-1.onrender.com/coffees/',
-        ]);
+        expect(mockRequestUrl.mock.lastCall).toEqual([`${env.VITE_API_URL}/coffees/`]);
     });
 
     test('Data not found', () => {

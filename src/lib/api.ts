@@ -1,8 +1,6 @@
 import axios from 'axios';
+import { env } from '@/env';
 
 export const api = axios.create({
-    baseURL: 'https://coffee-delivery-api-1.onrender.com',
+    baseURL: env.VITE_API_URL,
 });
-
-// 'https://coffee-delivery-api-1.onrender.com'
-// 'http://localhost:3333'

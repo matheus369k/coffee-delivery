@@ -4,6 +4,7 @@ import {
     GetUserAddress,
     GetUserAddressPropsType,
 } from '@pages/Checkout/components/form/service/get-user-address';
+import { env } from '@/env';
 
 const mockRequestUrl = jest.fn();
 const ReturnResponseAddress = jest.fn();
@@ -71,7 +72,7 @@ describe('Get user Address', () => {
     test('Correct request url', () => {
         GetUserAddress({ ...getUserAddressProps });
 
-        const RequestUrl = `https://coffee-delivery-api-1.onrender.com/user/${getUserAddressProps.addressId}`;
+        const RequestUrl = `${env.VITE_API_URL}/user/${getUserAddressProps.addressId}`;
         expect(mockRequestUrl()).toEqual(RequestUrl);
     });
 

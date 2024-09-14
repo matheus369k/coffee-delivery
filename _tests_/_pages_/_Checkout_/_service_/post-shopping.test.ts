@@ -4,6 +4,7 @@ import {
     PostShoppingPropsType,
     RequestBodyType,
 } from '@pages/Checkout/service/post-shopping';
+import { env } from '@/env';
 
 const ReturnResponseShoppingId = jest.fn();
 const RequestBodyShopping = jest.fn();
@@ -73,7 +74,7 @@ describe('Post shopping datas', () => {
     test('Request on the correct url', async () => {
         await PostShopping({ ...postShoppingProps });
 
-        expect(mockRequestUrl()).toEqual('https://coffee-delivery-api-1.onrender.com/shopping/1');
+        expect(mockRequestUrl()).toEqual(`${env.VITE_API_URL}/shopping/1`);
     });
 
     test('Invite request body on the correct format', async () => {

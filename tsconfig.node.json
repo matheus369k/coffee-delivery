@@ -5,10 +5,12 @@
         "skipLibCheck": true,
         "module": "ESNext",
         "moduleResolution": "bundler",
+        "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "jsx": "react-jsx",
-        "noEmit": true,/*alias*/
+        "noEmit": true,
+        /*alias*/
         "baseUrl": "./",
         "paths": {
             "@pages/*": [

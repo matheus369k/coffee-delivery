@@ -48,6 +48,7 @@ export const StyledShopFilter = styled.div`
 
                 text-transform: uppercase;
                 font-size: 0.625rem;
+                font-weight: bolder;
                 line-height: 1.3;
                 font-family: ${(props) => props.theme['text-font']}, sans-serif;
 

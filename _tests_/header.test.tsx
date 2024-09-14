@@ -2,6 +2,7 @@ import { Header, UserLocationType } from '@components/Header';
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { CountProductsType } from '@contexts/context-count-products';
+import { env } from '@/env';
 
 const mockNavigate = jest.fn();
 const mockRequestUrl = jest.fn();
@@ -170,7 +171,7 @@ describe('Header Component', () => {
 
         render(<Header />);
 
-        const requestUrl = 'https://coffee-delivery-api-1.onrender.com/location/2';
+        const requestUrl = `${env.VITE_API_URL}/location/2`;
         expect(mockRequestUrl.mock.lastCall).toContainEqual(requestUrl);
     });
 

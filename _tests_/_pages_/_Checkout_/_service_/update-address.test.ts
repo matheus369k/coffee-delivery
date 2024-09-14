@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormUseType } from '@pages/Checkout';
 import { UpdateAddress, UpdateAddressPropsType } from '@pages/Checkout/service/update-address';
+import { env } from '@/env';
 
 const ReturnResponseAddressId = jest.fn();
 const RequestBodyAddress = jest.fn();
@@ -56,7 +57,7 @@ describe('Update address', () => {
 
         await UpdateAddress({ ...updateAddressProps });
 
-        const url = `https://coffee-delivery-api-1.onrender.com/user/${updateAddressProps.addressId}`;
+        const url = `${env.VITE_API_URL}/user/${updateAddressProps.addressId}`;
         expect(mockRequestUrl()).toEqual(url);
     });
 
