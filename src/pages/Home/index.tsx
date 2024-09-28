@@ -34,7 +34,15 @@ export function Home() {
                         })}
                     </StyledShopList>
                 )}
-                {responseStatus === 'loading' && <p>Carregando...</p>}
+                {true && (
+                    <p>
+                        <h3>Carregando...</h3>
+                        <span>
+                            Atenção o banco de dados poderá estar inativo, recomenda-se esperar no
+                            mínimo 30s.
+                        </span>
+                    </p>
+                )}
                 {responseStatus === 'error' && (
                     <div className="request-error">
                         <p>Error ao tentar carregar os dados.</p>
