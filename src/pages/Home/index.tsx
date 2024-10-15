@@ -34,7 +34,7 @@ export function Home() {
                         })}
                     </StyledShopList>
                 )}
-                {true && (
+                {responseStatus === 'loading' && (
                     <p>
                         <h3>Carregando...</h3>
                         <span>
