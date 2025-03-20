@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../../lib/api';
+import { env } from '@/env';
+import axios from 'axios';
 
 export interface coffeeDatasType {
     id: string;
@@ -21,26 +23,37 @@ export function GetCoffees({ query }: GetCoffeesPropsType) {
     const [coffeeDatas, setCoffeeDatas] = useState<coffeeDatasType[]>([]);
     const [responseStatus, setResponseStatus] = useState<ResponseStatusType>('loading');
 
+    async function requestCoffees(query: string) {
+        try {
+            let data;
+
+            if (!query) {
+                data = await Promise.race([
+                    (await api.get(`/coffees/${query}`)).data['coffees'],
+                    (await axios.get(env.VITE_GH_API_URL)).data,
+                ]);
+            } else {
+                data = (await api.get(`/coffees/${query}`)).data['coffees'];
+            }
+
+            if (!data) {
+                throw new Error('data not found');
+            }
+
+            setCoffeeDatas(data);
+
+            if (data.length === 0) {
+                return setResponseStatus('not-found');
+            }
+
+            setResponseStatus('complete');
+        } catch (_) {
+            setResponseStatus('error');
+        }
+    }
+
     useEffect(() => {
-        api.get(`/coffees/${query}`)
-            .then((response: { data: { [x: string]: coffeeDatasType[] | undefined } }) => {
-                const data: coffeeDatasType[] | undefined = response.data['coffees'];
-
-                if (!data) {
-                    throw new Error('data not found');
-                }
-
-                setCoffeeDatas(data);
-
-                if (data.length === 0) {
-                    return setResponseStatus('not-found');
-                }
-
-                setResponseStatus('complete');
-            })
-            .catch(() => {
-                setResponseStatus('error');
-            });
+        requestCoffees(query);
     }, [query]);
 
     return {

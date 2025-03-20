@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 jest.mock('@/env', () => ({
     env: {
-        VITE_API_URL: 'http://localhost:3333/',
+        VITE_RENDER_API_URL: 'http://localhost:3333/',
     },
 }));
 
