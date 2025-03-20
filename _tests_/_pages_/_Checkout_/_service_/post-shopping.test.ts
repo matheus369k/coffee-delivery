@@ -74,7 +74,7 @@ describe('Post shopping datas', () => {
     test('Request on the correct url', async () => {
         await PostShopping({ ...postShoppingProps });
 
-        expect(mockRequestUrl()).toEqual(`${env.VITE_API_URL}/shopping/1`);
+        expect(mockRequestUrl()).toEqual(`${env.VITE_RENDER_API_URL}/shopping/1`);
     });
 
     test('Invite request body on the correct format', async () => {

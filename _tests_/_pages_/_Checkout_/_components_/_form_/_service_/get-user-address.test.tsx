@@ -72,7 +72,7 @@ describe('Get user Address', () => {
     test('Correct request url', () => {
         GetUserAddress({ ...getUserAddressProps });
 
-        const RequestUrl = `${env.VITE_API_URL}/user/${getUserAddressProps.addressId}`;
+        const RequestUrl = `${env.VITE_RENDER_API_URL}/user/${getUserAddressProps.addressId}`;
         expect(mockRequestUrl()).toEqual(RequestUrl);
     });
 

@@ -57,7 +57,7 @@ describe('Update address', () => {
 
         await UpdateAddress({ ...updateAddressProps });
 
-        const url = `${env.VITE_API_URL}/user/${updateAddressProps.addressId}`;
+        const url = `${env.VITE_RENDER_API_URL}/user/${updateAddressProps.addressId}`;
         expect(mockRequestUrl()).toEqual(url);
     });
 

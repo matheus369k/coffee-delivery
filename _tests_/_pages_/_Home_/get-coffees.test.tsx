@@ -2,6 +2,7 @@
 import React from 'react';
 import { coffeeDatasType, GetCoffees, GetCoffeesPropsType } from '@pages/Home/service/get-coffees';
 import { env } from '@/env';
+import { renderHook, waitFor } from '@testing-library/react';
 
 const mockRequestUrl = jest.fn();
 const mockSetStateStatus = jest.fn();
@@ -52,7 +53,7 @@ jest.mock('axios', () => ({
 }));
 
 const { query }: GetCoffeesPropsType = {
-    query: '',
+    query: 'all',
 };
 
 describe('Get coffees', () => {
@@ -62,33 +63,40 @@ describe('Get coffees', () => {
             .mockImplementationOnce(() => ['loading', mockSetStateStatus]);
     });
 
-    test('Url to request is Correct', () => {
+    test('Url to request is Correct', async () => {
         ReturnResponseCoffeeDatas.mockReturnValue([]);
 
-        GetCoffees({ query });
+        renderHook(() => GetCoffees({ query }));
 
-        expect(mockRequestUrl.mock.lastCall).toEqual([`${env.VITE_API_URL}/coffees/`]);
+        await waitFor(() => {
+            const requestUrl = mockRequestUrl.mock.lastCall;
+            expect(requestUrl).toEqual([`${env.VITE_RENDER_API_URL}/coffees/all`]);
+        });
     });
 
-    test('Data not found', () => {
+    test('Data not found', async () => {
         ReturnResponseCoffeeDatas.mockReturnValue([]);
 
-        GetCoffees({ query });
+        renderHook(() => GetCoffees({ query }));
 
-        expect(mockSetStateStatus.mock.lastCall).toEqual(['not-found']);
-        expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual([[]]);
+        await waitFor(() => {
+            expect(mockSetStateStatus.mock.lastCall).toEqual(['not-found']);
+            expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual([[]]);
+        });
     });
 
-    test('Error to request', () => {
+    test('Error to request', async () => {
         ReturnResponseCoffeeDatas.mockReturnValue(undefined);
 
-        GetCoffees({ query });
+        renderHook(() => GetCoffees({ query }));
 
-        expect(mockSetStateStatus.mock.lastCall).toEqual(['error']);
-        expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual(undefined);
+        await waitFor(() => {
+            expect(mockSetStateStatus.mock.lastCall).toEqual(['error']);
+            expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual(undefined);
+        });
     });
 
-    test('get datas', () => {
+    test('get datas', async () => {
         const database: coffeeDatasType[] = [
             {
                 id: '1',
@@ -112,9 +120,11 @@ describe('Get coffees', () => {
 
         ReturnResponseCoffeeDatas.mockReturnValue(database);
 
-        GetCoffees({ query });
+        renderHook(() => GetCoffees({ query }));
 
-        expect(mockSetStateStatus.mock.lastCall).toEqual(['complete']);
-        expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual([database]);
+        await waitFor(() => {
+            expect(mockSetStateStatus.mock.lastCall).toEqual(['complete']);
+            expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual([database]);
+        });
     });
 });

@@ -70,7 +70,7 @@ describe('Confirm page', () => {
 
         render(<Confirm />);
 
-        expect(mockRequestUrl.mock.lastCall).toEqual([`${env.VITE_API_URL}/shopping/1`]);
+        expect(mockRequestUrl.mock.lastCall).toEqual([`${env.VITE_RENDER_API_URL}/shopping/1`]);
     });
 
     test('should component content', () => {

@@ -59,7 +59,7 @@ describe('Register address', () => {
 
         await RegisterAddress({ address });
 
-        expect(mockRequestUrl()).toEqual(`${env.VITE_API_URL}/user/register`);
+        expect(mockRequestUrl()).toEqual(`${env.VITE_RENDER_API_URL}/user/register`);
     });
 
     test('Invite request body on the correct format', async () => {

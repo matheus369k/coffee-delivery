@@ -23,7 +23,7 @@ jest.mock('axios', () => ({
     create: (configs: { baseURL: string }) => {
         return {
             get: (pathName: string) => {
-                mockRequestUrl(configs.baseURL.concat(pathName));
+                mockRequestUrl(configs.baseURL?.concat(pathName));
 
                 return {
                     then: (

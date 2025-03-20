@@ -171,7 +171,7 @@ describe('Header Component', () => {
 
         render(<Header />);
 
-        const requestUrl = `${env.VITE_API_URL}/location/2`;
+        const requestUrl = `${env.VITE_RENDER_API_URL}/location/2`;
         expect(mockRequestUrl.mock.lastCall).toContainEqual(requestUrl);
     });
 
