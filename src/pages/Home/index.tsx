@@ -1,19 +1,22 @@
 import { StyledShop, StyledShopList } from './styles';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { IntroSection } from './components/intro-section';
 import { CoffeeCard } from './components/coffee-card';
 import { ShoppingFilter } from './components/shopping-filter';
 import { Button } from '@components/button';
-import { GetCoffees } from './service/get-coffees';
+import { requestCoffees } from './service/get-coffees';
+import { useQuery } from '@tanstack/react-query';
 
 export function Home() {
-    const [query, setQuery] = useState('');
-    const { coffeeDatas, responseStatus, setResponseStatus } = GetCoffees({ query });
+    const queryRef = useRef('');
+    const { data, isError, isFetching, refetch } = useQuery({
+        queryKey: ['coffees', queryRef.current],
+        queryFn: async () => await requestCoffees(queryRef.current),
+    });
 
     function handleSetQueryFilter(filter: string) {
-        setResponseStatus('loading');
-
-        setQuery(filter);
+        queryRef.current = filter;
+        refetch();
     }
 
     function handleReloadPage() {
@@ -25,16 +28,19 @@ export function Home() {
             <IntroSection />
 
             <StyledShop>
-                <ShoppingFilter handleSetQueryFilter={handleSetQueryFilter} query={query} />
+                <ShoppingFilter
+                    handleSetQueryFilter={handleSetQueryFilter}
+                    query={queryRef.current}
+                />
 
-                {responseStatus === 'complete' && (
+                {data && data.length > 0 && (
                     <StyledShopList>
-                        {coffeeDatas.map((coffeeData) => {
-                            return <CoffeeCard key={coffeeData.id} coffeeData={coffeeData} />;
+                        {data.map((coffee) => {
+                            return <CoffeeCard key={coffee.id} coffeeData={coffee} />;
                         })}
                     </StyledShopList>
                 )}
-                {responseStatus === 'loading' && (
+                {!data && isFetching && (
                     <p>
                         <h3>Carregando...</h3>
                         <span>
@@ -43,7 +49,7 @@ export function Home() {
                         </span>
                     </p>
                 )}
-                {responseStatus === 'error' && (
+                {isError && (
                     <div className="request-error">
                         <p>Error ao tentar carregar os dados.</p>
                         <Button title="recarregar a pagina" onClick={handleReloadPage}>
@@ -51,7 +57,7 @@ export function Home() {
                         </Button>
                     </div>
                 )}
-                {responseStatus === 'not-found' && <p>Nem um dado foi encontrado.</p>}
+                {data && data.length === 0 && <p>Nem um dado foi encontrado.</p>}
             </StyledShop>
         </main>
     );
