@@ -2,11 +2,9 @@ import { styled, keyframes } from 'styled-components';
 
 const scroll_hidden = keyframes`
     from {
-        transform: translateX(-100%);
         opacity: 0;
     }
     to {
-        transform: translateX(0%);
         opacity: 1;
     }
 `;
@@ -68,6 +66,7 @@ export const StyledShopList = styled.ul`
         background: ${(props) => props.theme['base-card']};
 
         animation-name: ${scroll_hidden};
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: cover 0% cover 20%;
 

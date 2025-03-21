@@ -2,11 +2,7 @@ import { styled, keyframes } from 'styled-components';
 
 const scroll_hidden = keyframes`
     from {
-        transform: translateY(200px);
         opacity: 0;
-    }
-    50% {
-        transform: translateY(0);
     }
     to {
         opacity: 1;
