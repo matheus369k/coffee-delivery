@@ -6,6 +6,7 @@ import { ShoppingFilter } from './components/shopping-filter';
 import { Button } from '@components/button';
 import { requestCoffees } from './service/get-coffees';
 import { useQuery } from '@tanstack/react-query';
+import { LoadingCoffeeCard } from './components/loading-coffee-card';
 
 export function Home() {
     const queryRef = useRef('');
@@ -40,15 +41,15 @@ export function Home() {
                         })}
                     </StyledShopList>
                 )}
+
                 {!data && isFetching && (
-                    <p>
-                        <h3>Carregando...</h3>
-                        <span>
-                            Atenção o banco de dados poderá estar inativo, recomenda-se esperar no
-                            mínimo 30s.
-                        </span>
-                    </p>
+                    <StyledShopList>
+                        {Array.from({ length: 8 }).map((_, index) => {
+                            return <LoadingCoffeeCard key={index} />;
+                        })}
+                    </StyledShopList>
                 )}
+
                 {isError && (
                     <div className="request-error">
                         <p>Error ao tentar carregar os dados.</p>
@@ -57,6 +58,7 @@ export function Home() {
                         </Button>
                     </div>
                 )}
+
                 {data && data.length === 0 && <p>Nem um dado foi encontrado.</p>}
             </StyledShop>
         </main>
