@@ -5,54 +5,51 @@
         "skipLibCheck": true,
         "module": "ESNext",
         "moduleResolution": "bundler",
-        "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "strict": true,
-        "jsx": "react-jsx",
         "noEmit": true,
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
         /*alias*/
-        "baseUrl": "./",
+        "baseUrl": ".",
         "paths": {
             "@pages/*": [
-                "./src/pages/*"
+                "src/pages/*"
             ],
             "@components/*": [
-                "./src/components/*"
+                "src/components/*"
             ],
             "@assets/*": [
-                "./src/assets/*"
+                "src/assets/*"
             ],
             "@styles/*": [
-                "./src/styles/*"
+                "src/styles/*"
             ],
             "@lib/*": [
-                "./src/lib/*"
+                "src/lib/*"
             ],
             "@layout/*": [
-                "./src/layout/*"
+                "src/layout/*"
             ],
             "@contexts/*": [
-                "./src/contexts/*"
+                "src/contexts/*"
             ],
             "@router/*": [
-                "./src/router/*"
+                "src/router/*"
             ],
             "@/*": [
-                "./src/*"
+                "src/*"
             ],
         },
     },
     "include": [
-        "src",
-        ".eslintrc",
-        ".prettierrc",
-        "vite.config.ts",
-        "jest.config.json",
-        "jest.setup.mts",
-        "_tests_",
+        "/**/*.ts",
+        "/**/*.tsx",
+        "vite.config.ts"
     ],
     "exclude": [
+        "coverage",
         "node_modules",
-        "dist"
-    ]
+        "dist",
+    ],
 }
