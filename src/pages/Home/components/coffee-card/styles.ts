@@ -10,178 +10,178 @@ const scroll_hidden = keyframes`
 `;
 
 export const StyledCoffeeCard = styled.li`
-    width: 16rem;
-    height: 19.375rem;
+  width: 16rem;
+  height: 19.375rem;
 
-    padding: 0 1.5rem 1.25rem;
+  padding: 0 1.5rem 1.25rem;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background: ${(props) => props.theme['base-card']};
+
+  animation-name: ${scroll_hidden};
+  animation-fill-mode: both;
+  animation-timeline: view();
+  animation-range: cover 0% cover 20%;
+
+  img {
+    width: 7.5rem;
+    height: 7.5rem;
+
+    margin-bottom: 0.75rem;
+
+    margin-top: -1.5rem;
+  }
+
+  div:first-of-type {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    gap: 0.25rem;
 
-    background: ${(props) => props.theme['base-card']};
+    span {
+      margin-bottom: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 100px;
 
-    animation-name: ${scroll_hidden};
-    animation-fill-mode: both;
-    animation-timeline: view();
-    animation-range: cover 0% cover 20%;
+      color: ${(props) => props.theme['yellow-dark']};
+      background: ${(props) => props.theme['yellow-light']};
 
-    img {
-        width: 7.5rem;
-        height: 7.5rem;
+      line-height: 1.3;
+      text-transform: uppercase;
+      font-weight: bold;
 
-        margin-bottom: 0.75rem;
-
-        margin-top: -1.5rem;
+      font-size: 0.625rem;
+      font-family: ${(props) => props.theme['text-font']}, sans-serif;
     }
+  }
 
-    div:first-of-type {
-        display: flex;
-        gap: 0.25rem;
+  h3 {
+    margin-bottom: 0.5rem;
 
-        span {
-            margin-bottom: 1rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 100px;
+    line-height: 1.3;
 
-            color: ${(props) => props.theme['yellow-dark']};
-            background: ${(props) => props.theme['yellow-light']};
+    font-size: 1.25rem;
+    font-weight: bold;
+    font-family: ${(props) => props.theme['title-font']}, sans-serif;
+  }
 
-            line-height: 1.3;
-            text-transform: uppercase;
-            font-weight: bold;
+  p {
+    margin-bottom: 2rem;
 
-            font-size: 0.625rem;
-            font-family: ${(props) => props.theme['text-font']}, sans-serif;
-        }
-    }
+    text-align: center;
+    line-height: 1.3rem;
 
-    h3 {
-        margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-family: ${(props) => props.theme['text-font']}, sans-serif;
+
+    color: ${(props) => props.theme['base-label']};
+  }
+
+  div:last-of-type {
+    display: flex;
+    gap: 1.5rem;
+
+    span {
+      font-family: ${(props) => props.theme['title-font']}, sans-serif;
+      font-size: 1.5rem;
+      font-weight: bold;
+
+      line-height: 1.3;
+
+      color: ${(props) => props.theme['base-text']};
+
+      &::before {
+        content: 'R$';
+
+        font-family: ${(props) => props.theme['text-font']}, sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
 
         line-height: 1.3;
-
-        font-size: 1.25rem;
-        font-weight: bold;
-        font-family: ${(props) => props.theme['title-font']}, sans-serif;
+      }
     }
 
-    p {
-        margin-bottom: 2rem;
+    form {
+      display: flex;
+      gap: 0.5rem;
 
-        text-align: center;
-        line-height: 1.3rem;
-
-        font-size: 0.875rem;
-        font-family: ${(props) => props.theme['text-font']}, sans-serif;
-
-        color: ${(props) => props.theme['base-label']};
-    }
-
-    div:last-of-type {
+      div {
         display: flex;
-        gap: 1.5rem;
+        justify-content: space-between;
+        align-content: center;
 
-        span {
-            font-family: ${(props) => props.theme['title-font']}, sans-serif;
-            font-size: 1.5rem;
-            font-weight: bold;
+        position: relative;
 
-            line-height: 1.3;
+        input {
+          width: 4.5rem;
 
-            color: ${(props) => props.theme['base-text']};
+          text-align: center;
+          line-height: 1.3;
 
-            &::before {
-                content: 'R$';
+          font-size: 1rem;
+          font-family: ${(props) => props.theme['text-font']}, sans-serif;
 
-                font-family: ${(props) => props.theme['text-font']}, sans-serif;
-                font-size: 0.875rem;
-                font-weight: 400;
+          background: ${(props) => props.theme['base-button']};
+          color: ${(props) => props.theme['base-title']};
 
-                line-height: 1.3;
-            }
+          border-radius: 6px;
+
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
         }
 
-        form {
-            display: flex;
-            gap: 0.5rem;
+        button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
 
-            div {
-                display: flex;
-                justify-content: space-between;
-                align-content: center;
+          background: transparent;
+          box-shadow: 0;
+          border: 0;
+          line-height: 0;
 
-                position: relative;
+          z-index: 1;
 
-                input {
-                    width: 4.5rem;
+          &:first-of-type {
+            left: 2.5px;
+          }
 
-                    text-align: center;
-                    line-height: 1.3;
-
-                    font-size: 1rem;
-                    font-family: ${(props) => props.theme['text-font']}, sans-serif;
-
-                    background: ${(props) => props.theme['base-button']};
-                    color: ${(props) => props.theme['base-title']};
-
-                    border-radius: 6px;
-
-                    &::-webkit-outer-spin-button,
-                    &::-webkit-inner-spin-button {
-                        -webkit-appearance: none;
-                        margin: 0;
-                    }
-                }
-
-                button {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-
-                    background: transparent;
-                    box-shadow: 0;
-                    border: 0;
-                    line-height: 0;
-
-                    z-index: 1;
-
-                    &:first-of-type {
-                        left: 2.5px;
-                    }
-
-                    &:last-of-type {
-                        right: 2.5px;
-                    }
-                }
-            }
-
-            & > button {
-                height: 2.375rem;
-                width: 2.375rem;
-
-                border-radius: 6px;
-
-                background: ${(props) => props.theme['purple-dark']};
-
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                svg {
-                    fill: ${(props) => props.theme['base-card']};
-                }
-            }
+          &:last-of-type {
+            right: 2.5px;
+          }
         }
+      }
+
+      & > button {
+        height: 2.375rem;
+        width: 2.375rem;
+
+        border-radius: 6px;
+
+        background: ${(props) => props.theme['purple-dark']};
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+          fill: ${(props) => props.theme['base-card']};
+        }
+      }
+    }
+  }
+
+  @media (max-width: 549px) {
+    p {
+      margin-bottom: 1rem;
     }
 
-    @media (max-width: 549px) {
-        p {
-            margin-bottom: 1rem;
-        }
-
-        form {
-            gap: 0.25rem;
-        }
+    form {
+      gap: 0.25rem;
     }
+  }
 `;

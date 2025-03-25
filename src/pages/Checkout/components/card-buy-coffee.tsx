@@ -4,84 +4,80 @@ import { useContext, useState } from 'react';
 import { Button } from '@components/button';
 
 export interface BuyCoffeeDatasType {
-    id: string;
-    name: string;
-    image: string;
-    total_price: string;
-    count: number;
+  id: string;
+  name: string;
+  image: string;
+  total_price: string;
+  count: number;
 }
 
 export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffeeDatasType) {
-    const { countProducts, updateCountProductsContext } = useContext(CountProductsContext);
+  const { countProducts, updateCountProductsContext } = useContext(CountProductsContext);
 
-    const [lessCoffee, setLessCoffee] = useState<number>(1);
+  const [lessCoffee, setLessCoffee] = useState<number>(1);
 
-    function handleAmountRemoveCoffeeCount() {
-        setLessCoffee((state) => {
-            return state + 1;
-        });
+  function handleAmountRemoveCoffeeCount() {
+    setLessCoffee((state) => {
+      return state + 1;
+    });
+  }
+
+  function handleLessRemoveCoffeeCount() {
+    setLessCoffee((state) => {
+      return state - 1;
+    });
+  }
+
+  function handleRemoveCoffee(id: string) {
+    if (!updateCountProductsContext || !countProducts) {
+      return;
     }
 
-    function handleLessRemoveCoffeeCount() {
-        setLessCoffee((state) => {
-            return state - 1;
-        });
-    }
+    const createNewCountProducts = countProducts.filter((countProduct) => {
+      if (countProduct.id === id) {
+        countProduct.count -= lessCoffee;
+      }
 
-    function handleRemoveCoffee(id: string) {
-        if (!updateCountProductsContext || !countProducts) {
-            return;
-        }
+      if (countProduct.count > 0) {
+        return countProduct;
+      }
+    });
 
-        const createNewCountProducts = countProducts.filter((countProduct) => {
-            if (countProduct.id === id) {
-                countProduct.count -= lessCoffee;
-            }
+    updateCountProductsContext(createNewCountProducts);
+    setLessCoffee(1);
+  }
 
-            if (countProduct.count > 0) {
-                return countProduct;
-            }
-        });
-
-        updateCountProductsContext(createNewCountProducts);
-        setLessCoffee(1);
-    }
-
-    return (
-        <li>
-            <img src={image} alt={`Image representando a aparência do café ${name}`} />
-            <div>
-                <h4>{name}</h4>
-                <div>
-                    <div>
-                        <Button
-                            disabled={lessCoffee === 1}
-                            onClick={handleLessRemoveCoffeeCount}
-                            title="Less"
-                        >
-                            <Minus size={16} weight="bold" />
-                        </Button>
-                        <input
-                            onChange={(event) => setLessCoffee(Number(event.target.value))}
-                            type="number"
-                            value={lessCoffee}
-                            name="count"
-                        />
-                        <Button
-                            disabled={lessCoffee === 99 || lessCoffee === count}
-                            onClick={handleAmountRemoveCoffeeCount}
-                            title="Amount"
-                        >
-                            <Plus size={16} weight="bold" />
-                        </Button>
-                    </div>
-                    <Button onClick={() => handleRemoveCoffee(id)} title="Remove">
-                        <Trash size={16} />
-                        <span>Remover</span>
-                    </Button>
-                </div>
-            </div>
-            <span>{total_price}</span>
-        </li>
-    );
+  return (
+    <li>
+      <img src={image} alt={`Image representando a aparência do café ${name}`} />
+      <div>
+        <h4>{name}</h4>
+        <div>
+          <div>
+            <Button disabled={lessCoffee === 1} onClick={handleLessRemoveCoffeeCount} title="Less">
+              <Minus size={16} weight="bold" />
+            </Button>
+            <input
+              onChange={(event) => setLessCoffee(Number(event.target.value))}
+              type="number"
+              value={lessCoffee}
+              name="count"
+            />
+            <Button
+              disabled={lessCoffee === 99 || lessCoffee === count}
+              onClick={handleAmountRemoveCoffeeCount}
+              title="Amount"
+            >
+              <Plus size={16} weight="bold" />
+            </Button>
+          </div>
+          <Button onClick={() => handleRemoveCoffee(id)} title="Remove">
+            <Trash size={16} />
+            <span>Remover</span>
+          </Button>
+        </div>
+      </div>
+      <span>{total_price}</span>
+    </li>
+  );
 }

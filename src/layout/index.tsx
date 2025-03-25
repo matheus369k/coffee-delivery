@@ -6,14 +6,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 export function LayoutDefault() {
-    return (
-        <ContextProviderCountProducts>
-            <StylesLayoutDefault>
-                <Header />
-                <QueryClientProvider client={queryClient}>
-                    <Outlet />
-                </QueryClientProvider>
-            </StylesLayoutDefault>
-        </ContextProviderCountProducts>
-    );
+  return (
+    <ContextProviderCountProducts>
+      <StylesLayoutDefault>
+        <Header />
+        <QueryClientProvider client={queryClient}>
+          <Outlet />
+        </QueryClientProvider>
+      </StylesLayoutDefault>
+    </ContextProviderCountProducts>
+  );
 }

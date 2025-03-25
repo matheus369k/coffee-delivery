@@ -5,10 +5,10 @@ import { themeDefault } from '@styles/theme/themeDefault';
 import { GlobalStyle } from '@styles/global';
 
 export function App() {
-    return (
-        <ThemeProvider theme={themeDefault}>
-            <RouterProvider router={router} />
-            <GlobalStyle />
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={themeDefault}>
+      <RouterProvider router={router} />
+      <GlobalStyle />
+    </ThemeProvider>
+  );
 }

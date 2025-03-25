@@ -16,140 +16,140 @@ import { RegisterAddress } from './service/register-address';
 import { UpdateAddress } from './service/update-address';
 
 export interface BuyCoffeeDatasType {
-    id: string;
-    name: string;
-    image: string;
-    total_price: string;
-    count: number;
+  id: string;
+  name: string;
+  image: string;
+  total_price: string;
+  count: number;
 }
 
 export interface CoffeeDatasType {
-    id: string;
-    name: string;
-    tags: string[];
-    slugs: string[];
-    image: string;
-    description: string;
-    price: string;
+  id: string;
+  name: string;
+  tags: string[];
+  slugs: string[];
+  image: string;
+  description: string;
+  price: string;
 }
 
 export interface TotalPriceType {
-    Products: string;
-    taxa: string;
-    priceEnd: string;
+  Products: string;
+  taxa: string;
+  priceEnd: string;
 }
 
 const FormUserZodSchema = z.object({
-    cep: z.string().min(8),
-    street: z.string().min(4),
-    number: z.coerce.number().min(1),
-    complement: z.string().default(''),
-    neighborhood: z.string().min(4),
-    city: z.string().min(4),
-    uf: z.string().min(2),
+  cep: z.string().min(8),
+  street: z.string().min(4),
+  number: z.coerce.number().min(1),
+  complement: z.string().default(''),
+  neighborhood: z.string().min(4),
+  city: z.string().min(4),
+  uf: z.string().min(2),
 });
 
 export type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
-    const { countProducts, removeCountsProductsContext } = useContext(CountProductsContext);
-    const navigate = useNavigate();
-    const hookForm = useForm<FormUseType>({
-        resolver: zodResolver(FormUserZodSchema),
+  const { countProducts, removeCountsProductsContext } = useContext(CountProductsContext);
+  const navigate = useNavigate();
+  const hookForm = useForm<FormUseType>({
+    resolver: zodResolver(FormUserZodSchema),
+  });
+
+  const [payFormat, setPayFormat] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
+    priceEnd: '0.00',
+    Products: '0.00',
+    taxa: '3.50',
+  });
+
+  const { buyCoffeeDatas } = GetCoffees({ buyPriceTotal, countProducts });
+
+  const { handleSubmit } = hookForm;
+
+  function buyPriceTotal(buyCoffeeProp: BuyCoffeeDatasType[]) {
+    let calcTotalPrice: number = 0;
+
+    buyCoffeeProp.forEach((buyCoffeeData) => {
+      calcTotalPrice += parseFloat(buyCoffeeData.total_price);
     });
 
-    const [payFormat, setPayFormat] = useState<string>('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
-        priceEnd: '0.00',
-        Products: '0.00',
-        taxa: '3.50',
+    setPriceTotal((state) => {
+      return {
+        ...state,
+        priceEnd: (calcTotalPrice + parseFloat(state.taxa)).toFixed(2),
+        Products: calcTotalPrice.toFixed(2),
+      };
     });
+  }
 
-    const { buyCoffeeDatas } = GetCoffees({ buyPriceTotal, countProducts });
+  function setNewPayFormat(payForm: string) {
+    setPayFormat(payForm);
+  }
 
-    const { handleSubmit } = hookForm;
+  async function handleFormUser(address: FormUseType) {
+    if (!removeCountsProductsContext) return;
+    if (!payFormat) return;
 
-    function buyPriceTotal(buyCoffeeProp: BuyCoffeeDatasType[]) {
-        let calcTotalPrice: number = 0;
+    setIsLoading(true);
 
-        buyCoffeeProp.forEach((buyCoffeeData) => {
-            calcTotalPrice += parseFloat(buyCoffeeData.total_price);
-        });
+    let addressId = window.localStorage.getItem('addressId');
 
-        setPriceTotal((state) => {
-            return {
-                ...state,
-                priceEnd: (calcTotalPrice + parseFloat(state.taxa)).toFixed(2),
-                Products: calcTotalPrice.toFixed(2),
-            };
-        });
+    if (!addressId) {
+      const newAddressId = await RegisterAddress({ address });
+
+      if (!newAddressId) {
+        return;
+      }
+
+      addressId = newAddressId;
     }
 
-    function setNewPayFormat(payForm: string) {
-        setPayFormat(payForm);
+    if (window.sessionStorage.editeAddress) {
+      await UpdateAddress({ address, addressId });
     }
 
-    async function handleFormUser(address: FormUseType) {
-        if (!removeCountsProductsContext) return;
-        if (!payFormat) return;
+    await PostShopping({ addressId, buyCoffeeDatas, payFormat }).then(() => {
+      setIsLoading(false);
+      removeCountsProductsContext();
 
-        setIsLoading(true);
+      navigate('/coffee-delivery/confirm');
+    });
+  }
 
-        let addressId = window.localStorage.getItem('addressId');
+  if (!countProducts || countProducts.length === 0) {
+    return <Loading />;
+  }
 
-        if (!addressId) {
-            const newAddressId = await RegisterAddress({ address });
+  return (
+    <main>
+      <StylesForm
+        onSubmit={handleSubmit(handleFormUser)}
+        aria-autocomplete="none"
+        autoComplete="off"
+        autoSave="off"
+      >
+        <FormProvider {...hookForm}>
+          <FormUser setNewPayFormat={setNewPayFormat} />
+        </FormProvider>
 
-            if (!newAddressId) {
-                return;
-            }
-
-            addressId = newAddressId;
-        }
-
-        if (window.sessionStorage.editeAddress) {
-            await UpdateAddress({ address, addressId });
-        }
-
-        await PostShopping({ addressId, buyCoffeeDatas, payFormat }).then(() => {
-            setIsLoading(false);
-            removeCountsProductsContext();
-
-            navigate('/coffee-delivery/confirm');
-        });
-    }
-
-    if (!countProducts || countProducts.length === 0) {
-        return <Loading />;
-    }
-
-    return (
-        <main>
-            <StylesForm
-                onSubmit={handleSubmit(handleFormUser)}
-                aria-autocomplete="none"
-                autoComplete="off"
-                autoSave="off"
-            >
-                <FormProvider {...hookForm}>
-                    <FormUser setNewPayFormat={setNewPayFormat} />
-                </FormProvider>
-
-                <StylesListCoffee>
-                    <h3>Cafés selecionados</h3>
-                    <ul>
-                        {buyCoffeeDatas ? (
-                            buyCoffeeDatas.map((data) => {
-                                return <CardBuyCoffee {...data} key={data.id} />;
-                            })
-                        ) : (
-                            <p>Carregando...</p>
-                        )}
-                    </ul>
-                    <PricesTotal isLoading={isLoading} priceTotal={priceTotal} />
-                </StylesListCoffee>
-            </StylesForm>
-        </main>
-    );
+        <StylesListCoffee>
+          <h3>Cafés selecionados</h3>
+          <ul>
+            {buyCoffeeDatas ? (
+              buyCoffeeDatas.map((data) => {
+                return <CardBuyCoffee {...data} key={data.id} />;
+              })
+            ) : (
+              <p>Carregando...</p>
+            )}
+          </ul>
+          <PricesTotal isLoading={isLoading} priceTotal={priceTotal} />
+        </StylesListCoffee>
+      </StylesForm>
+    </main>
+  );
 }

@@ -8,72 +8,72 @@ const RequestBodyAddress = jest.fn();
 const mockRequestUrl = jest.fn();
 
 jest.mock('axios', () => ({
-    ...jest.requireActual('axios'),
-    create: (configs: { baseURL: string }) => {
+  ...jest.requireActual('axios'),
+  create: (configs: { baseURL: string }) => {
+    return {
+      put: (pathName: string, handleBody: FormUseType) => {
+        mockRequestUrl.mockReturnValue(configs.baseURL.concat(pathName));
+        RequestBodyAddress.mockReturnValue(handleBody);
+
         return {
-            put: (pathName: string, handleBody: FormUseType) => {
-                mockRequestUrl.mockReturnValue(configs.baseURL.concat(pathName));
-                RequestBodyAddress.mockReturnValue(handleBody);
+          then: (handleResponse: () => void) => {
+            try {
+              handleResponse();
 
-                return {
-                    then: (handleResponse: () => void) => {
-                        try {
-                            handleResponse();
-
-                            return {
-                                catch: (_error: (error: { message: string }) => void) => {},
-                            };
-                        } catch (error) {
-                            return {
-                                catch: (functionError: (error: { message: string }) => void) => {
-                                    functionError({ message: 'error' });
-                                },
-                            };
-                        }
-                    },
-                };
-            },
+              return {
+                catch: (_error: (error: { message: string }) => void) => {},
+              };
+            } catch (error) {
+              return {
+                catch: (functionError: (error: { message: string }) => void) => {
+                  functionError({ message: 'error' });
+                },
+              };
+            }
+          },
         };
-    },
+      },
+    };
+  },
 }));
 const address: FormUseType = {
-    cep: '55460000',
-    city: 'Recife',
-    complement: '',
-    neighborhood: 'Dom pedro primeiro',
-    number: 45,
-    street: 'Luiz inacio',
-    uf: 'PE',
+  cep: '55460000',
+  city: 'Recife',
+  complement: '',
+  neighborhood: 'Dom pedro primeiro',
+  number: 45,
+  street: 'Luiz inacio',
+  uf: 'PE',
 };
 
 const updateAddressProps: UpdateAddressPropsType = {
-    address,
-    addressId: '954',
+  address,
+  addressId: '954',
 };
 
 describe('Update address', () => {
-    test('Request correct url', async () => {
-        ReturnResponseAddressId.mockReturnValue('1');
+  test('Request correct url', async () => {
+    ReturnResponseAddressId.mockReturnValue('1');
 
-        await UpdateAddress({ ...updateAddressProps });
+    await UpdateAddress({ ...updateAddressProps });
 
-        const url = `${env.VITE_RENDER_API_URL}/user/${updateAddressProps.addressId}`;
-        expect(mockRequestUrl()).toEqual(url);
-    });
+    const url = `${env.VITE_RENDER_API_URL}/user/${updateAddressProps.addressId}`;
+    expect(mockRequestUrl()).toEqual(url);
+  });
 
-    test('Invite request body on the correct format', async () => {
-        ReturnResponseAddressId.mockReturnValue('1');
+  test('Invite request body on the correct format', async () => {
+    ReturnResponseAddressId.mockReturnValue('1');
 
-        await UpdateAddress({ ...updateAddressProps });
+    await UpdateAddress({ ...updateAddressProps });
 
-        expect(RequestBodyAddress()).toEqual(address);
-    });
+    expect(RequestBodyAddress()).toEqual(address);
+  });
 
-    test('Remove var editeAddress from localStorage', async () => {
-        window.sessionStorage.setItem('editeAddress', 'true');
+  test('Remove var editeAddress from localStorage', async () => {
+    window.sessionStorage.setItem('editeAddress', 'true');
 
-        await UpdateAddress({ ...updateAddressProps });
+    await UpdateAddress({ ...updateAddressProps });
 
-        expect(window.sessionStorage.editeAddress).toBeDefined;
-    });
+    expect(window.sessionStorage.editeAddress).toBeDefined;
+  });
 });

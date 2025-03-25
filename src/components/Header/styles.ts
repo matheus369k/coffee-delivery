@@ -12,105 +12,105 @@ const pulse = keyframes`
 `;
 
 export const StyledHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 2rem 0 3.25rem;
+  padding: 1rem;
+
+  background: ${(props) => props.theme.background};
+
+  position: sticky;
+  top: 0;
+
+  z-index: 10;
+
+  img {
+    height: 2.5rem;
+    width: 5.25rem;
+
+    cursor: pointer;
+  }
+
+  button:first-of-type {
+    background: transparent;
+    box-shadow: 0;
+    outline: 0;
+
+    margin-right: 1rem;
+
+    cursor: pointer;
+  }
+
+  div {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 0.875rem;
 
-    margin: 2rem 0 3.25rem;
-    padding: 1rem;
+    p {
+      background: ${(props) => props.theme['purple-light']};
 
-    background: ${(props) => props.theme.background};
+      border-radius: 6px;
+      padding: 0.5rem;
 
-    position: sticky;
-    top: 0;
+      display: flex;
+      align-items: center;
 
-    z-index: 10;
+      gap: 0.125rem;
 
-    img {
-        height: 2.5rem;
-        width: 5.25rem;
+      span {
+        color: ${(props) => props.theme['purple-dark']};
+        font-size: 0.875rem;
+        line-height: 1.3;
+      }
 
-        cursor: pointer;
+      svg {
+        color: ${(props) => props.theme.purple};
+      }
     }
 
-    button:first-of-type {
-        background: transparent;
-        box-shadow: 0;
-        outline: 0;
+    button:last-of-type {
+      padding: 0.5rem;
+      border-radius: 6px;
+      line-height: 0;
 
-        margin-right: 1rem;
+      background: ${(props) => props.theme['yellow-light']};
 
-        cursor: pointer;
-    }
+      position: relative;
 
-    div {
+      &:not([data-count-products='0'])::before {
+        content: attr(data-count-products);
+
+        height: 1.25rem;
+        width: 1.25rem;
+
+        background: ${(props) => props.theme['yellow-dark']};
+        color: ${(props) => props.theme.white};
+
+        border-radius: 50%;
+
+        font-size: 0.75rem;
+        font-weight: bold;
+        line-height: 0;
+
+        position: absolute;
+        top: -0.5rem;
+        right: -0.5rem;
+
         display: flex;
-        gap: 0.875rem;
+        justify-content: center;
+        align-items: center;
 
-        p {
-            background: ${(props) => props.theme['purple-light']};
+        animation: ${pulse} 1s ease-in 5 alternate-reverse;
+      }
 
-            border-radius: 6px;
-            padding: 0.5rem;
+      svg {
+        color: ${(props) => props.theme['yellow-dark']};
 
-            display: flex;
-            align-items: center;
-
-            gap: 0.125rem;
-
-            span {
-                color: ${(props) => props.theme['purple-dark']};
-                font-size: 0.875rem;
-                line-height: 1.3;
-            }
-
-            svg {
-                color: ${(props) => props.theme.purple};
-            }
+        path {
+          fill: ${(props) => props.theme['yellow-dark']};
         }
-
-        button:last-of-type {
-            padding: 0.5rem;
-            border-radius: 6px;
-            line-height: 0;
-
-            background: ${(props) => props.theme['yellow-light']};
-
-            position: relative;
-
-            &:not([data-count-products='0'])::before {
-                content: attr(data-count-products);
-
-                height: 1.25rem;
-                width: 1.25rem;
-
-                background: ${(props) => props.theme['yellow-dark']};
-                color: ${(props) => props.theme.white};
-
-                border-radius: 50%;
-
-                font-size: 0.75rem;
-                font-weight: bold;
-                line-height: 0;
-
-                position: absolute;
-                top: -0.5rem;
-                right: -0.5rem;
-
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                animation: ${pulse} 1s ease-in 5 alternate-reverse;
-            }
-
-            svg {
-                color: ${(props) => props.theme['yellow-dark']};
-
-                path {
-                    fill: ${(props) => props.theme['yellow-dark']};
-                }
-            }
-        }
+      }
     }
+  }
 `;
