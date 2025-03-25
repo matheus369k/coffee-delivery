@@ -1,94 +1,136 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Home } from '@pages/Home';
-import { coffeeDatasType, GetCoffees, ResponseStatusType } from '@pages/Home/service/get-coffees';
-
-const mockSetResponseStatus = jest.fn();
-
-const returnsGetCoffees = (responseStatus: ResponseStatusType, coffeeDatas: coffeeDatasType[]) => {
-    return {
-        coffeeDatas,
-        responseStatus,
-        setResponseStatus: mockSetResponseStatus,
-    };
-};
+import { requestCoffees } from '@pages/Home/service/get-coffees';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { CoffeeCard } from '@pages/Home/components/coffee-card';
+import { IntroSection } from '@pages/Home/components/intro-section';
+import { LoadingCoffeeCard } from '@pages/Home/components/loading-coffee-card';
+import { ShoppingFilter } from '@pages/Home/components/shopping-filter';
+import { act } from 'react';
 
 jest.mock('@pages/Home/service/get-coffees');
-const mockedGetCoffees = jest.mocked(GetCoffees as typeof GetCoffees);
+jest.mock('@pages/Home/components/shopping-filter', () => ({
+  ShoppingFilter: jest.fn(),
+}));
+jest.mock('@pages/Home/components/coffee-card', () => ({
+  CoffeeCard: jest.fn(),
+}));
+jest.mock('@pages/Home/components/loading-coffee-card', () => ({
+  LoadingCoffeeCard: jest.fn(),
+}));
+jest.mock('@pages/Home/components/intro-section', () => ({
+  IntroSection: jest.fn(),
+}));
 
-describe('Should page home in status', () => {
-    test('loading', () => {
-        mockedGetCoffees.mockReturnValue({ ...returnsGetCoffees('loading', []) });
+const queryClient = new QueryClient();
+const wrapper = ({ children }: { children: React.ReactNode }) => {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+};
 
-        render(<Home />);
+describe('Home', () => {
+  const mockRequestCoffees = requestCoffees as jest.Mock;
+  const defaultResponse = [
+    {
+      id: '1',
+      name: 'Coffee 1',
+      slugs: ['coffee-1'],
+      tags: ['coffee', 'hot'],
+      image: 'coffee-1.png',
+      description: 'Coffee 1 description',
+      price: '10.00',
+    },
+    {
+      id: '2',
+      name: 'Coffee 2',
+      slugs: ['coffee-2'],
+      tags: ['coffee', 'cold'],
+      image: 'coffee-2.png',
+      description: 'Coffee 2 description',
+      price: '12.00',
+    },
+  ];
 
-        expect(screen.getByText('Carregando...')).toBeTruthy();
+  beforeEach(() => {
+    mockRequestCoffees.mockResolvedValue(defaultResponse);
+  });
+
+  afterEach(() => {
+    queryClient.clear();
+  });
+
+  test('should render correctly', async () => {
+    render(<Home />, { wrapper });
+
+    expect(ShoppingFilter).toHaveBeenCalled();
+    expect(IntroSection).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(CoffeeCard).toHaveBeenCalledTimes(2);
     });
+  });
 
-    test('error', () => {
-        mockedGetCoffees.mockReturnValue({ ...returnsGetCoffees('error', []) });
+  test('ShoppingFilter should be called with corrected values', () => {
+    render(<Home />, { wrapper });
 
-        render(<Home />);
+    expect(ShoppingFilter).toHaveBeenCalledWith(
+      {
+        handleSetQueryFilter: expect.any(Function),
+        query: '',
+      },
+      {},
+    );
+  });
 
-        expect(screen.getByText('Error ao tentar carregar os dados.')).toBeTruthy();
+  test('should render component at the mode loading', () => {
+    render(<Home />, { wrapper });
+
+    expect(LoadingCoffeeCard).toHaveBeenCalledTimes(8);
+  });
+
+  test('should render component at the mode not found', async () => {
+    mockRequestCoffees.mockResolvedValueOnce([]);
+
+    render(<Home />, { wrapper });
+
+    await waitFor(() => {
+      expect(CoffeeCard).not.toHaveBeenCalled();
+      const notFoundElement = screen.getByText('Nem um dado foi encontrado.');
+      expect(notFoundElement).toBeVisible();
     });
+  });
 
-    test('not-found', () => {
-        mockedGetCoffees.mockReturnValue({ ...returnsGetCoffees('not-found', []) });
+  test('should render component at the mode error', async () => {
+    mockRequestCoffees.mockResolvedValueOnce(undefined);
 
-        render(<Home />);
+    render(<Home />, { wrapper });
 
-        expect(screen.getByText('Nem um dado foi encontrado.')).toBeTruthy();
+    await waitFor(() => {
+      expect(CoffeeCard).not.toHaveBeenCalled();
+      const errorContainer = screen.getByTitle('recarregar a pagina').parentNode;
+      expect(errorContainer).toBeVisible();
     });
+  });
 
-    test('success', () => {
-        const database: coffeeDatasType[] = [
-            {
-                id: '1',
-                name: 'Árabe',
-                tags: ['Especial'],
-                slugs: ['especial'],
-                image: 'https://github.com/matheus369k/matheus369k.github.io/blob/main/coffee-delivery-images/%C3%A1rabe.png?raw=true',
-                description: 'Bebida preparada com grãos de café árabe e especiarias',
-                price: '9,90',
-            },
-            {
-                id: '2',
-                name: 'Irlandês',
-                tags: ['Especial', 'Alcoólico'],
-                slugs: ['especial', 'alcoolico'],
-                image: 'https://github.com/matheus369k/matheus369k.github.io/blob/main/coffee-delivery-images/irland%C3%AAs.png?raw=true',
-                description: 'Bebida a base de café, uísque irlandês, açúcar e chantilly',
-                price: '9,90',
-            },
-        ];
-        mockedGetCoffees.mockReturnValue({ ...returnsGetCoffees('complete', database) });
-
-        render(<Home />);
-
-        expect(screen.getByText(database[0].name)).toBeTruthy();
-        expect(screen.getByText(database[1].name)).toBeTruthy();
-
-        expect(screen.getByText(database[0].description)).toBeTruthy();
-        expect(screen.getByText(database[1].description)).toBeTruthy();
+  test('should rerender page when is clicked in button with text Recarregar', async () => {
+    const mockReload = jest.fn();
+    jest.spyOn(window, 'location', 'get').mockImplementationOnce(() => {
+      return {
+        ...Location.prototype,
+        reload: jest.fn(mockReload),
+      };
     });
-});
+    mockRequestCoffees.mockResolvedValueOnce(undefined);
 
-describe('Fire client side events', () => {
-    test('Reload page', () => {
-        const mockReload = jest.fn();
-        jest.spyOn(window, 'location', 'get').mockImplementation(() => {
-            return {
-                ...Location.prototype,
-                reload: () => mockReload(),
-            };
-        });
-        mockedGetCoffees.mockReturnValue({ ...returnsGetCoffees('error', []) });
+    render(<Home />, { wrapper });
 
-        render(<Home />);
-
-        fireEvent.click(screen.getByText('Recarregar'));
-
-        expect(mockReload).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(CoffeeCard).not.toHaveBeenCalled();
+      const buttonElement = screen.getByTitle('recarregar a pagina');
+      expect(mockReload).not.toHaveBeenCalled();
+      act(() => {
+        fireEvent.click(buttonElement);
+      });
+      expect(mockReload).toHaveBeenCalled();
     });
+  });
 });

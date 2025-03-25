@@ -1,130 +1,71 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
-import { coffeeDatasType, GetCoffees, GetCoffeesPropsType } from '@pages/Home/service/get-coffees';
 import { env } from '@/env';
+import { api } from '@lib/api';
+import { requestCoffees } from '@pages/Home/service/get-coffees';
 import { renderHook, waitFor } from '@testing-library/react';
+import axios from 'axios';
 
-const mockRequestUrl = jest.fn();
-const mockSetStateStatus = jest.fn();
-const mockSetStateCoffeesDatas = jest.fn();
-const ReturnResponseCoffeeDatas = jest.fn();
+describe('getCoffees', () => {
+  const spyApiGet = jest.spyOn(api, 'get');
+  const spyAxiosGet = jest.spyOn(axios, 'get');
 
-jest.mock('react', () => ({
-    ...jest.requireActual('react'),
-    useEffect: (effect: () => void, deps?: unknown[]) => {
-        effect();
-        deps;
-    },
-}));
+  const defaultResponse = {
+    coffees: [
+      {
+        id: '1',
+        name: 'Coffee 1',
+        slugs: ['coffee-1'],
+        tags: ['coffee', 'hot'],
+        image: 'coffee-1.png',
+        description: 'Coffee 1 description',
+        price: '10.00',
+      },
+      {
+        id: '2',
+        name: 'Coffee 2',
+        slugs: ['coffee-2'],
+        tags: ['coffee', 'cold'],
+        image: 'coffee-2.png',
+        description: 'Coffee 2 description',
+        price: '12.00',
+      },
+    ],
+  };
 
-jest.mock('axios', () => ({
-    ...jest.requireActual('axios'),
-    create: (configs: { baseURL: string }) => {
-        return {
-            get: (pathName: string) => {
-                mockRequestUrl(configs.baseURL.concat(pathName));
+  beforeEach(() => {
+    spyApiGet.mockResolvedValue({ data: defaultResponse });
+    spyAxiosGet.mockResolvedValue({ data: defaultResponse.coffees });
+  });
 
-                return {
-                    then: (
-                        handleResponse: (response: {
-                            data: { coffees: coffeeDatasType[] | never[] | undefined };
-                        }) => void,
-                    ) => {
-                        const response = { data: { coffees: ReturnResponseCoffeeDatas() } };
+  test('should call corrected function', () => {
+    const { result } = renderHook(async () => await requestCoffees(''));
 
-                        try {
-                            handleResponse(response);
+    expect(result.current).resolves.toMatchObject(defaultResponse.coffees);
+  });
 
-                            return {
-                                catch: (_error: () => void) => {},
-                            };
-                        } catch (error) {
-                            return {
-                                catch: (error: () => void) => {
-                                    error();
-                                },
-                            };
-                        }
-                    },
-                };
-            },
-        };
-    },
-}));
+  test('should interrupted other request when one is finished', () => {
+    renderHook(async () => await requestCoffees(''));
 
-const { query }: GetCoffeesPropsType = {
-    query: 'all',
-};
+    expect(spyApiGet).not.toHaveBeenCalled();
+    expect(spyAxiosGet).toHaveBeenCalled();
+  });
 
-describe('Get coffees', () => {
-    beforeEach(() => {
-        jest.spyOn(React, 'useState')
-            .mockImplementationOnce(() => [[], mockSetStateCoffeesDatas])
-            .mockImplementationOnce(() => ['loading', mockSetStateStatus]);
+  test('should call request with correct path', () => {
+    const { rerender } = renderHook(async ({ query }) => await requestCoffees(query), {
+      initialProps: { query: '' },
     });
+    expect(spyAxiosGet).toHaveBeenCalledWith(env.VITE_GH_API_URL);
 
-    test('Url to request is Correct', async () => {
-        ReturnResponseCoffeeDatas.mockReturnValue([]);
+    rerender({ query: 'coffee-1' });
+    expect(spyApiGet).toHaveBeenCalledWith('/coffees/coffee-1');
+  });
 
-        renderHook(() => GetCoffees({ query }));
+  test('should return empty array when any data is found', async () => {
+    spyApiGet.mockResolvedValue({ data: [] });
+    const spyConsole = jest.spyOn(console, 'log');
 
-        await waitFor(() => {
-            const requestUrl = mockRequestUrl.mock.lastCall;
-            expect(requestUrl).toEqual([`${env.VITE_RENDER_API_URL}/coffees/all`]);
-        });
-    });
+    const { result } = renderHook(async () => await requestCoffees('coffee-1'));
 
-    test('Data not found', async () => {
-        ReturnResponseCoffeeDatas.mockReturnValue([]);
-
-        renderHook(() => GetCoffees({ query }));
-
-        await waitFor(() => {
-            expect(mockSetStateStatus.mock.lastCall).toEqual(['not-found']);
-            expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual([[]]);
-        });
-    });
-
-    test('Error to request', async () => {
-        ReturnResponseCoffeeDatas.mockReturnValue(undefined);
-
-        renderHook(() => GetCoffees({ query }));
-
-        await waitFor(() => {
-            expect(mockSetStateStatus.mock.lastCall).toEqual(['error']);
-            expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual(undefined);
-        });
-    });
-
-    test('get datas', async () => {
-        const database: coffeeDatasType[] = [
-            {
-                id: '1',
-                name: 'Árabe',
-                tags: ['Especial'],
-                slugs: ['especial'],
-                image: 'https://github.com/matheus369k/matheus369k.github.io/blob/main/coffee-delivery-images/%C3%A1rabe.png?raw=true',
-                description: 'Bebida preparada com grãos de café árabe e especiarias',
-                price: '9,90',
-            },
-            {
-                id: '2',
-                name: 'Irlandês',
-                tags: ['Especial', 'Alcoólico'],
-                slugs: ['especial', 'alcoolico'],
-                image: 'https://github.com/matheus369k/matheus369k.github.io/blob/main/coffee-delivery-images/irland%C3%AAs.png?raw=true',
-                description: 'Bebida a base de café, uísque irlandês, açúcar e chantilly',
-                price: '9,90',
-            },
-        ];
-
-        ReturnResponseCoffeeDatas.mockReturnValue(database);
-
-        renderHook(() => GetCoffees({ query }));
-
-        await waitFor(() => {
-            expect(mockSetStateStatus.mock.lastCall).toEqual(['complete']);
-            expect(mockSetStateCoffeesDatas.mock.lastCall).toEqual([database]);
-        });
-    });
+    expect(result.current).resolves.toMatchObject([]);
+    await waitFor(() => expect(spyConsole).toHaveBeenCalledWith('not-found datas'));
+  });
 });

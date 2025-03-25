@@ -1,80 +1,60 @@
-import { fireEvent, screen } from '@testing-library/dom';
-import { Home } from '@pages/Home';
-import { coffeeDatasType, GetCoffees, ResponseStatusType } from '@pages/Home/service/get-coffees';
+import { screen } from '@testing-library/dom';
 import { render } from '@testing-library/react';
-import React from 'react';
+import { ShoppingFilter } from '@pages/Home/components/shopping-filter';
+import { ShopFilterRow } from '@pages/Home/components/shopping-filter/shop-filter-row';
 
-jest.mock('@pages/Home/service/get-coffees');
+jest.mock('@pages/Home/components/shopping-filter/shop-filter-row', () => ({
+  ShopFilterRow: jest.fn(),
+}));
 
-const mockSetResponseStatus = jest.fn();
-const mockedGetCoffees = jest.mocked(GetCoffees as typeof GetCoffees);
-const mockSetStateQuery = jest.fn();
+describe('ShoppingFilter', () => {
+  test('should render correctly', () => {
+    const handleSetQueryFilter = jest.fn();
 
-const returnsGetCoffees = (responseStatus: ResponseStatusType, coffeeDatas: coffeeDatasType[]) => {
-    return {
-        coffeeDatas,
-        responseStatus,
-        setResponseStatus: mockSetResponseStatus,
-    };
-};
+    render(<ShoppingFilter handleSetQueryFilter={handleSetQueryFilter} query="" />);
 
-describe('Shopping Filter', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-        const database: coffeeDatasType[] = [
-            {
-                id: '1',
-                name: 'Árabe',
-                tags: ['Especial'],
-                slugs: ['especial'],
-                image: 'https://github.com/matheus369k/matheus369k.github.io/blob/main/coffee-delivery-images/%C3%A1rabe.png?raw=true',
-                description: 'Bebida preparada com grãos de café árabe e especiarias',
-                price: '9,90',
-            },
-            {
-                id: '2',
-                name: 'Irlandês',
-                tags: ['Especial', 'Alcoólico'],
-                slugs: ['especial', 'alcoolico'],
-                image: 'https://github.com/matheus369k/matheus369k.github.io/blob/main/coffee-delivery-images/irland%C3%AAs.png?raw=true',
-                description: 'Bebida a base de café, uísque irlandês, açúcar e chantilly',
-                price: '9,90',
-            },
-        ];
-        mockedGetCoffees.mockReturnValue({ ...returnsGetCoffees('complete', database) });
-    });
+    const shoppingFilter = screen.getByText('Nossos cafés');
+    expect(shoppingFilter).toBeInTheDocument();
+    expect(ShopFilterRow).toHaveBeenCalledTimes(6);
+  });
 
-    test('add new filter value', () => {
-        jest.spyOn(React, 'useState').mockImplementationOnce(() => ['', mockSetStateQuery]);
+  test('should ShopFilterRow with corrected props', () => {
+    const handleSetQueryFilter = jest.fn();
 
-        render(<Home />);
+    render(<ShoppingFilter handleSetQueryFilter={handleSetQueryFilter} query="" />);
 
-        fireEvent.click(screen.getByText('Tradicional'));
+    expect(ShopFilterRow).toHaveBeenNthCalledWith(
+      1,
+      {
+        active: true,
+        onClick: expect.any(Function),
+        text: 'Todos',
+      },
+      {},
+    );
+  });
 
-        expect(mockSetStateQuery.mock.lastCall).toEqual(['tradicional']);
-    });
+  test('should render ShopFilterRow with active true when query is equal to "tradicional"', () => {
+    const handleSetQueryFilter = jest.fn();
 
-    test('Add loading status', () => {
-        jest.spyOn(React, 'useState').mockImplementationOnce(() => ['', mockSetStateQuery]);
+    render(<ShoppingFilter handleSetQueryFilter={handleSetQueryFilter} query="tradicional" />);
 
-        render(<Home />);
-
-        fireEvent.click(screen.getByText('Tradicional'));
-
-        expect(mockSetResponseStatus.mock.lastCall).toEqual(['loading']);
-    });
-
-    test('Add active id to filter element', () => {
-        jest.spyOn(React, 'useState').mockImplementationOnce(() => [
-            'tradicional',
-            mockSetStateQuery,
-        ]);
-
-        render(<Home />);
-
-        const button = screen.getByText('Tradicional');
-        fireEvent.click(button);
-
-        expect(button).toHaveAttribute('id', 'active');
-    });
+    expect(ShopFilterRow).toHaveBeenNthCalledWith(
+      2,
+      {
+        active: true,
+        onClick: expect.any(Function),
+        text: 'Tradicional',
+      },
+      {},
+    );
+    expect(ShopFilterRow).toHaveBeenNthCalledWith(
+      3,
+      {
+        onClick: expect.any(Function),
+        text: 'Especial',
+      },
+      {},
+    );
+  });
 });
