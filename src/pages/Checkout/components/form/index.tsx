@@ -1,92 +1,40 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { StylesDatasUser } from './styles';
-import { useFormContext } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { PayFormat } from './components/pay-format';
-import { AddressUser } from './components/address-user';
-import { GetAddressViaCep } from './service/get-viacep';
-import { GetUserAddress } from './service/get-user-address';
+import { StylesDatasUser } from "./styles";
+import { FormPay } from "./form-pay";
+import { FormAddress } from "./form-address";
+import { useAutoCompleteAddress } from "@pages/Checkout/hooks/use-auto-complete-address";
+import { useEffect } from "react";
 
-export interface AddressType {
-  cep?: string;
-  street: string;
-  complement: string;
-  neighborhood: string;
-  city: string;
-  number?: number;
-  uf: string;
-}
-
-export function FormUser({ setNewPayFormat }: { setNewPayFormat: (payFormat: string) => void }) {
-  const [hasEditeAddress, setHasEditeAddress] = useState(true);
-  const { watch, setValue } = useFormContext();
-  const cep: string = watch('cep') || '';
-
-  const [address, setAddress] = useState<AddressType>({
-    city: '',
-    complement: '',
-    neighborhood: '',
-    street: '',
-    uf: '',
-  });
+export function FormUser() {
+  const {
+    address,
+    isValideCep,
+    hasEditeAddress,
+    autoCompleteAddress,
+    handleHasEditeAddress,
+    autoCompleteAddressViaCep,
+  } = useAutoCompleteAddress();
 
   useEffect(() => {
-    const addressId = window.localStorage.getItem('addressId');
+    const addressId = window.localStorage.addressId;
 
-    if (!cep && !(cep.length >= 5) && !addressId) {
-      return;
+    if (isValideCep && hasEditeAddress) {
+      autoCompleteAddressViaCep();
+    } else if (addressId) {
+      autoCompleteAddress(addressId);
     }
-
-    if (addressId && !cep) {
-      GetUserAddress({
-        addressId,
-        setAddress,
-        handleDisabledEditeAddress,
-        setInUseFormNewAddress,
-      });
-      return;
-    }
-
-    GetAddressViaCep({
-      cep,
-      setAddress,
-      setInUseFormNewAddress,
-    });
-  }, [cep]);
-
-  function setInUseFormNewAddress(addressResponse: AddressType) {
-    const addressKeys: string[] = Object.keys(addressResponse);
-    const addressValues: string[] = Object.values(addressResponse);
-
-    addressKeys.forEach((_, index) => {
-      setValue(addressKeys[index], addressValues[index]);
-    });
-  }
-
-  function handleDisabledEditeAddress() {
-    setHasEditeAddress(false);
-  }
-
-  function handleGetPayFormat(payForm: string) {
-    setNewPayFormat(payForm);
-  }
-
-  function handleHasEditeAddress() {
-    setHasEditeAddress(true);
-
-    window.sessionStorage.setItem('editeAddress', 'true');
-  }
+  }, [isValideCep]);
 
   return (
     <StylesDatasUser>
       <h3>Complete seu pedido</h3>
-      <AddressUser
+      <FormAddress
         address={address}
         handleHasEditeAddress={handleHasEditeAddress}
         hasEditeAddress={hasEditeAddress}
       />
 
-      <PayFormat handleGetPayFormat={handleGetPayFormat} />
+      <FormPay />
     </StylesDatasUser>
   );
 }

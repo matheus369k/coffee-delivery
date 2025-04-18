@@ -1,17 +1,17 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StylesDatasUser = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const StyledAddressUser = styled.div`
+export const StyledAFormAddress = styled.div`
   display: flex;
   flex-direction: column;
 
   gap: 2rem;
 
-  background: ${(props) => props.theme['base-card']};
+  background: ${(props) => props.theme["base-card"]};
 
   padding: 2.5rem;
   border-radius: 6px;
@@ -23,7 +23,7 @@ export const StyledAddressUser = styled.div`
     gap: 0.5rem;
 
     svg {
-      color: ${(props) => props.theme['yellow-dark']};
+      color: ${(props) => props.theme["yellow-dark"]};
     }
 
     p {
@@ -31,19 +31,19 @@ export const StyledAddressUser = styled.div`
       flex-direction: column;
 
       span:first-child {
-        color: ${(props) => props.theme['base-subtitle']};
+        color: ${(props) => props.theme["base-subtitle"]};
 
         line-height: 1.3;
         font-size: 1rem;
-        font-family: ${(props) => props.theme['text-font']}, sans-serif;
+        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
       }
 
       span:last-child {
-        color: ${(props) => props.theme['base-text']};
+        color: ${(props) => props.theme["base-text"]};
 
         line-height: 1.3;
         font-size: 0.875rem;
-        font-family: ${(props) => props.theme['text-font']}, sans-serif;
+        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
       }
     }
   }
@@ -75,50 +75,13 @@ export const StyledAddressUser = styled.div`
     display: grid;
     grid-template-columns: 1fr 2fr 3.75rem;
     grid-template-areas:
-      'cep cep cep'
-      'street street street'
-      'number complement complement'
-      'neighborhood city uf';
+      "cep cep cep"
+      "street street street"
+      "number complement complement"
+      "neighborhood city uf";
 
     column-gap: 1rem;
     row-gap: 0.75rem;
-
-    input,
-    & > p {
-      border: 1px solid ${(props) => props.theme['base-button']};
-
-      background: ${(props) => props.theme['base-input']};
-      color: ${(props) => props.theme['base-label']};
-
-      padding: 0.75rem;
-
-      line-height: 1.4;
-      font-size: 0.875rem;
-
-      border-radius: 6px;
-
-      &.cep {
-        grid-area: cep;
-      }
-      &.street {
-        grid-area: street;
-      }
-      &.number {
-        grid-area: number;
-      }
-      &.complement {
-        grid-area: complement;
-      }
-      &.neighborhood {
-        grid-area: neighborhood;
-      }
-      &.city {
-        grid-area: city;
-      }
-      &.uf {
-        grid-area: uf;
-      }
-    }
 
     label {
       grid-area: complement;
@@ -129,10 +92,10 @@ export const StyledAddressUser = styled.div`
       width: max-content;
 
       font-size: 0.75rem;
-      font-family: ${(props) => props.theme['text-font']};
+      font-family: ${(props) => props.theme["text-font"]};
       font-weight: lighter;
 
-      color: ${(props) => props.theme['base-label']};
+      color: ${(props) => props.theme["base-label"]};
 
       z-index: 2;
     }
@@ -144,34 +107,34 @@ export const StyledAddressUser = styled.div`
     div:last-of-type {
       grid-template-columns: 1fr 2fr 3.75rem;
       grid-template-areas:
-        'cep cep cep'
-        'street street street'
-        'number number number'
-        'complement complement complement'
-        'neighborhood neighborhood neighborhood'
-        'city city uf';
+        "cep cep cep"
+        "street street street"
+        "number number number"
+        "complement complement complement"
+        "neighborhood neighborhood neighborhood"
+        "city city uf";
     }
   }
 `;
 
-export const StylesPayFormat = styled.div`
+export const StylesFormPay = styled.div`
   display: flex;
   flex-direction: column;
 
   gap: 2rem;
 
-  background: ${(props) => props.theme['base-card']};
+  background: ${(props) => props.theme["base-card"]};
 
   padding: 2.5rem;
   margin-top: 0.75rem;
   border-radius: 6px;
 
-  div {
+  div:first-of-type {
     display: flex;
     gap: 0.5rem;
 
     svg {
-      color: ${(props) => props.theme['purple']};
+      color: ${(props) => props.theme["purple"]};
     }
 
     p {
@@ -179,28 +142,28 @@ export const StylesPayFormat = styled.div`
       flex-direction: column;
 
       span:first-child {
-        color: ${(props) => props.theme['base-subtitle']};
+        color: ${(props) => props.theme["base-subtitle"]};
 
         line-height: 1.3;
         font-size: 1rem;
-        font-family: ${(props) => props.theme['text-font']}, sans-serif;
+        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
       }
 
       span:last-child {
-        color: ${(props) => props.theme['base-text']};
+        color: ${(props) => props.theme["base-text"]};
 
         line-height: 1.3;
         font-size: 0.875rem;
-        font-family: ${(props) => props.theme['text-font']}, sans-serif;
+        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
       }
     }
   }
 
-  ul {
+  div:last-of-type {
     display: flex;
     column-gap: 0.75rem;
 
-    li {
+    button {
       display: flex;
       gap: 0.75rem;
 
@@ -208,13 +171,13 @@ export const StylesPayFormat = styled.div`
 
       width: 100%;
 
-      background: ${(props) => props.theme['base-button']};
+      background: ${(props) => props.theme["base-button"]};
 
       border-radius: 6px;
 
       position: relative;
 
-      input[name='formPayment'] {
+      input[name="formPayment"] {
         all: unset;
 
         position: absolute;
@@ -238,7 +201,7 @@ export const StylesPayFormat = styled.div`
         line-height: 1.6;
         font-size: 0.75rem;
 
-        color: ${(props) => props.theme['base-text']};
+        color: ${(props) => props.theme["base-text"]};
       }
     }
   }
@@ -246,12 +209,12 @@ export const StylesPayFormat = styled.div`
   @media (max-width: 569px) {
     padding: 1rem;
 
-    & > ul {
+    & > div:last-of-type {
       flex-direction: column;
 
       gap: 1rem;
 
-      li {
+      button {
         justify-content: center;
       }
     }
