@@ -13,7 +13,7 @@ export function LoadingCoffeeCard() {
         <span>9.90</span>
         <form>
           <div>
-            <input type="number" value="1" name="count" />
+            <input type="number" defaultValue="1" name="count" />
           </div>
           <button type="submit" title="add to cart"></button>
         </form>
