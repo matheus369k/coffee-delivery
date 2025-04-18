@@ -1,4 +1,4 @@
-import { TotalPriceType } from '..';
+import { TotalPriceType } from "..";
 
 export function PricesTotal({
   isLoading,
@@ -18,10 +18,12 @@ export function PricesTotal({
         <span>R$ {priceTotal.taxa}</span>
       </p>
       <p>
-        <span>Total</span>
+        <span>Total Final</span>
         <span>R$ {priceTotal.priceEnd}</span>
       </p>
-      <button type="submit">{isLoading ? 'Carregando...' : 'confirmar pedido'}</button>
+      <button disabled={isLoading} type="submit">
+        {isLoading ? "Carregando..." : "confirmar pedido"}
+      </button>
     </div>
   );
 }

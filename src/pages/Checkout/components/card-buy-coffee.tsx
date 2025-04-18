@@ -1,7 +1,7 @@
-import { CountProductsContext } from '@/contexts/context-count-products';
-import { Minus, Plus, Trash } from '@phosphor-icons/react';
-import { useContext, useState } from 'react';
-import { Button } from '@components/button';
+import { Minus, Plus, Trash } from "@phosphor-icons/react";
+import { useContext, useState, type ChangeEvent } from "react";
+import { Button } from "@components/button";
+import { CartCoffeeContext } from "@contexts/cart-coffee-context";
 
 export interface BuyCoffeeDatasType {
   id: string;
@@ -11,10 +11,15 @@ export interface BuyCoffeeDatasType {
   count: number;
 }
 
-export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffeeDatasType) {
-  const { countProducts, updateCountProductsContext } = useContext(CountProductsContext);
-
-  const [lessCoffee, setLessCoffee] = useState<number>(1);
+export function CardBuyCoffee({
+  id,
+  name,
+  image,
+  total_price,
+  count,
+}: BuyCoffeeDatasType) {
+  const { RemoveCoffeeToCart } = useContext(CartCoffeeContext);
+  const [lessCoffee, setLessCoffee] = useState(1);
 
   function handleAmountRemoveCoffeeCount() {
     setLessCoffee((state) => {
@@ -28,42 +33,47 @@ export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffee
     });
   }
 
-  function handleRemoveCoffee(id: string) {
-    if (!updateCountProductsContext || !countProducts) {
-      return;
-    }
+  function handleChangeLessCoffeeCount(event: ChangeEvent<HTMLInputElement>) {
+    setLessCoffee(Number(event.currentTarget.value));
+  }
 
-    const createNewCountProducts = countProducts.filter((countProduct) => {
-      if (countProduct.id === id) {
-        countProduct.count -= lessCoffee;
-      }
-
-      if (countProduct.count > 0) {
-        return countProduct;
-      }
+  function handleRemoveCoffee() {
+    Array.from({ length: lessCoffee }).forEach(() => {
+      RemoveCoffeeToCart({
+        id,
+        price: (parseFloat(total_price) / count).toFixed(2),
+      });
     });
-
-    updateCountProductsContext(createNewCountProducts);
     setLessCoffee(1);
   }
 
   return (
     <li>
-      <img src={image} alt={`Image representando a aparência do café ${name}`} />
+      <img
+        src={image}
+        alt={`Image representando a aparência do café ${name}`}
+      />
       <div>
         <h4>{name}</h4>
         <div>
           <div>
-            <Button disabled={lessCoffee === 1} onClick={handleLessRemoveCoffeeCount} title="Less">
+            <Button
+              aria-label="less"
+              disabled={lessCoffee === 1}
+              onClick={handleLessRemoveCoffeeCount}
+              title="Less"
+            >
               <Minus size={16} weight="bold" />
             </Button>
             <input
-              onChange={(event) => setLessCoffee(Number(event.target.value))}
+              aria-label="count"
+              onChange={handleChangeLessCoffeeCount}
               type="number"
               value={lessCoffee}
               name="count"
             />
             <Button
+              aria-label="amount"
               disabled={lessCoffee === 99 || lessCoffee === count}
               onClick={handleAmountRemoveCoffeeCount}
               title="Amount"
@@ -71,7 +81,11 @@ export function CardBuyCoffee({ id, name, image, total_price, count }: BuyCoffee
               <Plus size={16} weight="bold" />
             </Button>
           </div>
-          <Button onClick={() => handleRemoveCoffee(id)} title="Remove">
+          <Button
+            aria-label="remove"
+            onClick={handleRemoveCoffee}
+            title="Remover"
+          >
             <Trash size={16} />
             <span>Remover</span>
           </Button>
