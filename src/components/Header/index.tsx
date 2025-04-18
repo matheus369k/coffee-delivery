@@ -1,10 +1,10 @@
-import { ArrowLeft, MapPin, ShoppingCart } from '@phosphor-icons/react';
-import logoCoffeeDelivery from '@assets/logo.svg';
-import { StyledHeader } from './styles';
-import { useContext, useEffect, useState } from 'react';
-import { CountProductsContext } from '@/contexts/context-count-products';
-import { useNavigate } from 'react-router-dom';
-import { api } from '@/lib/api';
+import { ArrowLeft, MapPin, ShoppingCart } from "@phosphor-icons/react";
+import logoCoffeeDelivery from "@assets/logo.svg";
+import { StyledHeader } from "./styles";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "@/lib/api";
+import { CartCoffeeContext } from "@contexts/cart-coffee-context";
 
 export interface UserLocationType {
   city: string;
@@ -13,34 +13,39 @@ export interface UserLocationType {
 
 export function Header() {
   const navigate = useNavigate();
-  const { countProducts } = useContext(CountProductsContext);
-  const [location, setLocation] = useState('Cidade, UF');
+  const { cartCoffee } = useContext(CartCoffeeContext);
+  const [location, setLocation] = useState("Cidade, UF");
 
   function handleRedirectToCheckoutPage() {
-    navigate('/coffee-delivery/checkout');
+    navigate("/coffee-delivery/checkout");
   }
   function handleBackToHomePage() {
-    navigate('/coffee-delivery');
+    navigate("/coffee-delivery");
   }
 
   const pathName = window.location.pathname;
-  const isNotHomePage = !(pathName.includes('/checkout') || pathName.includes('/confirm'));
+  const isNotHomePage = !(
+    pathName.includes("/checkout") || pathName.includes("/confirm")
+  );
 
   useEffect(() => {
-    const addressId = window.localStorage.getItem('addressId');
-
-    if (!addressId) {
-      return;
-    }
-
-    api
-      .get(`/location/${addressId}`)
-      .then((response: { data: { userLocation: UserLocationType } }) => {
-        const locationUser: UserLocationType = response.data.userLocation;
-
-        setLocation(`${locationUser.city}, ${locationUser.uf}`);
-      });
+    autoSetUserLocation();
   }, [pathName]);
+
+  async function autoSetUserLocation() {
+    try {
+      const addressId = window.localStorage.getItem("addressId");
+
+      if (!addressId) throw new Error("addressId not found");
+      const response = await api.get(`/location/${addressId}`);
+      const data = await response.data.userLocation;
+
+      if (!data) throw new Error("data not found");
+      setLocation(`${data.city}, ${data.uf}`);
+    } catch (error) {
+      console.log((error as Error).message);
+    }
+  }
 
   return (
     <StyledHeader>
@@ -52,7 +57,13 @@ export function Header() {
       />
 
       <div>
-        <button onClick={handleBackToHomePage} hidden={isNotHomePage} type="button" title="Voltar">
+        <button
+          onClick={handleBackToHomePage}
+          hidden={isNotHomePage}
+          type="button"
+          title="Voltar"
+          aria-label="arrow back"
+        >
           <ArrowLeft size={32} weight="light" />
         </button>
 
@@ -61,11 +72,11 @@ export function Header() {
           <span>{location}</span>
         </p>
         <button
-          disabled={!countProducts || countProducts.length === 0}
           onClick={handleRedirectToCheckoutPage}
-          data-count-products={countProducts ? countProducts.length : 0}
+          data-count-products={cartCoffee ? cartCoffee.length : 0}
           type="button"
           title="Cart"
+          aria-label="Cart"
         >
           <ShoppingCart size={22} weight="fill" />
         </button>
