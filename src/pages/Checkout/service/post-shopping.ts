@@ -1,10 +1,10 @@
-import { BuyCoffeeDatasType } from '..';
-import { api } from '@lib/api';
+import { CartCoffeeType } from "@contexts/cart-coffee-context";
+import { api } from "@lib/api";
 
 export interface PostShoppingPropsType {
-  buyCoffeeDatas: BuyCoffeeDatasType[];
+  buyCoffeeDatas: CartCoffeeType[];
   addressId: string;
-  payFormat: string;
+  paymentType: string;
 }
 
 export interface RequestBodyType {
@@ -20,30 +20,39 @@ export interface RequestBodyType {
 export async function PostShopping({
   addressId,
   buyCoffeeDatas,
-  payFormat,
+  paymentType,
 }: PostShoppingPropsType) {
-  const requestBody: RequestBodyType = {
-    coffees_list: [
-      ...buyCoffeeDatas.map((buyCoffeeData) => {
-        return {
-          name: buyCoffeeData.name,
-          image: buyCoffeeData.image,
-          total_price: buyCoffeeData.total_price,
-          count: buyCoffeeData.count,
-        };
-      }),
-    ],
-    form_of_payment: payFormat,
-  };
+  try {
+    if (!paymentType) {
+      throw new Error("props buyCoffeeDatas not found");
+    }
+    if (buyCoffeeDatas.length === 0) {
+      throw new Error("props paymentType not found");
+    }
 
-  await api
-    .post(`/shopping/${addressId}`, requestBody)
-    .then((response: { data: { shoppingId: string } }) => {
-      const shoppingId = response.data.shoppingId;
+    const requestBody: RequestBodyType = {
+      coffees_list: [
+        ...buyCoffeeDatas.map((buyCoffeeData) => {
+          return {
+            name: buyCoffeeData.name,
+            image: buyCoffeeData.image,
+            total_price: buyCoffeeData.total_price,
+            count: buyCoffeeData.count,
+          };
+        }),
+      ],
+      form_of_payment: paymentType,
+    };
 
-      window.localStorage.setItem('shoppingId', shoppingId);
-    })
-    .catch((error: Error) => {
-      return console.log(error.message);
-    });
+    const response = await api.post(`/shopping/${addressId}`, requestBody);
+    const data = await response.data.shoppingId;
+
+    if (!data) {
+      throw new Error("Shopping not found");
+    }
+
+    window.localStorage.setItem("shoppingId", data);
+  } catch (error) {
+    console.log(error);
+  }
 }
