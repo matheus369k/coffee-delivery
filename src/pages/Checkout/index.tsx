@@ -1,37 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { StylesListCoffee, StylesForm } from './styles';
-import { FormUser } from './components/form/index';
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useContext, useState } from 'react';
-import { CountProductsContext } from '@contexts/context-count-products';
-import { CardBuyCoffee } from './components/card-buy-coffee';
-import { useNavigate } from 'react-router';
-import { PricesTotal } from './components/total-prices';
-import { Loading } from './components/loading';
-import { GetCoffees } from './service/get-coffees';
-import { PostShopping } from './service/post-shopping';
-import { RegisterAddress } from './service/register-address';
-import { UpdateAddress } from './service/update-address';
-
-export interface BuyCoffeeDatasType {
-  id: string;
-  name: string;
-  image: string;
-  total_price: string;
-  count: number;
-}
-
-export interface CoffeeDatasType {
-  id: string;
-  name: string;
-  tags: string[];
-  slugs: string[];
-  image: string;
-  description: string;
-  price: string;
-}
+import { StylesListCoffee, StylesForm } from "./styles";
+import { FormUser } from "./components/form/index";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useContext } from "react";
+import { CardBuyCoffee } from "./components/card-buy-coffee";
+import { useNavigate } from "react-router";
+import { PricesTotal } from "./components/total-prices";
+import { NotFound } from "./components/not-found";
+import { PostShopping } from "./service/post-shopping";
+import { RegisterAddress } from "./service/register-address";
+import { UpdateAddress } from "./service/update-address";
+import { CartCoffeeContext } from "@contexts/cart-coffee-context";
+import { PaymentTypeContext } from "@contexts/payment-type-context";
+import { useCalculateFinnishPrice } from "./hooks/use-calculate-finnish-price";
 
 export interface TotalPriceType {
   Products: string;
@@ -43,7 +26,7 @@ const FormUserZodSchema = z.object({
   cep: z.string().min(8),
   street: z.string().min(4),
   number: z.coerce.number().min(1),
-  complement: z.string().default(''),
+  complement: z.string().default(""),
   neighborhood: z.string().min(4),
   city: z.string().min(4),
   uf: z.string().min(2),
@@ -52,76 +35,48 @@ const FormUserZodSchema = z.object({
 export type FormUseType = z.infer<typeof FormUserZodSchema>;
 
 export function Checkout() {
-  const { countProducts, removeCountsProductsContext } = useContext(CountProductsContext);
+  const { paymentType, resetPaymentType } = useContext(PaymentTypeContext);
+  const { cartCoffee, ResetCoffeeCart } = useContext(CartCoffeeContext);
+  const { priceTotal } = useCalculateFinnishPrice();
   const navigate = useNavigate();
   const hookForm = useForm<FormUseType>({
     resolver: zodResolver(FormUserZodSchema),
   });
-
-  const [payFormat, setPayFormat] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [priceTotal, setPriceTotal] = useState<TotalPriceType>({
-    priceEnd: '0.00',
-    Products: '0.00',
-    taxa: '3.50',
-  });
-
-  const { buyCoffeeDatas } = GetCoffees({ buyPriceTotal, countProducts });
-
-  const { handleSubmit } = hookForm;
-
-  function buyPriceTotal(buyCoffeeProp: BuyCoffeeDatasType[]) {
-    let calcTotalPrice: number = 0;
-
-    buyCoffeeProp.forEach((buyCoffeeData) => {
-      calcTotalPrice += parseFloat(buyCoffeeData.total_price);
-    });
-
-    setPriceTotal((state) => {
-      return {
-        ...state,
-        priceEnd: (calcTotalPrice + parseFloat(state.taxa)).toFixed(2),
-        Products: calcTotalPrice.toFixed(2),
-      };
-    });
-  }
-
-  function setNewPayFormat(payForm: string) {
-    setPayFormat(payForm);
-  }
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = hookForm;
 
   async function handleFormUser(address: FormUseType) {
-    if (!removeCountsProductsContext) return;
-    if (!payFormat) return;
+    try {
+      if (!paymentType) return;
 
-    setIsLoading(true);
+      let addressId: string | undefined = window.localStorage.addressId;
 
-    let addressId = window.localStorage.getItem('addressId');
-
-    if (!addressId) {
-      const newAddressId = await RegisterAddress({ address });
-
-      if (!newAddressId) {
-        return;
+      if (!addressId) {
+        addressId = await RegisterAddress({ address });
+      } else if (window.sessionStorage.editeAddress) {
+        await UpdateAddress({ address, addressId });
       }
+      if (!addressId) {
+        throw new Error("Erro ao cadastrar endereço");
+      }
+      await PostShopping({
+        addressId,
+        buyCoffeeDatas: cartCoffee,
+        paymentType,
+      });
 
-      addressId = newAddressId;
+      ResetCoffeeCart();
+      resetPaymentType();
+      navigate("/coffee-delivery/confirm");
+    } catch (error) {
+      console.log(error);
     }
-
-    if (window.sessionStorage.editeAddress) {
-      await UpdateAddress({ address, addressId });
-    }
-
-    await PostShopping({ addressId, buyCoffeeDatas, payFormat }).then(() => {
-      setIsLoading(false);
-      removeCountsProductsContext();
-
-      navigate('/coffee-delivery/confirm');
-    });
   }
 
-  if (!countProducts || countProducts.length === 0) {
-    return <Loading />;
+  if (!cartCoffee || cartCoffee.length === 0) {
+    return <NotFound />;
   }
 
   return (
@@ -133,21 +88,21 @@ export function Checkout() {
         autoSave="off"
       >
         <FormProvider {...hookForm}>
-          <FormUser setNewPayFormat={setNewPayFormat} />
+          <FormUser />
         </FormProvider>
 
         <StylesListCoffee>
           <h3>Cafés selecionados</h3>
           <ul>
-            {buyCoffeeDatas ? (
-              buyCoffeeDatas.map((data) => {
+            {cartCoffee.length > 0 ? (
+              cartCoffee.map((data) => {
                 return <CardBuyCoffee {...data} key={data.id} />;
               })
             ) : (
               <p>Carregando...</p>
             )}
           </ul>
-          <PricesTotal isLoading={isLoading} priceTotal={priceTotal} />
+          <PricesTotal isLoading={isSubmitting} priceTotal={priceTotal} />
         </StylesListCoffee>
       </StylesForm>
     </main>
