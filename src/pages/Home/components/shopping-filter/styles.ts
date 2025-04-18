@@ -1,4 +1,4 @@
-import { styled, keyframes } from 'styled-components';
+import { styled, keyframes } from "styled-components";
 
 const scroll_hidden = keyframes`
     from {
@@ -23,43 +23,43 @@ export const StyledShopFilter = styled.div`
     font-size: 2rem;
     line-height: 1.3rem;
 
-    color: ${(props) => props.theme['base-title']};
+    color: ${(props) => props.theme["base-title"]};
   }
 
-  ul {
+  div {
     display: flex;
     gap: 0.5rem;
 
-    li {
+    button {
       border: 1px solid ${(props) => props.theme.yellow};
       border-radius: 100px;
 
       overflow: hidden;
+      padding: 0.375rem 0.75rem;
 
-      button {
-        padding: 0.375rem 0.75rem;
+      background: transparent;
+      color: ${(props) => props.theme["yellow-dark"]};
 
-        background: transparent;
-        color: ${(props) => props.theme['yellow-dark']};
+      text-transform: uppercase;
+      font-size: 0.625rem;
+      font-weight: bolder;
+      line-height: 1.3;
+      font-family: ${(props) => props.theme["text-font"]}, sans-serif;
 
-        text-transform: uppercase;
-        font-size: 0.625rem;
-        font-weight: bolder;
-        line-height: 1.3;
-        font-family: ${(props) => props.theme['text-font']}, sans-serif;
+      cursor: pointer;
+      transition: color, background 0.2s;
 
-        cursor: pointer;
-        transition:
-          color,
-          background 0.2s;
+      &:focus {
+        outline: none;
+        box-shadow: none;
       }
+    }
 
-      button#active {
-        color: ${(props) => props.theme['yellow-light']};
-        background: ${(props) => props.theme['yellow-dark']};
+    button#active {
+      color: ${(props) => props.theme["yellow-light"]};
+      background: ${(props) => props.theme["yellow-dark"]};
 
-        cursor: default;
-      }
+      cursor: default;
     }
   }
 
@@ -76,7 +76,7 @@ export const StyledShopFilter = styled.div`
   @media (max-width: 549px) {
     padding: 0 1rem;
 
-    ul {
+    div {
       flex-wrap: wrap;
       justify-content: center;
     }
