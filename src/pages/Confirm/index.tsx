@@ -1,38 +1,18 @@
-import { CurrencyDollar, MapPin, Timer } from '@phosphor-icons/react';
-import illustration from '@assets/Illustration.png';
-import { StyledConfirmMain } from './styles';
-import { SetStateAction, useEffect, useState } from 'react';
-import { api } from '@/lib/api';
-
-export interface AddressType {
-  id: string;
-  cep: number;
-  street: string;
-  number: number;
-  complement: string;
-  neighborhood: string;
-  city: string;
-  uf: string;
-}
-
-export interface DatasUserType {
-  addresses: AddressType;
-  form_of_payment: string;
-}
+import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
+import illustration from "@assets/Illustration.png";
+import { StyledConfirmMain } from "./styles";
+import { useQuery } from "@tanstack/react-query";
+import { getShopping } from "./services/get-shopping";
 
 export function Confirm() {
-  const [dataUser, setDataUser] = useState<DatasUserType | null>(null);
+  const shoppingId = window.localStorage.shoppingId;
+  const { data, isFetching } = useQuery({
+    queryKey: ["shopping", shoppingId],
+    queryFn: async () => await getShopping(shoppingId),
+  });
 
-  useEffect(() => {
-    api
-      .get(`/shopping/${window.localStorage.shoppingId}`)
-      .then((response: { data: { shopping: SetStateAction<DatasUserType | null> } }) => {
-        setDataUser(response.data.shopping);
-      });
-  }, []);
-
-  if (!dataUser) {
-    return;
+  if (!data || isFetching) {
+    return null;
   }
 
   return (
@@ -49,12 +29,13 @@ export function Confirm() {
             </i>
 
             <p>
-              Entrega em{' '}
+              Entrega em{" "}
               <span>
-                Rua {dataUser.addresses.street}, {dataUser.addresses.number}
-              </span>{' '}
+                Rua {data.addresses.street}, {data.addresses.number}
+              </span>{" "}
               <br />
-              {dataUser.addresses.neighborhood} - {dataUser.addresses.city}, {dataUser.addresses.uf}
+              {data.addresses.neighborhood} - {data.addresses.city},{" "}
+              {data.addresses.uf}
             </p>
           </li>
 
@@ -76,12 +57,11 @@ export function Confirm() {
 
             <p>
               Pagamento na entrega <br />
-              <span>{dataUser.form_of_payment}</span>
+              <span>{data.form_of_payment}</span>
             </p>
           </li>
         </ul>
-
-        <img src={illustration} alt="" />
+        <img src={illustration} alt="illustration" />
       </div>
     </StyledConfirmMain>
   );
