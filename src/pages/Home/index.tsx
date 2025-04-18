@@ -1,17 +1,17 @@
-import { StyledShop, StyledShopList } from './styles';
-import { useRef } from 'react';
-import { IntroSection } from './components/intro-section';
-import { CoffeeCard } from './components/coffee-card';
-import { ShoppingFilter } from './components/shopping-filter';
-import { Button } from '@components/button';
-import { requestCoffees } from './service/get-coffees';
-import { useQuery } from '@tanstack/react-query';
-import { LoadingCoffeeCard } from './components/loading-coffee-card';
+import { StyledShop, StyledShopList } from "./styles";
+import { useRef } from "react";
+import { IntroSection } from "./components/intro-section";
+import { CoffeeCard } from "./components/coffee-card";
+import { ShoppingFilter } from "./components/shopping-filter";
+import { Button } from "@components/button";
+import { requestCoffees } from "./service/get-coffees";
+import { useQuery } from "@tanstack/react-query";
+import { LoadingCoffeeCard } from "./components/loading-coffee-card";
 
 export function Home() {
-  const queryRef = useRef('');
+  const queryRef = useRef("");
   const { data, isError, isFetching, refetch } = useQuery({
-    queryKey: ['coffees', queryRef.current],
+    queryKey: ["coffees", queryRef.current],
     queryFn: async () => await requestCoffees(queryRef.current),
   });
 
@@ -29,7 +29,10 @@ export function Home() {
       <IntroSection />
 
       <StyledShop>
-        <ShoppingFilter handleSetQueryFilter={handleSetQueryFilter} query={queryRef.current} />
+        <ShoppingFilter
+          handleSetQueryFilter={handleSetQueryFilter}
+          query={queryRef.current}
+        />
 
         {data && data.length > 0 && (
           <StyledShopList>
