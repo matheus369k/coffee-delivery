@@ -7,12 +7,18 @@ export interface UpdateAddressPropsType {
 }
 
 export async function UpdateAddress({ address, addressId }: UpdateAddressPropsType) {
-  await api
-    .put(`/user/${addressId}`, { ...address })
-    .then(() => {
-      window.sessionStorage.removeItem('editeAddress');
-    })
-    .catch((error: Error) => {
-      console.log(error.message);
+  try {
+    await api.put(`/user/${addressId}`, {
+      street: address.street,
+      number: address.number,
+      complement: address.complement,
+      uf: address.uf,
+      city: address.city,
+      cep: address.cep,
+      neighborhood: address.neighborhood,
     });
+    window.sessionStorage.removeItem('editeAddress');
+  } catch (error) {
+    console.log(error);
+  }
 }
