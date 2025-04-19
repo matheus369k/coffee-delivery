@@ -1,4 +1,4 @@
-import z from 'zod';
+import z from "zod";
 
 const envSchema = z.object({
   VITE_RENDER_API_URL: z.string().url(),
@@ -6,7 +6,7 @@ const envSchema = z.object({
     .string()
     .url()
     .default(
-      'https://raw.githubusercontent.com/matheus369k/coffee-delivery-api/refs/heads/main/db.json',
+      "https://raw.githubusercontent.com/matheus369k/coffee-delivery-api/refs/heads/main/db.json"
     ),
 });
 
