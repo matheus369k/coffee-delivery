@@ -5,17 +5,12 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:eslint-plugin-react:recommended",
-        "plugin:eslint-plugin-react-hooks:recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
-        "sourceType": "module",
-        "project": [
-            "./src"
-        ]
+        "sourceType": "module"
     },
     "plugins": [
         "@typescript-eslint",
