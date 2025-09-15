@@ -1,5 +1,5 @@
-import { ShopFilterRowButton } from "./shop-filter-row";
-import { StyledShopFilter } from "./styles";
+import { ShopFilterRowButton } from './shop-filter-row';
+import { StyledShopFilter } from './styles';
 
 interface ShoppingFilterProps {
   handleSetQueryFilter: (filter: string) => void;
@@ -15,38 +15,38 @@ export function ShoppingFilter({
       <h2>Nossos cafés</h2>
       <div>
         <ShopFilterRowButton
-          {...(query === "" && { active: true })}
-          onClick={() => handleSetQueryFilter("")}
+          {...(query === '' && { active: true })}
+          onClick={() => handleSetQueryFilter('')}
         >
           Todos
         </ShopFilterRowButton>
         <ShopFilterRowButton
-          {...(query === "tradicional" && { active: true })}
-          onClick={() => handleSetQueryFilter("tradicional")}
+          {...(query === 'tradicional' && { active: true })}
+          onClick={() => handleSetQueryFilter('tradicional')}
         >
           Tradicional
         </ShopFilterRowButton>
         <ShopFilterRowButton
-          {...(query === "especial" && { active: true })}
-          onClick={() => handleSetQueryFilter("especial")}
+          {...(query === 'especial' && { active: true })}
+          onClick={() => handleSetQueryFilter('especial')}
         >
           Especial
         </ShopFilterRowButton>
         <ShopFilterRowButton
-          {...(query === "com-leite" && { active: true })}
-          onClick={() => handleSetQueryFilter("com-leite")}
+          {...(query === 'com-leite' && { active: true })}
+          onClick={() => handleSetQueryFilter('com-leite')}
         >
           Com Leite
         </ShopFilterRowButton>
         <ShopFilterRowButton
-          {...(query === "alcoolico" && { active: true })}
-          onClick={() => handleSetQueryFilter("alcoolico")}
+          {...(query === 'alcoolico' && { active: true })}
+          onClick={() => handleSetQueryFilter('alcoolico')}
         >
           Alcoólico
         </ShopFilterRowButton>
         <ShopFilterRowButton
-          {...(query === "gelado" && { active: true })}
-          onClick={() => handleSetQueryFilter("gelado")}
+          {...(query === 'gelado' && { active: true })}
+          onClick={() => handleSetQueryFilter('gelado')}
         >
           Gelado
         </ShopFilterRowButton>

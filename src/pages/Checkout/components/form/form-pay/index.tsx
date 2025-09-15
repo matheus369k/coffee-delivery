@@ -1,8 +1,8 @@
-import { Bank, CreditCard, CurrencyDollar, Money } from "@phosphor-icons/react";
-import { StylesFormPay } from "../styles";
-import { ItemPaymentContent, ItemPaymentRoot } from "./item-payment";
-import { PaymentTypeContext } from "@contexts/payment-type-context";
-import { useContext } from "react";
+import { Bank, CreditCard, CurrencyDollar, Money } from '@phosphor-icons/react';
+import { StylesFormPay } from '../styles';
+import { ItemPaymentContent, ItemPaymentRoot } from './item-payment';
+import { PaymentTypeContext } from '@contexts/payment-type-context';
+import { useContext } from 'react';
 
 export function FormPay() {
   const { addPaymentType } = useContext(PaymentTypeContext);
@@ -21,21 +21,21 @@ export function FormPay() {
       <div>
         <ItemPaymentRoot
           aria-label="credit_card"
-          onClick={() => addPaymentType("Cartão de crédito")}
+          onClick={() => addPaymentType('Cartão de crédito')}
         >
           <CreditCard size={16} />
           <ItemPaymentContent>Cartão de crédito</ItemPaymentContent>
         </ItemPaymentRoot>
         <ItemPaymentRoot
           aria-label="debt_card"
-          onClick={() => addPaymentType("cartão de débito")}
+          onClick={() => addPaymentType('cartão de débito')}
         >
           <Bank size={16} />
           <ItemPaymentContent>cartão de débito</ItemPaymentContent>
         </ItemPaymentRoot>
         <ItemPaymentRoot
           aria-label="money"
-          onClick={() => addPaymentType("dinheiro")}
+          onClick={() => addPaymentType('dinheiro')}
         >
           <Money size={16} />
           <ItemPaymentContent>dinheiro</ItemPaymentContent>

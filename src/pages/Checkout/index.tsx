@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { StylesListCoffee, StylesForm } from "./styles";
-import { FormUser } from "./components/form/index";
-import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useContext } from "react";
-import { CardBuyCoffee } from "./components/card-buy-coffee";
-import { useNavigate } from "react-router";
-import { PricesTotal } from "./components/total-prices";
-import { NotFound } from "./components/not-found";
-import { PostShopping } from "./service/post-shopping";
-import { RegisterAddress } from "./service/register-address";
-import { UpdateAddress } from "./service/update-address";
-import { CartCoffeeContext } from "@contexts/cart-coffee-context";
-import { PaymentTypeContext } from "@contexts/payment-type-context";
-import { useCalculateFinnishPrice } from "./hooks/use-calculate-finnish-price";
+import { StylesListCoffee, StylesForm } from './styles';
+import { FormUser } from './components/form/index';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useContext } from 'react';
+import { CardBuyCoffee } from './components/card-buy-coffee';
+import { useNavigate } from 'react-router';
+import { PricesTotal } from './components/total-prices';
+import { NotFound } from './components/not-found';
+import { PostShopping } from './service/post-shopping';
+import { RegisterAddress } from './service/register-address';
+import { UpdateAddress } from './service/update-address';
+import { CartCoffeeContext } from '@contexts/cart-coffee-context';
+import { PaymentTypeContext } from '@contexts/payment-type-context';
+import { useCalculateFinnishPrice } from './hooks/use-calculate-finnish-price';
 
 export interface TotalPriceType {
   Products: string;
@@ -26,7 +26,7 @@ const FormUserZodSchema = z.object({
   cep: z.string().min(8),
   street: z.string().min(4),
   number: z.coerce.number().min(1),
-  complement: z.string().default(""),
+  complement: z.string().default(''),
   neighborhood: z.string().min(4),
   city: z.string().min(4),
   uf: z.string().min(2),
@@ -59,7 +59,7 @@ export function Checkout() {
         await UpdateAddress({ address, addressId });
       }
       if (!addressId) {
-        throw new Error("Erro ao cadastrar endereço");
+        throw new Error('Erro ao cadastrar endereço');
       }
       await PostShopping({
         addressId,
@@ -69,7 +69,7 @@ export function Checkout() {
 
       ResetCoffeeCart();
       resetPaymentType();
-      navigate("/coffee-delivery/confirm");
+      navigate('/coffee-delivery/confirm');
     } catch (error) {
       console.log(error);
     }

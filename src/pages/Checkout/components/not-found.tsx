@@ -1,5 +1,5 @@
-import { Package } from "@phosphor-icons/react";
-import { StyledEmptyCart } from "../styles";
+import { Package } from '@phosphor-icons/react';
+import { StyledEmptyCart } from '../styles';
 
 export function NotFound() {
   return (

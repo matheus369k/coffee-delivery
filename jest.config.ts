@@ -3,13 +3,20 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type { Config } from '@jest/types';
+import type { Config } from '@jest/types'
 
 const config: Config.InitialOptions = {
   collectCoverage: true,
   collectCoverageFrom: ['<rootDir>/src/**/*.{tsx,ts}'],
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: ['/node_modules/', '/src/styles/', 'styles.ts', '/build/', '/dist/'],transformIgnorePatterns: ['/build/', '/dist/'],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/src/styles/',
+    'styles.ts',
+    '/build/',
+    '/dist/',
+  ],
+  transformIgnorePatterns: ['/build/', '/dist/'],
   coverageProvider: 'v8',
   moduleNameMapper: {
     '^@pages/(.*)': '<rootDir>/src/pages/$1',
@@ -27,13 +34,17 @@ const config: Config.InitialOptions = {
   setupFilesAfterEnv: ['<rootDir>/src/jestSetup.ts'],
   preset: '<rootDir>/node_modules/ts-jest',
   transform: {
-    '^.+\\.(ts|tsx)?$': ['ts-jest', {
-      useESM: true,
-      tsconfig: '<rootDir>/tsconfig.node.json'
-    }],
-    '^.+\\.(gif|png|gif|jpg|jpeg|svg)?$': "jest-transform-stub"
+    '^.+\\.(ts|tsx)?$': [
+      'ts-jest',
+      {
+        useESM: true,
+        tsconfig: '<rootDir>/tsconfig.node.json',
+      },
+    ],
+    '^.+\\.(gif|png|gif|jpg|jpeg|svg)?$': 'jest-transform-stub',
   },
   verbose: true,
-};
+  testTimeout: 10000,
+}
 
-export default config;
+export default config

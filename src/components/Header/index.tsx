@@ -1,10 +1,10 @@
-import { ArrowLeft, MapPin, ShoppingCart } from "@phosphor-icons/react";
-import logoCoffeeDelivery from "@assets/logo.svg";
-import { StyledHeader } from "./styles";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { api } from "@/lib/api";
-import { CartCoffeeContext } from "@contexts/cart-coffee-context";
+import { ArrowLeft, MapPin, ShoppingCart } from '@phosphor-icons/react';
+import logoCoffeeDelivery from '@assets/logo.svg';
+import { StyledHeader } from './styles';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { api } from '@/lib/api';
+import { CartCoffeeContext } from '@contexts/cart-coffee-context';
 
 export interface UserLocationType {
   city: string;
@@ -14,18 +14,18 @@ export interface UserLocationType {
 export function Header() {
   const navigate = useNavigate();
   const { cartCoffee } = useContext(CartCoffeeContext);
-  const [location, setLocation] = useState("Cidade, UF");
+  const [location, setLocation] = useState('Cidade, UF');
 
   function handleRedirectToCheckoutPage() {
-    navigate("/coffee-delivery/checkout");
+    navigate('/coffee-delivery/checkout');
   }
   function handleBackToHomePage() {
-    navigate("/coffee-delivery");
+    navigate('/coffee-delivery');
   }
 
   const pathName = window.location.pathname;
   const isNotHomePage = !(
-    pathName.includes("/checkout") || pathName.includes("/confirm")
+    pathName.includes('/checkout') || pathName.includes('/confirm')
   );
 
   useEffect(() => {
@@ -34,13 +34,13 @@ export function Header() {
 
   async function autoSetUserLocation() {
     try {
-      const addressId = window.localStorage.getItem("addressId");
+      const addressId = window.localStorage.getItem('addressId');
 
-      if (!addressId) throw new Error("addressId not found");
+      if (!addressId) throw new Error('addressId not found');
       const response = await api.get(`/location/${addressId}`);
       const data = await response.data.userLocation;
 
-      if (!data) throw new Error("data not found");
+      if (!data) throw new Error('data not found');
       setLocation(`${data.city}, ${data.uf}`);
     } catch (error) {
       console.log((error as Error).message);

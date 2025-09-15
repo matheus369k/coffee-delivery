@@ -1,18 +1,18 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { Confirm } from "@pages/Confirm";
-import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
-import illustration from "@assets/Illustration.png";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import AxiosMockAdapter from "axios-mock-adapter";
-import { api } from "@lib/api";
+import { render, screen, waitFor } from '@testing-library/react';
+import { Confirm } from '@pages/Confirm';
+import { CurrencyDollar, MapPin, Timer } from '@phosphor-icons/react';
+import illustration from '@assets/Illustration.png';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import AxiosMockAdapter from 'axios-mock-adapter';
+import { api } from '@lib/api';
 
-jest.mock("@/env", () => ({
+jest.mock('@/env', () => ({
   env: {
-    VITE_RENDER_API_URL: "http://localhost:3000/render",
-    VITE_GH_API_URL: "http://localhost:3000/github",
+    VITE_RENDER_API_URL: 'http://localhost:3000/render',
+    VITE_GH_API_URL: 'http://localhost:3000/github',
   },
 }));
-jest.mock("@phosphor-icons/react", () => {
+jest.mock('@phosphor-icons/react', () => {
   return {
     MapPin: jest.fn(),
     Timer: jest.fn(),
@@ -27,23 +27,23 @@ const wrapper = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-describe("Confirm page", () => {
+describe('Confirm page', () => {
   const defaultResponse = {
-    form_of_payment: "Cartão de debito",
+    form_of_payment: 'Cartão de debito',
     addresses: {
       cep: 55010010,
-      city: "City Teste",
-      complement: "House Teste",
-      id: "123",
-      neighborhood: "Neighborhood Teste",
+      city: 'City Teste',
+      complement: 'House Teste',
+      id: '123',
+      neighborhood: 'Neighborhood Teste',
       number: 45,
-      street: "Street Teste",
-      uf: "TS",
+      street: 'Street Teste',
+      uf: 'TS',
     },
   };
 
   beforeEach(() => {
-    window.localStorage.setItem("shoppingId", defaultResponse.addresses.id);
+    window.localStorage.setItem('shoppingId', defaultResponse.addresses.id);
   });
 
   afterEach(() => {
@@ -52,12 +52,12 @@ describe("Confirm page", () => {
     mockApi.reset();
   });
 
-  test("should render correctly", async () => {
+  test('should render correctly', async () => {
     mockApi
       .onGet(`/shopping/${defaultResponse.addresses.id}`)
       .replyOnce(200, { shopping: defaultResponse });
     render(<Confirm />, { wrapper });
-    await screen.findByRole("heading", {
+    await screen.findByRole('heading', {
       level: 2,
       name: /Uhu! Pedido confirmado/i,
     });
@@ -69,18 +69,18 @@ describe("Confirm page", () => {
     screen.getByText(/Pagamento na entrega/i, {
       exact: false,
     });
-    screen.getByRole("img", { name: /Illustration/i });
+    screen.getByRole('img', { name: /Illustration/i });
   });
 
-  test("should render all icons with corrected props", async () => {
+  test('should render all icons with corrected props', async () => {
     mockApi
       .onGet(`/shopping/${defaultResponse.addresses.id}`)
       .replyOnce(200, { shopping: defaultResponse });
     render(<Confirm />, { wrapper });
     await waitFor(() => {
       const defaultProps = {
-        size: "16px",
-        weight: "fill",
+        size: '16px',
+        weight: 'fill',
       };
       expect(Timer).toHaveBeenCalledWith(defaultProps, {});
       expect(MapPin).toHaveBeenCalledWith(defaultProps, {});
@@ -88,7 +88,7 @@ describe("Confirm page", () => {
     });
   });
 
-  test("should render all dynamic data", async () => {
+  test('should render all dynamic data', async () => {
     mockApi
       .onGet(`/shopping/${defaultResponse.addresses.id}`)
       .replyOnce(200, { shopping: defaultResponse });
@@ -102,20 +102,20 @@ describe("Confirm page", () => {
     screen.getByText(form_of_payment, { exact: false });
   });
 
-  test("should render image with corrected src", async () => {
+  test('should render image with corrected src', async () => {
     mockApi
       .onGet(`/shopping/${defaultResponse.addresses.id}`)
       .replyOnce(200, { shopping: defaultResponse });
     render(<Confirm />, { wrapper });
-    const image = await screen.findByRole("img", { name: /Illustration/i });
-    expect(image).toHaveAttribute("src", illustration);
+    const image = await screen.findByRole('img', { name: /Illustration/i });
+    expect(image).toHaveAttribute('src', illustration);
   });
 
-  test("should render nothing if data is undefined", async () => {
+  test('should render nothing if data is undefined', async () => {
     mockApi.onGet(`/shopping/${defaultResponse.addresses.id}`).replyOnce(200);
     render(<Confirm />, { wrapper });
     await waitFor(() => {
-      const title = screen.queryByRole("heading", { level: 2 });
+      const title = screen.queryByRole('heading', { level: 2 });
       expect(title).toBeNull();
       const paragraph = screen.queryByText(
         /Agora é só aguardar que logo o café chegará até você/i
@@ -124,10 +124,10 @@ describe("Confirm page", () => {
     });
   });
 
-  test("should render nothing when isFeching is true", () => {
+  test('should render nothing when isFeching is true', () => {
     mockApi.onGet(`/shopping/${defaultResponse.addresses.id}`).replyOnce(200);
     render(<Confirm />, { wrapper });
-    const title = screen.queryByRole("heading", { level: 2 });
+    const title = screen.queryByRole('heading', { level: 2 });
     expect(title).toBeNull();
     const paragraph = screen.queryByText(
       /Agora é só aguardar que logo o café chegará até você/i

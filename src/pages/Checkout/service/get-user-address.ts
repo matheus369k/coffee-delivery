@@ -1,4 +1,4 @@
-import { api } from "@lib/api";
+import { api } from '@lib/api';
 
 export interface AddressType {
   cep: string;
@@ -16,7 +16,7 @@ export async function GetUserAddress(addressId: string) {
     const data: AddressType = await response.data.address;
 
     if (!data) {
-      throw new Error("Address not found");
+      throw new Error('Address not found');
     }
 
     return data;

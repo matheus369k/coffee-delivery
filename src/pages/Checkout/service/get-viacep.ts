@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export interface AddressType {
   logradouro?: string;
@@ -21,7 +21,7 @@ export async function GetAddressViaCep(cep: string) {
     const data: AddressType = await response.data;
 
     if (Object.keys(data).length === 0) {
-      throw new Error("Address not found");
+      throw new Error('Address not found');
     }
 
     return data;

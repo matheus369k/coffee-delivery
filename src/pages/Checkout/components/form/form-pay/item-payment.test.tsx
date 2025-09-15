@@ -1,8 +1,8 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { ItemPaymentContent, ItemPaymentRoot } from "./item-payment";
+import { fireEvent, render, screen } from '@testing-library/react';
+import { ItemPaymentContent, ItemPaymentRoot } from './item-payment';
 
-describe("ItemPaymentRootProps", () => {
-  test("renders correctly", () => {
+describe('ItemPaymentRootProps', () => {
+  test('renders correctly', () => {
     render(
       <ItemPaymentRoot onClick={() => jest.fn()}>
         <span>Payment Root</span>
@@ -11,7 +11,7 @@ describe("ItemPaymentRootProps", () => {
     screen.getByText(/Payment Root/i);
   });
 
-  test("should call onClick when clicked", () => {
+  test('should call onClick when clicked', () => {
     const onClick = jest.fn();
     render(
       <ItemPaymentRoot onClick={onClick}>
@@ -31,13 +31,13 @@ describe("ItemPaymentRootProps", () => {
         <span>Payment Root</span>
       </ItemPaymentRoot>
     );
-    const inputPayment = screen.getByRole("radio");
-    expect(inputPayment).toHaveAttribute("name", "formPayment");
+    const inputPayment = screen.getByRole('radio');
+    expect(inputPayment).toHaveAttribute('name', 'formPayment');
   });
 });
 
-describe("ItemPaymentContent", () => {
-  test("renders correctly", () => {
+describe('ItemPaymentContent', () => {
+  test('renders correctly', () => {
     render(<ItemPaymentContent>Payment Content</ItemPaymentContent>);
     screen.getByText(/Payment Content/i);
   });

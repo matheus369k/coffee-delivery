@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StylesDatasUser = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ export const StyledAFormAddress = styled.div`
 
   gap: 2rem;
 
-  background: ${(props) => props.theme["base-card"]};
+  background: ${(props) => props.theme['base-card']};
 
   padding: 2.5rem;
   border-radius: 6px;
@@ -23,7 +23,7 @@ export const StyledAFormAddress = styled.div`
     gap: 0.5rem;
 
     svg {
-      color: ${(props) => props.theme["yellow-dark"]};
+      color: ${(props) => props.theme['yellow-dark']};
     }
 
     p {
@@ -31,19 +31,19 @@ export const StyledAFormAddress = styled.div`
       flex-direction: column;
 
       span:first-child {
-        color: ${(props) => props.theme["base-subtitle"]};
+        color: ${(props) => props.theme['base-subtitle']};
 
         line-height: 1.3;
         font-size: 1rem;
-        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
+        font-family: ${(props) => props.theme['text-font']}, sans-serif;
       }
 
       span:last-child {
-        color: ${(props) => props.theme["base-text"]};
+        color: ${(props) => props.theme['base-text']};
 
         line-height: 1.3;
         font-size: 0.875rem;
-        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
+        font-family: ${(props) => props.theme['text-font']}, sans-serif;
       }
     }
   }
@@ -92,10 +92,10 @@ export const StyledAFormAddress = styled.div`
       width: max-content;
 
       font-size: 0.75rem;
-      font-family: ${(props) => props.theme["text-font"]};
+      font-family: ${(props) => props.theme['text-font']};
       font-weight: lighter;
 
-      color: ${(props) => props.theme["base-label"]};
+      color: ${(props) => props.theme['base-label']};
 
       z-index: 2;
     }
@@ -123,7 +123,7 @@ export const StylesFormPay = styled.div`
 
   gap: 2rem;
 
-  background: ${(props) => props.theme["base-card"]};
+  background: ${(props) => props.theme['base-card']};
 
   padding: 2.5rem;
   margin-top: 0.75rem;
@@ -134,7 +134,7 @@ export const StylesFormPay = styled.div`
     gap: 0.5rem;
 
     svg {
-      color: ${(props) => props.theme["purple"]};
+      color: ${(props) => props.theme['purple']};
     }
 
     p {
@@ -142,19 +142,19 @@ export const StylesFormPay = styled.div`
       flex-direction: column;
 
       span:first-child {
-        color: ${(props) => props.theme["base-subtitle"]};
+        color: ${(props) => props.theme['base-subtitle']};
 
         line-height: 1.3;
         font-size: 1rem;
-        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
+        font-family: ${(props) => props.theme['text-font']}, sans-serif;
       }
 
       span:last-child {
-        color: ${(props) => props.theme["base-text"]};
+        color: ${(props) => props.theme['base-text']};
 
         line-height: 1.3;
         font-size: 0.875rem;
-        font-family: ${(props) => props.theme["text-font"]}, sans-serif;
+        font-family: ${(props) => props.theme['text-font']}, sans-serif;
       }
     }
   }
@@ -171,7 +171,7 @@ export const StylesFormPay = styled.div`
 
       width: 100%;
 
-      background: ${(props) => props.theme["base-button"]};
+      background: ${(props) => props.theme['base-button']};
 
       border-radius: 6px;
 
@@ -201,7 +201,7 @@ export const StylesFormPay = styled.div`
         line-height: 1.6;
         font-size: 0.75rem;
 
-        color: ${(props) => props.theme["base-text"]};
+        color: ${(props) => props.theme['base-text']};
       }
     }
   }

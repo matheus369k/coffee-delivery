@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react';
 
 export interface CartCoffeeType {
   id: string;
@@ -17,7 +17,7 @@ export interface PayloadType {
 
 export interface CartCoffeeContextType {
   cartCoffee: CartCoffeeType[];
-  RemoveCoffeeToCart: (props: Omit<PayloadType, "name" | "image">) => void;
+  RemoveCoffeeToCart: (props: Omit<PayloadType, 'name' | 'image'>) => void;
   AddCoffeeToCart: (props: PayloadType) => void;
   ResetCoffeeCart: () => void;
 }
@@ -45,11 +45,11 @@ export function CartCoffeeContextProvider({
   }
 
   function formattedPriceToValidateNumber(price: string) {
-    return parseFloat(price.replace(",", "."));
+    return parseFloat(price.replace(',', '.'));
   }
 
   function restoreDefaultformatterPrice(price: string) {
-    return price.replace(".", ",");
+    return price.replace('.', ',');
   }
 
   function AddCoffeeToCart(props: PayloadType) {
@@ -89,7 +89,7 @@ export function CartCoffeeContextProvider({
     });
   }
 
-  function RemoveCoffeeToCart(props: Omit<PayloadType, "name" | "image">) {
+  function RemoveCoffeeToCart(props: Omit<PayloadType, 'name' | 'image'>) {
     const { id, price } = props;
     setCartCoffee((state) => {
       const newStateWithLessCoffee = state

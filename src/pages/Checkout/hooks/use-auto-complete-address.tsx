@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { GetUserAddress } from "../service/get-user-address";
-import { GetAddressViaCep } from "../service/get-viacep";
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { GetUserAddress } from '../service/get-user-address';
+import { GetAddressViaCep } from '../service/get-viacep';
 
 export interface AddressType {
   cep: string;
@@ -19,14 +19,14 @@ export function useAutoCompleteAddress() {
     watch,
     formState: { isDirty },
   } = useFormContext();
-  const cep: string = watch("cep") || "";
+  const cep: string = watch('cep') || '';
   const [hasEditeAddress, setHasEditeAddress] = useState(true);
   const [address, setAddress] = useState({
-    city: "",
-    complement: "",
-    neighborhood: "",
-    street: "",
-    uf: "",
+    city: '',
+    complement: '',
+    neighborhood: '',
+    street: '',
+    uf: '',
   } as AddressType);
 
   function isValideCep() {
@@ -48,7 +48,7 @@ export function useAutoCompleteAddress() {
       const data = await GetAddressViaCep(cep);
 
       if (!data) {
-        throw new Error("Not found address from viacep");
+        throw new Error('Not found address from viacep');
       }
 
       const resultAddress = {
@@ -69,13 +69,13 @@ export function useAutoCompleteAddress() {
   async function autoCompleteAddress(addressId: string) {
     try {
       if (isDirty) {
-        throw new Error("You don't call autoCompleteAddress more one time");
+        throw new Error('You don\'t call autoCompleteAddress more one time');
       }
 
       const data = await GetUserAddress(addressId);
 
       if (!data) {
-        throw new Error("Not found address from database");
+        throw new Error('Not found address from database');
       }
 
       setAddress({ ...address, ...data });
@@ -92,7 +92,7 @@ export function useAutoCompleteAddress() {
 
   function handleHasEditeAddress() {
     setHasEditeAddress(true);
-    window.sessionStorage.setItem("editeAddress", "true");
+    window.sessionStorage.setItem('editeAddress', 'true');
   }
 
   return {

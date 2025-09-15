@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { StylesDatasUser } from "./styles";
-import { FormPay } from "./form-pay";
-import { FormAddress } from "./form-address";
-import { useAutoCompleteAddress } from "@pages/Checkout/hooks/use-auto-complete-address";
-import { useEffect } from "react";
+import { StylesDatasUser } from './styles';
+import { FormPay } from './form-pay';
+import { FormAddress } from './form-address';
+import { useAutoCompleteAddress } from '@pages/Checkout/hooks/use-auto-complete-address';
+import { useEffect } from 'react';
 
 export function FormUser() {
   const {

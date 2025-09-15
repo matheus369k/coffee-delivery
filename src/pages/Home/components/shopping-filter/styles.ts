@@ -1,4 +1,4 @@
-import { styled, keyframes } from "styled-components";
+import { styled, keyframes } from 'styled-components';
 
 const scroll_hidden = keyframes`
     from {
@@ -23,7 +23,7 @@ export const StyledShopFilter = styled.div`
     font-size: 2rem;
     line-height: 1.3rem;
 
-    color: ${(props) => props.theme["base-title"]};
+    color: ${(props) => props.theme['base-title']};
   }
 
   div {
@@ -38,13 +38,13 @@ export const StyledShopFilter = styled.div`
       padding: 0.375rem 0.75rem;
 
       background: transparent;
-      color: ${(props) => props.theme["yellow-dark"]};
+      color: ${(props) => props.theme['yellow-dark']};
 
       text-transform: uppercase;
       font-size: 0.625rem;
       font-weight: bolder;
       line-height: 1.3;
-      font-family: ${(props) => props.theme["text-font"]}, sans-serif;
+      font-family: ${(props) => props.theme['text-font']}, sans-serif;
 
       cursor: pointer;
       transition: color, background 0.2s;
@@ -56,8 +56,8 @@ export const StyledShopFilter = styled.div`
     }
 
     button#active {
-      color: ${(props) => props.theme["yellow-light"]};
-      background: ${(props) => props.theme["yellow-dark"]};
+      color: ${(props) => props.theme['yellow-light']};
+      background: ${(props) => props.theme['yellow-dark']};
 
       cursor: default;
     }

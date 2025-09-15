@@ -1,10 +1,10 @@
-import { Button } from "@components/button";
+import { Button } from '@components/button';
 import {
   CartCoffeeContext,
   type PayloadType,
-} from "@contexts/cart-coffee-context";
-import { Minus, Plus, ShoppingCart } from "@phosphor-icons/react";
-import { useContext, useState } from "react";
+} from '@contexts/cart-coffee-context';
+import { Minus, Plus, ShoppingCart } from '@phosphor-icons/react';
+import { useContext, useState } from 'react';
 
 interface CoffeeCardFormProps extends PayloadType {}
 

@@ -1,12 +1,12 @@
-import { CartCoffeeContext } from "@contexts/cart-coffee-context";
-import { useContext, useEffect, useState } from "react";
+import { CartCoffeeContext } from '@contexts/cart-coffee-context';
+import { useContext, useEffect, useState } from 'react';
 
 export function useCalculateFinnishPrice() {
   const { cartCoffee } = useContext(CartCoffeeContext);
   const [priceTotal, setPriceTotal] = useState({
-    priceEnd: "0.00",
-    Products: "0.00",
-    taxa: "3.50",
+    priceEnd: '0.00',
+    Products: '0.00',
+    taxa: '3.50',
   });
 
   useEffect(() => {

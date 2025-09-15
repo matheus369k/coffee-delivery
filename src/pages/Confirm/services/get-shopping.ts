@@ -1,4 +1,4 @@
-import { api } from "@lib/api";
+import { api } from '@lib/api';
 
 export interface AddressType {
   id: string;
@@ -19,10 +19,10 @@ export interface DatasUserType {
 export async function getShopping(shoppingId: string) {
   try {
     const resolve = await api.get(`/shopping/${shoppingId}`);
-    const data = await resolve.data["shopping"];
+    const data = await resolve.data['shopping'];
 
     if (!data) {
-      throw new Error("not found data");
+      throw new Error('not found data');
     }
 
     return data as DatasUserType;

@@ -1,13 +1,13 @@
-import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
-import illustration from "@assets/Illustration.png";
-import { StyledConfirmMain } from "./styles";
-import { useQuery } from "@tanstack/react-query";
-import { getShopping } from "./services/get-shopping";
+import { CurrencyDollar, MapPin, Timer } from '@phosphor-icons/react';
+import illustration from '@assets/Illustration.png';
+import { StyledConfirmMain } from './styles';
+import { useQuery } from '@tanstack/react-query';
+import { getShopping } from './services/get-shopping';
 
 export function Confirm() {
   const shoppingId = window.localStorage.shoppingId;
   const { data, isFetching } = useQuery({
-    queryKey: ["shopping", shoppingId],
+    queryKey: ['shopping', shoppingId],
     queryFn: async () => await getShopping(shoppingId),
   });
 
@@ -29,12 +29,12 @@ export function Confirm() {
             </i>
 
             <p>
-              Entrega em{" "}
+              Entrega em{' '}
               <span>
                 Rua {data.addresses.street}, {data.addresses.number}
-              </span>{" "}
+              </span>{' '}
               <br />
-              {data.addresses.neighborhood} - {data.addresses.city},{" "}
+              {data.addresses.neighborhood} - {data.addresses.city},{' '}
               {data.addresses.uf}
             </p>
           </li>

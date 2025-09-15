@@ -1,7 +1,7 @@
-import { Minus, Plus, Trash } from "@phosphor-icons/react";
-import { useContext, useState, type ChangeEvent } from "react";
-import { Button } from "@components/button";
-import { CartCoffeeContext } from "@contexts/cart-coffee-context";
+import { Minus, Plus, Trash } from '@phosphor-icons/react';
+import { useContext, useState, type ChangeEvent } from 'react';
+import { Button } from '@components/button';
+import { CartCoffeeContext } from '@contexts/cart-coffee-context';
 
 export interface BuyCoffeeDatasType {
   id: string;

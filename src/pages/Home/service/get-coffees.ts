@@ -1,6 +1,6 @@
-import { api } from "@/lib/api";
-import { env } from "@/env";
-import axios from "axios";
+import { api } from '@/lib/api';
+import { env } from '@/env';
+import axios from 'axios';
 
 export interface coffeeDatasType {
   id: string;
@@ -16,7 +16,7 @@ export interface GetCoffeesPropsType {
   query: string;
 }
 
-export async function requestCoffees(query = "") {
+export async function requestCoffees(query = '') {
   try {
     let result;
     const apiPath = `/coffees/${query}`;
@@ -31,11 +31,11 @@ export async function requestCoffees(query = "") {
     }
 
     if (!result.data) {
-      throw new Error("not-found datas");
+      throw new Error('not-found datas');
     }
 
-    if (result.data["coffees"]) {
-      return result.data["coffees"] as coffeeDatasType[];
+    if (result.data['coffees']) {
+      return result.data['coffees'] as coffeeDatasType[];
     }
 
     return result.data as coffeeDatasType[];

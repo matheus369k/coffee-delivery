@@ -1,5 +1,5 @@
-import { FormUseType } from "..";
-import { api } from "@lib/api";
+import { FormUseType } from '..';
+import { api } from '@lib/api';
 
 export interface RegisterAddressPropsType {
   address: FormUseType;
@@ -7,7 +7,7 @@ export interface RegisterAddressPropsType {
 
 export async function RegisterAddress({ address }: RegisterAddressPropsType) {
   try {
-    const response = await api.post("/user/register", {
+    const response = await api.post('/user/register', {
       cep: address.cep,
       street: address.street,
       number: address.number,
@@ -19,10 +19,10 @@ export async function RegisterAddress({ address }: RegisterAddressPropsType) {
     const data: string | undefined = await response.data.addressId;
 
     if (!data) {
-      throw new Error("Address not found");
+      throw new Error('Address not found');
     }
 
-    window.localStorage.setItem("addressId", data);
+    window.localStorage.setItem('addressId', data);
     return data;
   } catch (error) {
     console.log(error);

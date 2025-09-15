@@ -1,5 +1,5 @@
-import { CartCoffeeType } from "@contexts/cart-coffee-context";
-import { api } from "@lib/api";
+import { CartCoffeeType } from '@contexts/cart-coffee-context';
+import { api } from '@lib/api';
 
 export interface PostShoppingPropsType {
   buyCoffeeDatas: CartCoffeeType[];
@@ -24,10 +24,10 @@ export async function PostShopping({
 }: PostShoppingPropsType) {
   try {
     if (!paymentType) {
-      throw new Error("props buyCoffeeDatas not found");
+      throw new Error('props buyCoffeeDatas not found');
     }
     if (buyCoffeeDatas.length === 0) {
-      throw new Error("props paymentType not found");
+      throw new Error('props paymentType not found');
     }
 
     const requestBody: RequestBodyType = {
@@ -48,10 +48,10 @@ export async function PostShopping({
     const data = await response.data.shoppingId;
 
     if (!data) {
-      throw new Error("Shopping not found");
+      throw new Error('Shopping not found');
     }
 
-    window.localStorage.setItem("shoppingId", data);
+    window.localStorage.setItem('shoppingId', data);
   } catch (error) {
     console.log(error);
   }

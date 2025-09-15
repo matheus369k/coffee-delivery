@@ -1,8 +1,8 @@
-import { StyledAFormAddress } from "../styles";
-import { MapPin, Pencil } from "@phosphor-icons/react";
-import { Button } from "@components/button";
-import { Input } from "./input";
-import type { AddressType } from "@pages/Checkout/service/get-user-address";
+import { StyledAFormAddress } from '../styles';
+import { MapPin, Pencil } from '@phosphor-icons/react';
+import { Button } from '@components/button';
+import { Input } from './input';
+import type { AddressType } from '@pages/Checkout/service/get-user-address';
 
 export interface AddressUserProps {
   hasEditeAddress: boolean;

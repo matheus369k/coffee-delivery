@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react';
 
 export interface PaymentTypeContextType {
   paymentType: string;
@@ -13,14 +13,14 @@ export function PaymentTypeContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [paymentType, setPaymentType] = useState("");
+  const [paymentType, setPaymentType] = useState('');
 
   function addPaymentType(payment: string) {
     setPaymentType(payment);
   }
 
   function resetPaymentType() {
-    setPaymentType("");
+    setPaymentType('');
   }
 
   return (
