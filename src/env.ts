@@ -2,6 +2,7 @@ import z from 'zod';
 
 const envSchema = z.object({
   VITE_RENDER_API_URL: z.string().url(),
+  VITE_GA_ID: z.string(),
   VITE_GH_API_URL: z
     .string()
     .url()
